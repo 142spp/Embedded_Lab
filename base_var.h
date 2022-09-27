@@ -1,5 +1,4 @@
 /* base_var.h */
-#include <bits/stdc++.h>
 
 #define APB2PERIPH_BASE (uint32_t)0x40010000
 
@@ -53,3 +52,4 @@
 /* enum */
 enum {RESET = 0, SET = !RESET};
 enum {DISABLE = 0, ENABLE = !DISABLE};
+
