@@ -47,9 +47,6 @@
 
 #define GPIO_PINALL 0xFFFF
 
-
-
 /* enum */
 enum {RESET = 0, SET = !RESET};
-enum {DISABLE = 0, ENABLE = !DISABLE};
 
