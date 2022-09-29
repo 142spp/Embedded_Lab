@@ -129,7 +129,7 @@ void RCC_Enable(void) {
     /* GPIO RCC Enable  */
     /* UART Tx, Rx, MCO port */ 
     RCC->APB2ENR |= (uint32_t)(RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPDEN);
-    // -*- Port A : USART | Port D : Switch Enable
+    // -*- Port A : USART & Port D : Switch Enable
     /* USART RCC Enable */      
     RCC->APB2ENR |= (uint32_t)RCC_APB2ENR_USART1EN;
     // -*- USART1 Enable
@@ -206,12 +206,12 @@ void UartInit(void) {
 //@TODO - 11: Calculate & configure BRR
     USART1->BRR |= 0X1E4;
     // -*- Mantissa : 0x1E = 30, Fraction : 0x4 -> 4/16 = 0.25
-    // -*- -> 0d30.25
+    // -*- => 0d30.25
     /*---------------------------- USART Enable ----------------------------------*/
     /* USART Enable Configuration */
 //@TODO - 12: Enable UART (UE)
     USART1->CR1 |= USART_CR1_UE ;
-    // 0 : Disable, 1: Enable
+    // -*- 0 : Disable, 1: Enable
 }
 void delay(void){
     int i = 0;
@@ -228,7 +228,7 @@ void SendData(uint16_t data) {
 
 int main() {
 	int i;
-	char msg[] = "Hello Team02\r\n"; // length = 14;
+	char msg[] = "Hello Team02\r\n"; // -*- length = 14;
 	
     SysInit();
     SetSysClock();
@@ -237,9 +237,9 @@ int main() {
     UartInit();
     
     while (1) {
-      if (!(GPIOD->IDR & GPIO_IDR_IDR12)) { // when swith is pushed
-        for (i=0;i<14; i++) {   // repeat for msg.length
-          SendData(msg[i]);     // Serial Communication
+      if (!(GPIOD->IDR & GPIO_IDR_IDR12)) { // -*- when swith is pushed
+        for (i=0;i<14; i++) {   // -*- repeat for msg.length
+          SendData(msg[i]);     // -*- Serial Communication
         }
       }
       delay();
