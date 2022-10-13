@@ -116,8 +116,8 @@ void USART1_Init(void)
 	// TODO: Initialize the USART using the structure 'USART_InitTypeDef' and the function 'USART_Init'
 	USART1_InitStructure.USART_BaudRate = 0x1E4;
     USART1_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_RTS;
-    USART1_InitStructure.USART_Mode = USART_Mode_Tx;
-    USART1_InitStructure.USART_Parity = USART_Parity_Even;
+    USART1_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
+    USART1_InitStructure.USART_Parity = USART_Parity_No;
     USART1_InitStructure.USART_StopBits = USART_StopBits_1;
     USART1_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_Init(USART1, USART1_InitStructure);
@@ -186,7 +186,8 @@ void EXTI15_10_IRQHandler(void) { // when the button is pressed
 			// TODO implement
             doUartSend = 1;
         EXTI_ClearITPendingBit(EXTI_Line11);
-	}
+	    }
+    }
 }
 
 // TODO: Create Joystick interrupt handler functions

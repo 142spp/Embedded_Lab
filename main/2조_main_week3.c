@@ -32,7 +32,7 @@ int main(void) {
 
   
   while(1) {
-    if(!(GPIOC_IDR&0x4)) GPIOD_BSRR |= 0xC;
+    if(!(GPIOC_IDR&0x4)) GPIOD_BSRR |= 0xC; // 0x1100
     else if(!(GPIOC_IDR&0x8)) GPIOD_BRR |= 0x90;
     else if(!(GPIOC_IDR&0x10)) GPIOD_BRR |= 0xC;
     else if(!(GPIOC_IDR&0x20)) GPIOD_BSRR |= 0x90;
