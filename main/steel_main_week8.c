@@ -1,34 +1,81 @@
-#include "LCD_library/lcd.h"
-#include "LCD_library/touch.h"
+
+#include "lcd.h"
 #include "misc.h"
-#include "stm32f10x.h"
 #include "stm32f10x_adc.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_usart.h"
+#include "touch.h"
 
-/* function prototype */
-void RCC_Configure(void);
-void GPIO_Configure(void);
-void ADC_Configure(void);
-void NVIC_Configure(void);
-void Delay(void);
+#define LCD_TEAM_NAME_X 20
+#define LCD_TEAM_NAME_Y 50
+#define LCD_COORD_X_X 40
+#define LCD_COORD_X_Y 70
+#define LCD_COORD_Y_X 40
+#define LCD_COORD_Y_Y 90
+#define LCD_LUX_VAL_X 20
+#define LCD_LUX_VAL_Y 110
 
-//---------------------------------------------------------------------------------------------------
-void RCC_Configure(void) {
-    // TODO: Enable the APB2 peripheral clock using the function 'RCC_APB2PeriphClockCmd'
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+void Init(void);
+void RccInit(void);
+void GpioInit(void);
+void AdcInit(void);
+void NvicInit(void);
+
+const int color[12] = {WHITE, CYAN, BLUE, RED, MAGENTA, LGRAY, GREEN, YELLOW, BROWN, BRRED, GRAY};
+
+uint16_t Brightness = 0;
+
+int main() {
+    uint16_t pos_x, pos_y;
+    uint16_t pix_x, pix_y;
+
+    Init();
+
+    LCD_Clear(WHITE);
+
+    // team name
+    LCD_ShowString(LCD_TEAM_NAME_X, LCD_TEAM_NAME_Y, "THU_TEAM00", BLUE, WHITE);
+
+    while (1) {
+        // sensor value
+        LCD_ShowNum(LCD_LUX_VAL_X, LCD_LUX_VAL_Y, Brightness, 4, BLUE, WHITE);
+
+        // get touch coordinate
+        Touch_GetXY(&pos_x, &pos_y, 1);
+        Convert_Pos(pos_x, pos_y, &pix_x, &pix_y);
+        // show touch coordinate
+        LCD_ShowNum(LCD_COORD_X_X, LCD_COORD_X_Y, pix_x, 3, BLUE, WHITE);
+        LCD_ShowNum(LCD_COORD_Y_X, LCD_COORD_Y_Y, pix_y, 3, BLUE, WHITE);
+        LCD_DrawCircle(pix_x, pix_y, 5);
+    }
 }
 
-void GPIO_Configure(void) {
+void Init(void) {
+    SystemInit();
+    RccInit();
+    GpioInit();
+    AdcInit();
+    NvicInit();
+
+    LCD_Init();
+    Touch_Configuration();
+    Touch_Adjust();
+}
+
+void RccInit(void) {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+}
+
+void GpioInit(void) {
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
-void ADC_Configure(void) {
+void AdcInit(void) {
     ADC_InitTypeDef ADC_InitStructure;
 
     // ADC1 Configuration
@@ -47,13 +94,16 @@ void ADC_Configure(void) {
 
     while (ADC_GetResetCalibrationStatus(ADC1))
         ;
+
     ADC_StartCalibration(ADC1);
+
     while (ADC_GetCalibrationStatus(ADC1))
         ;
+
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 }
 
-void NVIC_Configure(void) {
+void NvicInit(void) {
     NVIC_InitTypeDef NVIC_InitStructure;
 
     NVIC_InitStructure.NVIC_IRQChannel = ADC1_2_IRQn;
@@ -63,55 +113,14 @@ void NVIC_Configure(void) {
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void ADC1_2_IRQHandler(void) {
+/*
+ * ISR
+ */
+
+void ADC1_2_IRQHandler() {
     if (ADC_GetITStatus(ADC1, ADC_IT_EOC) != RESET) {
         Brightness = ADC_GetConversionValue(ADC1);
         //--- Clear ADC1 AWD pending interrupt bit
         ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
     }
-}
-
-void Delay(void) {
-    int i;
-    for (i = 0; i < 2000000; i++) {
-    }
-}
-
-int color[12] = {WHITE, CYAN, BLUE, RED, MAGENTA, LGRAY, GREEN, YELLOW, BROWN, BRRED, GRAY};
-
-void Init(void) {
-    SystemInit();
-    RCC_Configure();
-    GPIO_Configure();
-    ADC_Configure();
-    NVIC_Configure();
-
-    LCD_Init();
-    Touch_Configuration();
-}
-
-uint16_t Brightness = 0;
-
-int main(void) {
-    Init();
-
-    uint16_t c_x, c_y;
-    uint16_t p_x, p_y;
-    uint16_t brightness;
-    char* team_str = "MON_Team02";
-
-    while (1) {
-        LCD_Clear(colro[0]);
-
-        LCD_ShowString(30, 30, team_str, color[2], color[0]);  // team
-        Touch_GetXY(c_x, c_y, 1);
-        Convert_Pos(c_x, c_y, &p_x, &p_y);
-        LCD_DrawCircle(p_x, p_y, 2);
-
-        LCD_ShowNum(100, 50, (uint8_t)p_x, 3, color[2], color[0]);  // cursor x
-        LCD_ShowNum(100, 70, (uint8_t)p_y, 3, color[2], color[0]);  // cursor y
-        LCD_ShowNum(30, 90, brightness, 4, color[2], color[0]);     // bright sensor
-    }
-
-    return 0;
 }
