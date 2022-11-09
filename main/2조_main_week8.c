@@ -1,5 +1,5 @@
-#include "LCD_library/lcd.h"
-#include "LCD_library/touch.h"
+#include "lcd.h"
+#include "touch.h"
 #include "misc.h"
 #include "stm32f10x.h"
 #include "stm32f10x_adc.h"
@@ -13,6 +13,8 @@ void GPIO_Configure(void);
 void ADC_Configure(void);
 void NVIC_Configure(void);
 void Delay(void);
+
+uint16_t Brightness = 0;
 
 //---------------------------------------------------------------------------------------------------
 void RCC_Configure(void) {
@@ -90,7 +92,6 @@ void Init(void) {
     Touch_Configuration();
 }
 
-uint16_t Brightness = 0;
 
 int main(void) {
     Init();
@@ -101,16 +102,18 @@ int main(void) {
     char* team_str = "MON_Team02";
 
     while (1) {
-        LCD_Clear(colro[0]);
+        LCD_Clear(color[0]);
 
         LCD_ShowString(30, 30, team_str, color[2], color[0]);  // team
-        Touch_GetXY(c_x, c_y, 1);
+        Touch_GetXY(&c_x, &c_y, 1);
         Convert_Pos(c_x, c_y, &p_x, &p_y);
         LCD_DrawCircle(p_x, p_y, 2);
 
         LCD_ShowNum(100, 50, (uint8_t)p_x, 3, color[2], color[0]);  // cursor x
         LCD_ShowNum(100, 70, (uint8_t)p_y, 3, color[2], color[0]);  // cursor y
         LCD_ShowNum(30, 90, brightness, 4, color[2], color[0]);     // bright sensor
+       
+        Delay();
     }
 
     return 0;
