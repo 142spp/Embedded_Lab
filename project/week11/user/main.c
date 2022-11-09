@@ -31,8 +31,9 @@ void Set_LED(uint16_t&,uint16_t&);
  * @brief Enable or Disable Clocks
  */
 void RCC_Configure(void) {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 }
 /**
@@ -41,16 +42,48 @@ void RCC_Configure(void) {
 void GPIO_Configure(void) {
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    /* LED pin setting*/
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_7;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /* Brightness sensor Enable */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
+/**
+ * @brief ADC Configure using ADC InitStructure
+ */
+void ADC_Configure(void) {
+    ADC_InitTypeDef ADC_InitStructure;
+
+    // ADC1 Configuration
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADC_InitStructure);
+
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5); // ADC1 Channel 8 is GPIOB_Pin0
+    //ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
+    ADC_DMACmd(ADC1, ENABLE);                   // DMA Enable
+    ADC_Cmd(ADC1, ENABLE);                   // ADC1 enable
+
+    ADC_ResetCalibration(ADC1);
+    while (ADC_GetResetCalibrationStatus(ADC1)) ;
+    ADC_StartCalibration(ADC1);
+    while (ADC_GetCalibrationStatus(ADC1)) ;
+    
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+}
+/**
+ * @brief 
+ */
 void DMA_Configure(void) {
     DMA_InitTypeDef DMA_InitStructure;
 
-    
+    DMA_InitStructure.DMA_PeripheralBaseAddr = ;
+    DMA_InitStructure.DMA_MemoryBaseAddr = ;
+    DMA_InitStructure.;
+    DMA_InitStructure.DMA_Mode = 
 }
 /**
  * @brief Enable TIM using TIM_TimeBaseStructure
@@ -112,8 +145,9 @@ void Init_Configure(void){
     RCC_Configure();
     GPIO_Configure();
     //TIM_Configure();
-    // EXTI_Configure();
+    //EXTI_Configure();
     //NVIC_Configure();
+    ADC_Configure();
     DMA_Configure();
     LCD_Init();
     Touch_Configuration();
@@ -134,7 +168,6 @@ void Set_LED(uint16_t& GPIO_Pin, uint16_t& state){
 
 int main(void) {
     Init_Configure();
-    DMA1
 
     LCD_ShowString(30, 30, "MON_Team02", BLUE, WHITE);  // team
     LCD_ShowString(45, 105, "BUT", RED, WHITE);  // Button

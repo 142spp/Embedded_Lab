@@ -42,8 +42,9 @@ void ADC_Configure(void) {
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
 
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);
-    //ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5); // ADC1 Channel 8 is GPIOB_Pin0
+    ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
+    //ADC_DMACmd(ADC1, ENABLE);                   // DMA Enable
     ADC_Cmd(ADC1, ENABLE);                   // ADC1 enable
 
     ADC_ResetCalibration(ADC1);
