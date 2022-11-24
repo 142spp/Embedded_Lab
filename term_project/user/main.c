@@ -12,11 +12,14 @@
 #include "stm32f10x_tim.h"
 
 // Modules 
-#include "module_servo.h"
-#include "module_usound.h"
-#include "module_dist.h"
-#include "module_pir.h"
-#include "module_.h"
+#include "servo.h"
+#include "usound.h"
+#include "dist.h"
+#include "pir.h"
+#include "dc.h"
+#include "tim.h"
+#include "pwm.h"
+#include "gesture.h"
 
 enum { OFF = 0, ON = 1 } ; 
 enum { LEFT = 0, MID = 1, RIGHT = 2 } ;
@@ -43,24 +46,28 @@ void RCC_Configure(void) {
     //RCC_AHBPeriphClockCmd();
 }
 
+
 /**
  * @brief Enable GPIO Pins using GPIO_InitTypeDef
  */
 void GPIO_Configure(void) {
     //GPIO_InitTypeDef GPIO_InitStruct;
 }
+
 /**
  * @brief ADC Configure using ADC_InitTypeDef
  */
 void ADC_Configure(void) {
     //ADC_InitTypeDef ADC_InitStruct;
 }
+
 /**
  * @brief DMA Configure using DMA_InitTypeDef
  */
 void DMA_Configure(void) {
     //DMA_InitTypeDef DMA_InitStruct;
 }
+
 /**
  * @brief excute All configuration function
  */
@@ -77,6 +84,11 @@ void Init_Configure(void) {
 
     //Init Modules
     Servo_Init();
+    PIR_Init();
+    Usound_Init();
+    Dist_Init();
+    DC_Init();
+    Gesture_Init();
 }
 
 /**
@@ -88,7 +100,7 @@ void Delay(uint16_t t) {
 }
 
 int main(void) {
-    
+
     Init_Configure();
 
     uint16_t state = OFF;
@@ -101,13 +113,12 @@ int main(void) {
 
     while(1){
         // use PIR Sensor
-        if(state == OFF || Get_Exist() == false ) {
+        if(state == OFF || PIR_Get_Exist() == false ) {
             Delay(2);
             continue;
         }
         // use Ultrasound Sensor
-        position = Get_Position();
-        angle = Get_Angle(position);
+        angle = Usound_Get_Angle();
 
         if(pre_angle != angle){
             // use Servo Motor
@@ -115,7 +126,7 @@ int main(void) {
             Delay(20);
         }
         // use Distance Sensor
-        distance = Get_Distance();
+        distance = Dist_Get_Distance();
         // use DC Motor
         DC_Update(distance);
 
