@@ -1,0 +1,208 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         23/Nov/2022  22:26:42
+# Copyright 1999-2022 IAR Systems AB.
+#
+#    Cpu mode          =  thumb
+#    Endian            =  little
+#    Source file       =  C:\code\Embedded_Lab\term_project\user\main.c
+#    Command line      =
+#        -f C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o.rsp
+#        (C:\code\Embedded_Lab\term_project\user\main.c -D USE_STDPERIPH_DRIVER
+#        -D STM32F10X_CL -lC C:\code\Embedded_Lab\term_project\Debug\List\user
+#        -o C:\code\Embedded_Lab\term_project\Debug\Obj\user --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M3 -e --fpu=None
+#        --dlib_config "C:\Program Files\IAR Systems\Embedded Workbench
+#        9.1\arm\inc\c\DLib_Config_Normal.h" -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I C:\code\Embedded_Lab\term_project\libraries\LCD\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\MODULES\ -I
+#        C:\code\Embedded_Lab\term_project\user\ -I
+#        C:\code\Embedded_Lab\term_project\user\inc\ -Ol -I "C:\Program
+#        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
+#        --dependencies=n
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o.d
+#    Locale            =  C
+#    List file         =
+#        C:\code\Embedded_Lab\term_project\Debug\List\user\main.lst
+#    Object file       =
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o
+#    Runtime model:       
+#      __CPP_Runtime   =  1
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#      __size_limit    =  32768|ARM.EW.LINKER
+#
+###############################################################################
+
+C:\code\Embedded_Lab\term_project\user\main.c
+      1          #include "hc_sr04.h"
+      2          
+
+   \                                 In section .text, align 2, keep-with-next
+      3          void RCC_Configure(void) {
+   \                     RCC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+      4          
+      5              /*          ***** HC-SR04 Enable *****          */
+      6              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x2004             MOVS     R0,#+4
+   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+      7              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+   \        0xA   0x2101             MOVS     R1,#+1
+   \        0xC   0x2008             MOVS     R0,#+8
+   \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+      8              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+   \       0x12   0x2101             MOVS     R1,#+1
+   \       0x14   0x2002             MOVS     R0,#+2
+   \       0x16   0x.... 0x....      BL       RCC_APB1PeriphClockCmd
+      9          }
+   \       0x1A   0xBD01             POP      {R0,PC}
+     10          
+     11          
+
+   \                                 In section .text, align 2, keep-with-next
+     12          void GPIO_Configure(void) {
+   \                     GPIO_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     13          
+     14          
+     15          	/*          ***** HC-SR04 GPIO Init *****          */
+     16          
+     17              GPIO_InitTypeDef GPIO_InitStructure;
+     18              
+     19              GPIO_InitStructure.GPIO_Pin = US_TRIG_PIN;
+   \        0x2   0x2001             MOVS     R0,#+1
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     20              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \        0x8   0x2003             MOVS     R0,#+3
+   \        0xA   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     21              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+   \        0xE   0x2018             MOVS     R0,#+24
+   \       0x10   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     22              GPIO_Init(US_TRIG_PORT, &GPIO_InitStructure);
+   \       0x14   0x4669             MOV      R1,SP
+   \       0x16   0x....             LDR.N    R0,??DataTable1
+   \       0x18   0x.... 0x....      BL       GPIO_Init
+     23          
+     24              GPIO_InitStructure.GPIO_Pin = US_ECHO_PIN;
+   \       0x1C   0x2040             MOVS     R0,#+64
+   \       0x1E   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     25              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \       0x22   0x2003             MOVS     R0,#+3
+   \       0x24   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     26              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+   \       0x28   0x2004             MOVS     R0,#+4
+   \       0x2A   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     27              GPIO_Init(US_ECHO_PORT, &GPIO_InitStructure);
+   \       0x2E   0x4669             MOV      R1,SP
+   \       0x30   0x....             LDR.N    R0,??DataTable1_1
+   \       0x32   0x.... 0x....      BL       GPIO_Init
+     28          }
+   \       0x36   0xBD01             POP      {R0,PC}
+     29          
+
+   \                                 In section .text, align 2, keep-with-next
+     30          void NVIC_Configure(void) {
+   \                     NVIC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     31              NVIC_InitTypeDef NVIC_InitStructure;
+     32          
+     33              NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
+   \        0x2   0x201D             MOVS     R0,#+29
+   \        0x4   0xF88D 0x0000      STRB     R0,[SP, #+0]
+     34              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  
+   \        0x8   0x2000             MOVS     R0,#+0
+   \        0xA   0xF88D 0x0001      STRB     R0,[SP, #+1]
+     35              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;         
+   \        0xE   0x2001             MOVS     R0,#+1
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     36              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+   \       0x14   0x2001             MOVS     R0,#+1
+   \       0x16   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     37              NVIC_Init(&NVIC_InitStructure);
+   \       0x1A   0x4668             MOV      R0,SP
+   \       0x1C   0x.... 0x....      BL       NVIC_Init
+     38          }
+   \       0x20   0xBD01             POP      {R0,PC}
+     39          
+     40          
+     41          
+
+   \                                 In section .text, align 2, keep-with-next
+     42          int main(void) {
+   \                     main: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     43          
+     44              /*          *** HC-SR04 main code ***          */
+     45              uint32_t dist;
+     46              while (1) {
+     47                  initMeasureTimer();
+   \                     ??main_0: (+1)
+   \        0x2   0x.... 0x....      BL       initMeasureTimer
+     48                  dist = HCSR04GetDistance();
+   \        0x6   0x.... 0x....      BL       HCSR04GetDistance
+   \        0xA   0xE7FA             B.N      ??main_0
+     49          
+     50                  //printf("Distance: %d\n", dist);
+     51              }
+     52          
+     53              return 0;
+                     ^
+Warning[Pe111]: statement is unreachable
+
+      uint32_t dist;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",45  Warning[Pe550]: variable
+          "dist" was set but never used
+     54          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1:
+   \        0x0   0x4001'0C00        DC32     0x40010c00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1_1:
+   \        0x0   0x4001'0800        DC32     0x40010800
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   GPIO_Configure
+         8   -> GPIO_Init
+       8   NVIC_Configure
+         8   -> NVIC_Init
+       8   RCC_Configure
+         8   -> RCC_APB1PeriphClockCmd
+         8   -> RCC_APB2PeriphClockCmd
+       8   main
+         8   -> HCSR04GetDistance
+         8   -> initMeasureTimer
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+      56  GPIO_Configure
+      34  NVIC_Configure
+      28  RCC_Configure
+      12  main
+
+ 
+ 138 bytes in section .text
+ 
+ 138 bytes of CODE memory
+
+Errors: none
+Warnings: 2
