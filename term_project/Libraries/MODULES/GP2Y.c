@@ -30,8 +30,8 @@ void GP2Y_GPIO_Configure(void) {
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
-	// GPIOAÀÇ 0¹ø Pin¸¦ »ç¿ëÇÔ. 
-	// ÀÌ´Â ¶ÇÇÑ ADCÀÇ Channel0 ÀÓ. (schematic Âü°í)
+	// GPIOAï¿½ï¿½ 0ï¿½ï¿½ Pinï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½. 
+	// ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ADCï¿½ï¿½ Channel0 ï¿½ï¿½. (schematic ï¿½ï¿½ï¿½ï¿½)
 }
 /**
  * @brief ADC Configure using ADC_InitStructure
@@ -47,7 +47,7 @@ void GP2Y_ADC_Configure(void) {
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
-	// À§ ºÎºÐÀº 8ÁÖÂ÷¶§ »ç¿ëÇß´ø ÄÚµå¸¦ ±×´ë·Î ¾´°Å¶ó µû·Î ±â¼úÇÏÁö ¾Ê¾Æµµ µÊ.
+	// ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ 8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½Úµå¸¦ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½Å¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½ï¿½.
     
     ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
     ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable

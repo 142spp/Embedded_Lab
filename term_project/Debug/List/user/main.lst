@@ -1,12 +1,13 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         23/Nov/2022  22:26:42
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         30/Nov/2022  21:58:01
 # Copyright 1999-2022 IAR Systems AB.
 #
-#    Cpu mode          =  thumb
-#    Endian            =  little
-#    Source file       =  C:\code\Embedded_Lab\term_project\user\main.c
-#    Command line      =
+#    Cpu mode                     =  thumb
+#    Endian                       =  little
+#    Source file                  =
+#        C:\code\Embedded_Lab\term_project\user\main.c
+#    Command line                 =
 #        -f C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o.rsp
 #        (C:\code\Embedded_Lab\term_project\user\main.c -D USE_STDPERIPH_DRIVER
 #        -D STM32F10X_CL -lC C:\code\Embedded_Lab\term_project\Debug\List\user
@@ -28,164 +29,283 @@
 #        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
 #        --dependencies=n
 #        C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o.d
-#    Locale            =  C
-#    List file         =
+#    Locale                       =  C
+#    List file                    =
 #        C:\code\Embedded_Lab\term_project\Debug\List\user\main.lst
-#    Object file       =
+#    Object file                  =
 #        C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o
-#    Runtime model:       
-#      __CPP_Runtime   =  1
-#      __SystemLibrary =  DLib
-#      __dlib_version  =  6
-#      __size_limit    =  32768|ARM.EW.LINKER
+#    Runtime model:                  
+#      __CPP_Runtime              =  1
+#      __SystemLibrary            =  DLib
+#      __dlib_file_descriptor     =  0
+#      __dlib_full_locale_support =  0
+#      __dlib_version             =  6
+#      __size_limit               =  32768|ARM.EW.LINKER
 #
 ###############################################################################
 
 C:\code\Embedded_Lab\term_project\user\main.c
-      1          #include "hc_sr04.h"
-      2          
-
-   \                                 In section .text, align 2, keep-with-next
-      3          void RCC_Configure(void) {
-   \                     RCC_Configure: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
+      1          // Standard
+      2          #include <stdio.h>
+      3          #include <stdlib.h>
       4          
-      5              /*          ***** HC-SR04 Enable *****          */
-      6              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-   \        0x2   0x2101             MOVS     R1,#+1
-   \        0x4   0x2004             MOVS     R0,#+4
-   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-      7              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-   \        0xA   0x2101             MOVS     R1,#+1
-   \        0xC   0x2008             MOVS     R0,#+8
-   \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-      8              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-   \       0x12   0x2101             MOVS     R1,#+1
-   \       0x14   0x2002             MOVS     R0,#+2
-   \       0x16   0x.... 0x....      BL       RCC_APB1PeriphClockCmd
-      9          }
-   \       0x1A   0xBD01             POP      {R0,PC}
-     10          
-     11          
-
-   \                                 In section .text, align 2, keep-with-next
-     12          void GPIO_Configure(void) {
-   \                     GPIO_Configure: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
+      5          // System
+      6          #include "misc.h"
+      7          #include "stm32f10x.h"
+      8          #include "stm32f10x_adc.h"
+      9          #include "stm32f10x_dma.h"
+     10          #include "stm32f10x_gpio.h"
+     11          #include "stm32f10x_rcc.h"
+     12          #include "stm32f10x_tim.h"
      13          
-     14          
-     15          	/*          ***** HC-SR04 GPIO Init *****          */
-     16          
-     17              GPIO_InitTypeDef GPIO_InitStructure;
-     18              
-     19              GPIO_InitStructure.GPIO_Pin = US_TRIG_PIN;
-   \        0x2   0x2001             MOVS     R0,#+1
-   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     20              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-   \        0x8   0x2003             MOVS     R0,#+3
-   \        0xA   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     21              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-   \        0xE   0x2018             MOVS     R0,#+24
-   \       0x10   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     22              GPIO_Init(US_TRIG_PORT, &GPIO_InitStructure);
-   \       0x14   0x4669             MOV      R1,SP
-   \       0x16   0x....             LDR.N    R0,??DataTable1
-   \       0x18   0x.... 0x....      BL       GPIO_Init
-     23          
-     24              GPIO_InitStructure.GPIO_Pin = US_ECHO_PIN;
-   \       0x1C   0x2040             MOVS     R0,#+64
-   \       0x1E   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     25              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-   \       0x22   0x2003             MOVS     R0,#+3
-   \       0x24   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     26              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-   \       0x28   0x2004             MOVS     R0,#+4
-   \       0x2A   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     27              GPIO_Init(US_ECHO_PORT, &GPIO_InitStructure);
-   \       0x2E   0x4669             MOV      R1,SP
-   \       0x30   0x....             LDR.N    R0,??DataTable1_1
-   \       0x32   0x.... 0x....      BL       GPIO_Init
-     28          }
-   \       0x36   0xBD01             POP      {R0,PC}
-     29          
+     14          // Modules 
+     15          #include "servo.h"
+     16          #include "ultra.h"
+     17          #include "GP2Y.h"
+     18          #include "pir.h"
+     19          #include "dcmotor.h"
+     20          #include "tim.h"
+     21          #include "pwm.h"
+     22          
+     23          enum { OFF = 0, ON = 1 } ; 
+     24          enum { LEFT = 0, MID = 1, RIGHT = 2 } ;
+     25          
+     26          /* function prototype */
+     27          void Delay(uint16_t);
+     28          void RCC_Configure(void);
+     29          void GPIO_Configure(void);
+     30          void ADC_Configure(void);
+     31          void DMA_Configure(void);
+     32          void TIM_Configure(void);
+     33          void EXTI_Configure(void);
+     34          void NVIC_Configure(void);
+     35          void Init_Configure(void);
+     36          
+     37          /**
+     38           * @brief Enable or Disable Clocks Using
+     39           *      RCC_APB1PeriphClockCmd , RCC_APB2PeriphClockCmd, RCC_AHBPeriphClockCmd
+     40           *      함수의 definition의 주석을 참고해서 원하는 모듈에 clock을 인가한다.
+     41           */
 
    \                                 In section .text, align 2, keep-with-next
-     30          void NVIC_Configure(void) {
-   \                     NVIC_Configure: (+1)
+     42          void RCC_Configure(void) {
+     43              //RCC_APB1PeriphClockCmd(); 
+     44              //RCC_APB2PeriphClockCmd(); 
+     45              //RCC_AHBPeriphClockCmd();
+     46          }
+   \                     RCC_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     47          
+     48          
+     49          /**
+     50           * @brief Enable GPIO Pins using GPIO_InitTypeDef
+     51           */
+
+   \                                 In section .text, align 2, keep-with-next
+     52          void GPIO_Configure(void) {
+     53              //GPIO_InitTypeDef GPIO_InitStruct;
+     54          }
+   \                     GPIO_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     55          
+     56          /**
+     57           * @brief ADC Configure using ADC_InitTypeDef
+     58           */
+
+   \                                 In section .text, align 2, keep-with-next
+     59          void ADC_Configure(void) {
+     60              //ADC_InitTypeDef ADC_InitStruct;
+     61          }
+   \                     ADC_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     62          
+     63          /**
+     64           * @brief DMA Configure using DMA_InitTypeDef
+     65           */
+
+   \                                 In section .text, align 2, keep-with-next
+     66          void DMA_Configure(void) {
+     67              //DMA_InitTypeDef DMA_InitStruct;
+     68          }
+   \                     DMA_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     69          
+     70          /**
+     71           * @brief excute All configuration function
+     72           */
+
+   \                                 In section .text, align 2, keep-with-next
+     73          void Init_Configure(void) {
+   \                     Init_Configure: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     31              NVIC_InitTypeDef NVIC_InitStructure;
-     32          
-     33              NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
-   \        0x2   0x201D             MOVS     R0,#+29
-   \        0x4   0xF88D 0x0000      STRB     R0,[SP, #+0]
-     34              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  
-   \        0x8   0x2000             MOVS     R0,#+0
-   \        0xA   0xF88D 0x0001      STRB     R0,[SP, #+1]
-     35              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;         
-   \        0xE   0x2001             MOVS     R0,#+1
-   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     36              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-   \       0x14   0x2001             MOVS     R0,#+1
-   \       0x16   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     37              NVIC_Init(&NVIC_InitStructure);
-   \       0x1A   0x4668             MOV      R0,SP
-   \       0x1C   0x.... 0x....      BL       NVIC_Init
-     38          }
-   \       0x20   0xBD01             POP      {R0,PC}
-     39          
-     40          
-     41          
+     74              //Init System
+     75              SystemInit();
+   \        0x2   0x.... 0x....      BL       SystemInit
+     76              //RCC_Configure();
+     77              //GPIO_Configure();
+     78              //ADC_Configure();
+     79              //TIM_Configure();
+     80              //EXTI_Configure();
+     81              //NVIC_Configure();
+     82              //DMA_Configure();
+     83          
+     84              //Init Modules
+     85              Servo_Init();
+   \        0x6   0x.... 0x....      BL       Servo_Init
+     86              //PIR_Init();
+     87              Ultra_Init();
+   \        0xA   0x.... 0x....      BL       Ultra_Init
+     88              //Dist_Init();
+     89              //DC_Init();
+     90              //Gesture_Init();
+     91          }
+   \        0xE   0xBD01             POP      {R0,PC}
+     92          
+     93          /**
+     94           * @brief Delay around 0.1 * t sec
+     95           */
 
    \                                 In section .text, align 2, keep-with-next
-     42          int main(void) {
+     96          void Delay(uint16_t t) {
+     97              for (uint32_t j = 0; j < t; j++)
+   \                     Delay: (+1)
+   \        0x0   0x2100             MOVS     R1,#+0
+   \        0x2   0xE004             B.N      ??Delay_0
+     98                  for (uint32_t i = 0; i < 1000000; i++) ;
+   \                     ??Delay_1: (+1)
+   \        0x4   0x1C52             ADDS     R2,R2,#+1
+   \                     ??Delay_2: (+1)
+   \        0x6   0x....             LDR.N    R3,??DataTable1
+   \        0x8   0x429A             CMP      R2,R3
+   \        0xA   0xD3FB             BCC.N    ??Delay_1
+   \        0xC   0x1C49             ADDS     R1,R1,#+1
+   \                     ??Delay_0: (+1)
+   \        0xE   0x0002             MOVS     R2,R0
+   \       0x10   0xB292             UXTH     R2,R2
+   \       0x12   0x4291             CMP      R1,R2
+   \       0x14   0xD201             BCS.N    ??Delay_3
+   \       0x16   0x2200             MOVS     R2,#+0
+   \       0x18   0xE7F5             B.N      ??Delay_2
+     99          }
+   \                     ??Delay_3: (+1)
+   \       0x1A   0x4770             BX       LR
+    100          
+
+   \                                 In section .text, align 2, keep-with-next
+    101          int main(void) {
    \                     main: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     43          
-     44              /*          *** HC-SR04 main code ***          */
-     45              uint32_t dist;
-     46              while (1) {
-     47                  initMeasureTimer();
+    102          
+    103              Init_Configure();
+   \        0x2   0x.... 0x....      BL       Init_Configure
+    104          
+    105              uint16_t state = OFF;
+   \        0x6   0x2000             MOVS     R0,#+0
+    106          
+    107              uint16_t position = MID;
+   \        0x8   0x2001             MOVS     R0,#+1
+    108              uint16_t angle;
+    109              uint16_t pre_angle;
+    110          
+    111              uint32_t distance;
+    112              uint16_t interval = 50;
+   \        0xA   0x2032             MOVS     R0,#+50
+    113              uint32_t speed = 0;
+   \        0xC   0x2000             MOVS     R0,#+0
+    114              
+    115              Ultra_Measure_Distance();
+   \        0xE   0x.... 0x....      BL       Ultra_Measure_Distance
+    116              
+    117              while(1){
+    118                  distance = (uint32_t) Ultra_Get_Distance();
    \                     ??main_0: (+1)
-   \        0x2   0x.... 0x....      BL       initMeasureTimer
-     48                  dist = HCSR04GetDistance();
-   \        0x6   0x.... 0x....      BL       HCSR04GetDistance
-   \        0xA   0xE7FA             B.N      ??main_0
-     49          
-     50                  //printf("Distance: %d\n", dist);
-     51              }
-     52          
-     53              return 0;
+   \       0x12   0x.... 0x....      BL       Ultra_Get_Distance
+   \       0x16   0xE7FC             B.N      ??main_0
+    119                  
+    120                /*
+    121                  // use PIR Sensor
+    122                  if(state == OFF || PIR_Get_Exist() == false ) {
+    123                      Delay(2);
+    124                      continue;
+    125                  }
+    126                  // use Ultrasound Sensor
+    127                  angle = Usound_Get_Angle();
+    128          
+    129                  if(pre_angle != angle){
+    130                      // use Servo Motor
+    131                      Servo_Turn(angle);
+    132                      Delay(20);
+    133                  }
+    134                  // use Distance Sensor
+    135                  distance = Dist_Get_Distance();
+    136                  // use DC Motor
+    137                  DC_Update(distance);
+    138          
+    139                  Delay(2);
+    140                  pre_angle = angle;*/
+    141                  
+    142              }
+    143              return 0;
                      ^
 Warning[Pe111]: statement is unreachable
 
-      uint32_t dist;
+      uint16_t state = OFF;
                ^
-"C:\code\Embedded_Lab\term_project\user\main.c",45  Warning[Pe550]: variable
-          "dist" was set but never used
-     54          }
+"C:\code\Embedded_Lab\term_project\user\main.c",105  Warning[Pe177]: variable
+          "state" was declared but never referenced
+
+      uint16_t position = MID;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",107  Warning[Pe177]: variable
+          "position" was declared but never referenced
+
+      uint16_t angle;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",108  Warning[Pe177]: variable
+          "angle" was declared but never referenced
+
+      uint16_t pre_angle;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",109  Warning[Pe177]: variable
+          "pre_angle" was declared but never referenced
+
+      uint32_t distance;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",111  Warning[Pe550]: variable
+          "distance" was set but never used
+
+      uint16_t interval = 50;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",112  Warning[Pe177]: variable
+          "interval" was declared but never referenced
+
+      uint32_t speed = 0;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",113  Warning[Pe177]: variable
+          "speed" was declared but never referenced
+    144          }
 
    \                                 In section .text, align 4, keep-with-next
    \                     ??DataTable1:
-   \        0x0   0x4001'0C00        DC32     0x40010c00
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable1_1:
-   \        0x0   0x4001'0800        DC32     0x40010800
+   \        0x0   0x000F'4240        DC32     0xf4240
 
    Maximum stack usage in bytes:
 
    .cstack Function
    ------- --------
-       8   GPIO_Configure
-         8   -> GPIO_Init
-       8   NVIC_Configure
-         8   -> NVIC_Init
-       8   RCC_Configure
-         8   -> RCC_APB1PeriphClockCmd
-         8   -> RCC_APB2PeriphClockCmd
+       0   ADC_Configure
+       0   DMA_Configure
+       0   Delay
+       0   GPIO_Configure
+       8   Init_Configure
+         8   -> Servo_Init
+         8   -> SystemInit
+         8   -> Ultra_Init
+       0   RCC_Configure
        8   main
-         8   -> HCSR04GetDistance
-         8   -> initMeasureTimer
+         8   -> Init_Configure
+         8   -> Ultra_Get_Distance
+         8   -> Ultra_Measure_Distance
 
 
    Section sizes:
@@ -193,16 +313,18 @@ Warning[Pe111]: statement is unreachable
    Bytes  Function/Label
    -----  --------------
        4  ??DataTable1
-       4  ??DataTable1_1
-      56  GPIO_Configure
-      34  NVIC_Configure
-      28  RCC_Configure
-      12  main
+       2  ADC_Configure
+       2  DMA_Configure
+      28  Delay
+       2  GPIO_Configure
+      16  Init_Configure
+       2  RCC_Configure
+      24  main
 
  
- 138 bytes in section .text
+ 80 bytes in section .text
  
- 138 bytes of CODE memory
+ 80 bytes of CODE memory
 
 Errors: none
-Warnings: 2
+Warnings: 8

@@ -2202,16 +2202,46 @@
         <group>
             <name>MODULES</name>
             <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\hc_sr04.c</name>
+                <name>$PROJ_DIR$\Libraries\MODULES\dcmotor.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\hc_sr04.h</name>
+                <name>$PROJ_DIR$\Libraries\MODULES\dcmotor.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\GP2Y.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\GP2Y.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\pwm.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\pwm.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\MODULES\servo.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\MODULES\servo.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\tim.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\tim.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\uart.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\uart.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\ultra.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\ultra.h</name>
             </file>
         </group>
         <group>
@@ -2375,9 +2405,6 @@
         </group>
         <file>
             <name>$PROJ_DIR$\user\main.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\Libraries\MODULES\servo_main.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\user\stm32f10x_it.c</name>

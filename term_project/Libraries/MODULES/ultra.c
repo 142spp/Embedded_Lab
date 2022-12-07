@@ -1,4 +1,6 @@
 #include "ultra.h"
+#include "misc.h"
+#include "stm32f10x.h"
 
 int cap_rising_edge = 0;	// counter value at rising edge
 int cap_falling_edge = 0;	// counter value at falling edge
@@ -52,6 +54,7 @@ void Ultra_TIM_Configure(void) {
 
 void Ultra_NVIC_Configure(void) {
 	// Enable the TIM3 global Interrupt
+	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
@@ -94,7 +97,7 @@ void Ultra_TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
 
 /* Library Function */
 void TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
-	Ultra_TIM3_IRQHandler(void);
+	Ultra_TIM3_IRQHandler();
 }
 
 void Ultra_Trigger(void) {
@@ -110,11 +113,12 @@ void Ultra_Trigger(void) {
 
 void Ultra_Measure_Distance(void) {	// Call in main function
 	Ultra_Init();
-	while (1) {
-		HCSR04_Trigger();
-	}
+	Ultra_Trigger();
 }
 
+int Ultra_Get_Distance(void){
+	return Distance;
+}
 
 /*
 int main() {

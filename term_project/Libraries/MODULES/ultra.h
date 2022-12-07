@@ -15,3 +15,4 @@ void Ultra_TIM3_IRQHandler(void);
 void Ultra_Trigger(void);
 
 void Ultra_Measure_Distance(void);
+int Ultra_Get_Distance(void);

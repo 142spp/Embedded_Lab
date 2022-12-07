@@ -16,11 +16,12 @@ void Servo_Pwm_Init(void){
     // servo 는 50Hz 를 맞추어야 함.
     
     uint16_t period = (uint16_t) 1000 - 1;
-    // Hz = 72MHz * 1/1000 * 1/Prescaler = 720,000 * 1/Prescaler
+    // Hz = 72MHz * 1/1000 * 1/Prescaler = 72,000 * 1/Prescaler
 
-    uint16_t prescaler = (uint16_t) 1440 -1;
+    uint16_t prescaler = (uint16_t) 1440 - 1;
     // Hz = 72MHz * 1/1000 * 1/1440 = 50;
-
+    // Hz = 100;
+    
     TIM_TimeBaseStructure.TIM_Period = period;         
     TIM_TimeBaseStructure.TIM_Prescaler = prescaler;
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
@@ -46,6 +47,7 @@ void Servo_Pwm_Init(void){
 
     TIM_OC3Init(TIM3, &TIM_OCInitStructure);
     TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Disable);
+    
     TIM_ARRPreloadConfig(TIM3, ENABLE);
     TIM_Cmd(TIM3, ENABLE);
 }
@@ -76,7 +78,7 @@ void Servo_Init(void){
  * @param phi 0 < phi < 180 
  */
 void Servo_Turn(uint16_t phi){
-    if(phi > 180 || phi < 0) return;
+    //if(phi > 180 || phi < 0) return;
 
     uint16_t pulse = (uint16_t) (((double) phi/180)*100 + 25);
 

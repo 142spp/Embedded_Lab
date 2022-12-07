@@ -13,19 +13,18 @@
 
 // Modules 
 #include "servo.h"
-#include "usound.h"
-#include "dist.h"
+#include "ultra.h"
+#include "GP2Y.h"
 #include "pir.h"
-#include "dc.h"
+#include "dcmotor.h"
 #include "tim.h"
 #include "pwm.h"
-#include "gesture.h"
 
 enum { OFF = 0, ON = 1 } ; 
 enum { LEFT = 0, MID = 1, RIGHT = 2 } ;
 
 /* function prototype */
-void Delay(void);
+void Delay(uint16_t);
 void RCC_Configure(void);
 void GPIO_Configure(void);
 void ADC_Configure(void);
@@ -84,19 +83,19 @@ void Init_Configure(void) {
 
     //Init Modules
     Servo_Init();
-    PIR_Init();
-    Usound_Init();
-    Dist_Init();
-    DC_Init();
-    Gesture_Init();
+    //PIR_Init();
+    Ultra_Init();
+    //Dist_Init();
+    //DC_Init();
+    //Gesture_Init();
 }
 
 /**
  * @brief Delay around 0.1 * t sec
  */
 void Delay(uint16_t t) {
-    for (uint16_t j = 0; j < t; j++)
-        for (uint16_t i = 0; i < 1000000; i++) ;
+    for (uint32_t j = 0; j < t; j++)
+        for (uint32_t i = 0; i < 1000000; i++) ;
 }
 
 int main(void) {
@@ -110,8 +109,15 @@ int main(void) {
     uint16_t pre_angle;
 
     uint32_t distance;
-
+    uint16_t interval = 50;
+    uint32_t speed = 0;
+    
+    Ultra_Measure_Distance();
+    
     while(1){
+        distance = (uint32_t) Ultra_Get_Distance();
+        
+      /*
         // use PIR Sensor
         if(state == OFF || PIR_Get_Exist() == false ) {
             Delay(2);
@@ -131,7 +137,8 @@ int main(void) {
         DC_Update(distance);
 
         Delay(2);
-        pre_angle = angle;
+        pre_angle = angle;*/
+        
     }
     return 0;
 }

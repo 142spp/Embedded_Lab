@@ -1,0 +1,262 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         30/Nov/2022  19:49:45
+# Copyright 1999-2022 IAR Systems AB.
+#
+#    Cpu mode          =  thumb
+#    Endian            =  little
+#    Source file       =
+#        C:\code\Embedded_Lab\term_project\Libraries\MODULES\dcmotor.c
+#    Command line      =
+#        -f
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\dcmotor.o.rsp
+#        (C:\code\Embedded_Lab\term_project\Libraries\MODULES\dcmotor.c -D
+#        USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\code\Embedded_Lab\term_project\Debug\List\Libraries\MODULES -o
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M3 -e --fpu=None
+#        --dlib_config "C:\Program Files\IAR Systems\Embedded Workbench
+#        9.1\arm\inc\c\DLib_Config_Normal.h" -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I C:\code\Embedded_Lab\term_project\libraries\LCD\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\MODULES\ -I
+#        C:\code\Embedded_Lab\term_project\user\ -I
+#        C:\code\Embedded_Lab\term_project\user\inc\ -Ol -I "C:\Program
+#        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
+#        --dependencies=n
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\dcmotor.o.d
+#    Locale            =  C
+#    List file         =
+#        C:\code\Embedded_Lab\term_project\Debug\List\Libraries\MODULES\dcmotor.lst
+#    Object file       =
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\dcmotor.o
+#    Runtime model:       
+#      __CPP_Runtime   =  1
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#      __size_limit    =  32768|ARM.EW.LINKER
+#
+###############################################################################
+
+C:\code\Embedded_Lab\term_project\Libraries\MODULES\dcmotor.c
+      1          #include "dcmotor.h"
+      2          #include "stm32f10x.h"
+      3          #include "stm32f10x_gpio.h"
+      4          #include "stm32f10x_rcc.h"
+      5          #include "stm32f10x_tim.h"
+      6          
+
+   \                                 In section .text, align 2, keep-with-next
+      7          void DC_Motor_PWM_Configure(void) {
+   \                     DC_Motor_PWM_Configure: (+1)
+   \        0x0   0xB518             PUSH     {R3,R4,LR}
+   \        0x2   0xB087             SUB      SP,SP,#+28
+      8            TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+      9            TIM_OCInitTypeDef  TIM_OCInitStructure;
+     10            
+     11            TIM_TimeBaseStructure.TIM_Period = 1000 - 1;
+   \        0x4   0xF240 0x30E7      MOVW     R0,#+999
+   \        0x8   0xF8AD 0x0004      STRH     R0,[SP, #+4]
+     12            TIM_TimeBaseStructure.TIM_Prescaler = 720 - 1;   // clock�� ���ļ��� 100Hz.
+   \        0xC   0xF240 0x20CF      MOVW     R0,#+719
+   \       0x10   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     13            TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+   \       0x14   0x2000             MOVS     R0,#+0
+   \       0x16   0xF8AD 0x0006      STRH     R0,[SP, #+6]
+     14            TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Down;
+   \       0x1A   0x2010             MOVS     R0,#+16
+   \       0x1C   0xF8AD 0x0002      STRH     R0,[SP, #+2]
+     15            
+     16            TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+   \       0x20   0x....             LDR.N    R4,??DataTable2
+   \       0x22   0x4669             MOV      R1,SP
+   \       0x24   0x0020             MOVS     R0,R4
+   \       0x26   0x.... 0x....      BL       TIM_TimeBaseInit
+     17            
+     18            TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //TIM_Output_Compare_ and _PWM_modes
+   \       0x2A   0x2060             MOVS     R0,#+96
+   \       0x2C   0xF8AD 0x000C      STRH     R0,[SP, #+12]
+     19            TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; 
+   \       0x30   0x2000             MOVS     R0,#+0
+   \       0x32   0xF8AD 0x0014      STRH     R0,[SP, #+20]
+     20            TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+   \       0x36   0x2001             MOVS     R0,#+1
+   \       0x38   0xF8AD 0x000E      STRH     R0,[SP, #+14]
+     21            TIM_OCInitStructure.TIM_Pulse = (uint16_t)CCR1_Val4; // 1000 -> 100%
+   \       0x3C   0xF44F 0x707A      MOV      R0,#+1000
+   \       0x40   0xF8AD 0x0012      STRH     R0,[SP, #+18]
+     22            
+     23            TIM_OC1Init(TIM4, &TIM_OCInitStructure); // PWM1 Mode configuration: Channel 1
+   \       0x44   0xA903             ADD      R1,SP,#+12
+   \       0x46   0x0020             MOVS     R0,R4
+   \       0x48   0x.... 0x....      BL       TIM_OC1Init
+     24            TIM_OC1PreloadConfig(TIM4, TIM_OCPreload_Disable);
+   \       0x4C   0x2100             MOVS     R1,#+0
+   \       0x4E   0x0020             MOVS     R0,R4
+   \       0x50   0x.... 0x....      BL       TIM_OC1PreloadConfig
+     25            
+     26            TIM_ARRPreloadConfig(TIM4, ENABLE);
+   \       0x54   0x2101             MOVS     R1,#+1
+   \       0x56   0x0020             MOVS     R0,R4
+   \       0x58   0x.... 0x....      BL       TIM_ARRPreloadConfig
+     27            TIM_Cmd(TIM4, ENABLE);
+   \       0x5C   0x2101             MOVS     R1,#+1
+   \       0x5E   0x0020             MOVS     R0,R4
+   \       0x60   0x.... 0x....      BL       TIM_Cmd
+     28          }
+   \       0x64   0xB008             ADD      SP,SP,#+32
+   \       0x66   0xBD10             POP      {R4,PC}
+
+   \                                 In section .text, align 2, keep-with-next
+     29          void DC_Motor_GPIO_Configure(void) {
+   \                     DC_Motor_GPIO_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     30            GPIO_InitTypeDef GPIO_InitStructure;
+     31          
+     32            /*GPIOA Configuration: TIM4 channel 1 as alternate function push-pull */
+     33            GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_6; 
+   \        0x2   0x2040             MOVS     R0,#+64
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     34            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+   \        0x8   0x2018             MOVS     R0,#+24
+   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     35            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \        0xE   0x2003             MOVS     R0,#+3
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     36            
+     37            GPIO_Init(GPIOB, &GPIO_InitStructure);
+   \       0x14   0x4669             MOV      R1,SP
+   \       0x16   0x....             LDR.N    R0,??DataTable2_1
+   \       0x18   0x.... 0x....      BL       GPIO_Init
+     38          
+     39          }
+   \       0x1C   0xBD01             POP      {R0,PC}
+
+   \                                 In section .text, align 2, keep-with-next
+     40          void DC_Motor_RCC_configure(void) {
+   \                     DC_Motor_RCC_configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     41             RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE); // Tim4 Clock enable.
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x2004             MOVS     R0,#+4
+   \        0x6   0x.... 0x....      BL       RCC_APB1PeriphClockCmd
+     42             RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+   \        0xA   0x2101             MOVS     R1,#+1
+   \        0xC   0x2008             MOVS     R0,#+8
+   \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     43             RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+   \       0x12   0x2101             MOVS     R1,#+1
+   \       0x14   0x2001             MOVS     R0,#+1
+   \       0x16   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     44          }
+   \       0x1A   0xBD01             POP      {R0,PC}
+     45          
+
+   \                                 In section .text, align 2, keep-with-next
+     46          void DC_Motor_Speed(float distance) {
+   \                     DC_Motor_Speed: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     47             if(distance < 50.0f)
+   \        0x2   0x....             LDR.N    R1,??DataTable2_2
+   \        0x4   0x.... 0x....      BL       __aeabi_cfcmple
+   \        0x8   0xD204             BCS.N    ??DC_Motor_Speed_0
+     48               TIM4->CCR1 = CCR3_Val4;
+   \        0xA   0xF44F 0x70FA      MOV      R0,#+500
+   \        0xE   0x....             LDR.N    R1,??DataTable2_3
+   \       0x10   0x8008             STRH     R0,[R1, #+0]
+   \       0x12   0xE010             B.N      ??DC_Motor_Speed_1
+     49             else if(distance < 100.0f)
+   \                     ??DC_Motor_Speed_0: (+1)
+   \       0x14   0x....             LDR.N    R1,??DataTable2_4
+   \       0x16   0x.... 0x....      BL       __aeabi_cfcmple
+   \       0x1A   0xD204             BCS.N    ??DC_Motor_Speed_2
+     50               TIM4->CCR1 = CCR2_Val4;
+   \       0x1C   0xF240 0x20EE      MOVW     R0,#+750
+   \       0x20   0x....             LDR.N    R1,??DataTable2_3
+   \       0x22   0x8008             STRH     R0,[R1, #+0]
+   \       0x24   0xE007             B.N      ??DC_Motor_Speed_1
+     51             else if(distance < 150.0f)
+   \                     ??DC_Motor_Speed_2: (+1)
+   \       0x26   0x....             LDR.N    R1,??DataTable2_5
+   \       0x28   0x.... 0x....      BL       __aeabi_cfcmple
+   \       0x2C   0xD203             BCS.N    ??DC_Motor_Speed_1
+     52               TIM4->CCR1 = CCR1_Val4;
+   \       0x2E   0xF44F 0x707A      MOV      R0,#+1000
+   \       0x32   0x....             LDR.N    R1,??DataTable2_3
+   \       0x34   0x8008             STRH     R0,[R1, #+0]
+     53             
+     54          }
+   \                     ??DC_Motor_Speed_1: (+1)
+   \       0x36   0xBD01             POP      {R0,PC}
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2:
+   \        0x0   0x4000'0800        DC32     0x40000800
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_1:
+   \        0x0   0x4001'0C00        DC32     0x40010c00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_2:
+   \        0x0   0x4248'0000        DC32     0x42480000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_3:
+   \        0x0   0x4000'0834        DC32     0x40000834
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_4:
+   \        0x0   0x42C8'0000        DC32     0x42c80000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_5:
+   \        0x0   0x4316'0000        DC32     0x43160000
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   DC_Motor_GPIO_Configure
+         8   -> GPIO_Init
+      40   DC_Motor_PWM_Configure
+        40   -> TIM_ARRPreloadConfig
+        40   -> TIM_Cmd
+        40   -> TIM_OC1Init
+        40   -> TIM_OC1PreloadConfig
+        40   -> TIM_TimeBaseInit
+       8   DC_Motor_RCC_configure
+         8   -> RCC_APB1PeriphClockCmd
+         8   -> RCC_APB2PeriphClockCmd
+       8   DC_Motor_Speed
+         8 __aeabi_cfcmple
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  ??DataTable2_2
+       4  ??DataTable2_3
+       4  ??DataTable2_4
+       4  ??DataTable2_5
+      30  DC_Motor_GPIO_Configure
+     104  DC_Motor_PWM_Configure
+      28  DC_Motor_RCC_configure
+      56  DC_Motor_Speed
+
+ 
+ 242 bytes in section .text
+ 
+ 242 bytes of CODE memory
+
+Errors: none
+Warnings: none

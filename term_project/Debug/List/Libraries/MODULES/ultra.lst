@@ -1,0 +1,497 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         30/Nov/2022  21:58:01
+# Copyright 1999-2022 IAR Systems AB.
+#
+#    Cpu mode          =  thumb
+#    Endian            =  little
+#    Source file       =
+#        C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
+#    Command line      =
+#        -f
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\ultra.o.rsp
+#        (C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c -D
+#        USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\code\Embedded_Lab\term_project\Debug\List\Libraries\MODULES -o
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M3 -e --fpu=None
+#        --dlib_config "C:\Program Files\IAR Systems\Embedded Workbench
+#        9.1\arm\inc\c\DLib_Config_Normal.h" -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I C:\code\Embedded_Lab\term_project\libraries\LCD\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\MODULES\ -I
+#        C:\code\Embedded_Lab\term_project\user\ -I
+#        C:\code\Embedded_Lab\term_project\user\inc\ -Ol -I "C:\Program
+#        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
+#        --dependencies=n
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\ultra.o.d
+#    Locale            =  C
+#    List file         =
+#        C:\code\Embedded_Lab\term_project\Debug\List\Libraries\MODULES\ultra.lst
+#    Object file       =
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\ultra.o
+#    Runtime model:       
+#      __CPP_Runtime   =  1
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#      __size_limit    =  32768|ARM.EW.LINKER
+#
+###############################################################################
+
+C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
+      1          #include "ultra.h"
+      2          #include "misc.h"
+      3          #include "stm32f10x.h"
+      4          
+
+   \                                 In section .bss, align 4
+      5          int cap_rising_edge = 0;	// counter value at rising edge
+   \                     cap_rising_edge:
+   \        0x0                      DS8 4
+
+   \                                 In section .bss, align 4
+      6          int cap_falling_edge = 0;	// counter value at falling edge
+   \                     cap_falling_edge:
+   \        0x0                      DS8 4
+
+   \                                 In section .bss, align 4
+      7          int pulse_width = 0;		// = (counter value at falling edge) - (counter value at rising edge)
+   \                     pulse_width:
+   \        0x0                      DS8 4
+      8          
+      9          /* Distance Result */
+
+   \                                 In section .bss, align 4
+     10          int Distance = 0;
+   \                     Distance:
+   \        0x0                      DS8 4
+     11          
+
+   \                                 In section .text, align 2, keep-with-next
+     12          void Ultra_RCC_Configure(void) {
+   \                     Ultra_RCC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     13          	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x2004             MOVS     R0,#+4
+   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     14          	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+   \        0xA   0x2101             MOVS     R1,#+1
+   \        0xC   0x2008             MOVS     R0,#+8
+   \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     15          	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+   \       0x12   0x2101             MOVS     R1,#+1
+   \       0x14   0x2002             MOVS     R0,#+2
+   \       0x16   0x.... 0x....      BL       RCC_APB1PeriphClockCmd
+     16          }
+   \       0x1A   0xBD01             POP      {R0,PC}
+     17          
+
+   \                                 In section .text, align 2, keep-with-next
+     18          void Ultra_GPIO_Configure(void) {
+   \                     Ultra_GPIO_Configure: (+1)
+   \        0x0   0xB51C             PUSH     {R2-R4,LR}
+     19          	GPIO_InitTypeDef GPIO_InitStructure;
+     20          
+     21          	// Trigger (PA7)
+     22          	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+   \        0x2   0x2080             MOVS     R0,#+128
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     23          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+   \        0x8   0x2014             MOVS     R0,#+20
+   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     24          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \        0xE   0x2003             MOVS     R0,#+3
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     25          	GPIO_Init(GPIOA, &GPIO_InitStructure);
+   \       0x14   0x....             LDR.N    R4,??DataTable5
+   \       0x16   0x4669             MOV      R1,SP
+   \       0x18   0x0020             MOVS     R0,R4
+   \       0x1A   0x.... 0x....      BL       GPIO_Init
+     26          
+     27          	// TIM3 Ch1 (PA6) echo
+     28          	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+   \       0x1E   0x2040             MOVS     R0,#+64
+   \       0x20   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     29          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+   \       0x24   0x2048             MOVS     R0,#+72
+   \       0x26   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     30          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \       0x2A   0x2003             MOVS     R0,#+3
+   \       0x2C   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     31          	GPIO_Init(GPIOA, &GPIO_InitStructure);
+   \       0x30   0x4669             MOV      R1,SP
+   \       0x32   0x0020             MOVS     R0,R4
+   \       0x34   0x.... 0x....      BL       GPIO_Init
+     32          }
+   \       0x38   0xBD13             POP      {R0,R1,R4,PC}
+     33          
+
+   \                                 In section .text, align 2, keep-with-next
+     34          void Ultra_TIM_Configure(void) {
+   \                     Ultra_TIM_Configure: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0xB086             SUB      SP,SP,#+24
+     35          	/* Time base configuration */
+     36          	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+     37          	TIM_TimeBaseStructure.TIM_Period = 0xFFFF;
+   \        0x4   0xF64F 0x70FF      MOVW     R0,#+65535
+   \        0x8   0xF8AD 0x0010      STRH     R0,[SP, #+16]
+     38          	TIM_TimeBaseStructure.TIM_Prescaler = (uint16_t)(SystemCoreClock / 1000000) - 1;	// 1Hz
+   \        0xC   0x....             LDR.N    R0,??DataTable5_1
+   \        0xE   0x6800             LDR      R0,[R0, #+0]
+   \       0x10   0x....             LDR.N    R1,??DataTable5_2
+   \       0x12   0xFBB0 0xF0F1      UDIV     R0,R0,R1
+   \       0x16   0x1E40             SUBS     R0,R0,#+1
+   \       0x18   0xF8AD 0x000C      STRH     R0,[SP, #+12]
+     39          	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+   \       0x1C   0x2000             MOVS     R0,#+0
+   \       0x1E   0xF8AD 0x0012      STRH     R0,[SP, #+18]
+     40          	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+   \       0x22   0x2000             MOVS     R0,#+0
+   \       0x24   0xF8AD 0x000E      STRH     R0,[SP, #+14]
+     41          	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+   \       0x28   0x....             LDR.N    R4,??DataTable5_3
+   \       0x2A   0xA903             ADD      R1,SP,#+12
+   \       0x2C   0x0020             MOVS     R0,R4
+   \       0x2E   0x.... 0x....      BL       TIM_TimeBaseInit
+     42          
+     43          	/* PWM1 Mode configuration: Channel3 */
+     44          	TIM_ICInitTypeDef TIM_ICInitStructure;
+     45          	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;		// input capture timing
+   \       0x32   0x2000             MOVS     R0,#+0
+   \       0x34   0xF8AD 0x0002      STRH     R0,[SP, #+2]
+     46          	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;	// TIM Input1 is connected to IC1
+   \       0x38   0x2001             MOVS     R0,#+1
+   \       0x3A   0xF8AD 0x0004      STRH     R0,[SP, #+4]
+     47          	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+   \       0x3E   0x2000             MOVS     R0,#+0
+   \       0x40   0xF8AD 0x0006      STRH     R0,[SP, #+6]
+     48          	TIM_ICInitStructure.TIM_ICFilter = 0x0;
+   \       0x44   0x2000             MOVS     R0,#+0
+   \       0x46   0xF8AD 0x0008      STRH     R0,[SP, #+8]
+     49          	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+   \       0x4A   0x2000             MOVS     R0,#+0
+   \       0x4C   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     50          	TIM_ICInit(TIM3, &TIM_ICInitStructure);
+   \       0x50   0x4669             MOV      R1,SP
+   \       0x52   0x0020             MOVS     R0,R4
+   \       0x54   0x.... 0x....      BL       TIM_ICInit
+     51          	TIM_Cmd(TIM3, ENABLE);
+   \       0x58   0x2101             MOVS     R1,#+1
+   \       0x5A   0x0020             MOVS     R0,R4
+   \       0x5C   0x.... 0x....      BL       TIM_Cmd
+     52          	TIM_ITConfig(TIM3, TIM_IT_CC1, ENABLE);
+   \       0x60   0x2201             MOVS     R2,#+1
+   \       0x62   0x2102             MOVS     R1,#+2
+   \       0x64   0x0020             MOVS     R0,R4
+   \       0x66   0x.... 0x....      BL       TIM_ITConfig
+     53          }
+   \       0x6A   0xB006             ADD      SP,SP,#+24
+   \       0x6C   0xBD10             POP      {R4,PC}
+     54          
+
+   \                                 In section .text, align 2, keep-with-next
+     55          void Ultra_NVIC_Configure(void) {
+   \                     Ultra_NVIC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     56          	// Enable the TIM3 global Interrupt
+     57          	NVIC_InitTypeDef NVIC_InitStructure;
+     58          	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
+   \        0x2   0x201D             MOVS     R0,#+29
+   \        0x4   0xF88D 0x0000      STRB     R0,[SP, #+0]
+     59          	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+   \        0x8   0x2000             MOVS     R0,#+0
+   \        0xA   0xF88D 0x0001      STRB     R0,[SP, #+1]
+     60          	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+   \        0xE   0x2000             MOVS     R0,#+0
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     61          	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+   \       0x14   0x2001             MOVS     R0,#+1
+   \       0x16   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     62          	NVIC_Init(&NVIC_InitStructure);
+   \       0x1A   0x4668             MOV      R0,SP
+   \       0x1C   0x.... 0x....      BL       NVIC_Init
+     63          }
+   \       0x20   0xBD01             POP      {R0,PC}
+     64          
+
+   \                                 In section .text, align 2, keep-with-next
+     65          void Ultra_Init(void) {
+   \                     Ultra_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     66          	Ultra_RCC_Configure();
+   \        0x2   0x.... 0x....      BL       Ultra_RCC_Configure
+     67          	Ultra_GPIO_Configure();
+   \        0x6   0x.... 0x....      BL       Ultra_GPIO_Configure
+     68          	Ultra_TIM_Configure();
+   \        0xA   0x.... 0x....      BL       Ultra_TIM_Configure
+     69          	Ultra_NVIC_Configure();
+   \        0xE   0x.... 0x....      BL       Ultra_NVIC_Configure
+     70          }
+   \       0x12   0xBD01             POP      {R0,PC}
+     71          
+
+   \                                 In section .text, align 2, keep-with-next
+     72          void Ultra_TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
+   \                     Ultra_TIM3_IRQHandler: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+     73          	/*ITStatus*/
+     74          	if (TIM_GetITStatus(TIM3, TIM_IT_CC1) == SET)	// if there is input value that has been captured
+   \        0x2   0x....             LDR.N    R4,??DataTable5_3
+   \        0x4   0x2102             MOVS     R1,#+2
+   \        0x6   0x0020             MOVS     R0,R4
+   \        0x8   0x.... 0x....      BL       TIM_GetITStatus
+   \        0xC   0x2801             CMP      R0,#+1
+   \        0xE   0xD12E             BNE.N    ??Ultra_TIM3_IRQHandler_0
+     75          	{												// (= if TIM3->SR register CC1IF bit is High)
+     76          
+     77          		TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);	// clear TIM3->SR register CC1IF bit to Low
+   \       0x10   0x2102             MOVS     R1,#+2
+   \       0x12   0x0020             MOVS     R0,R4
+   \       0x14   0x.... 0x....      BL       TIM_ClearITPendingBit
+     78          
+     79          		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET)	// if Timer3 Ch1 pin(PA6) value is High (rising edge)
+   \       0x18   0x2140             MOVS     R1,#+64
+   \       0x1A   0x....             LDR.N    R0,??DataTable5
+   \       0x1C   0x.... 0x....      BL       GPIO_ReadInputDataBit
+   \       0x20   0x2801             CMP      R0,#+1
+   \       0x22   0xD10A             BNE.N    ??Ultra_TIM3_IRQHandler_1
+     80          		{
+     81          			cap_rising_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at rising edge)
+   \       0x24   0x0020             MOVS     R0,R4
+   \       0x26   0x.... 0x....      BL       TIM_GetCapture1
+   \       0x2A   0x....             LDR.N    R1,??DataTable5_4
+   \       0x2C   0x6008             STR      R0,[R1, #+0]
+     82          			TIM3->CCER |= TIM_CCER_CC1P;	// change ICPolarity(capture timing) to falling edge
+   \       0x2E   0x....             LDR.N    R0,??DataTable5_5
+   \       0x30   0x8801             LDRH     R1,[R0, #+0]
+   \       0x32   0xF051 0x0102      ORRS     R1,R1,#0x2
+   \       0x36   0x8001             STRH     R1,[R0, #+0]
+   \       0x38   0xE019             B.N      ??Ultra_TIM3_IRQHandler_0
+     83          		}
+     84          		else			// if Timer3 Ch1 pin(PA6) value is Low (falling edge)
+     85          		{
+     86          			cap_falling_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at falling edge)
+   \                     ??Ultra_TIM3_IRQHandler_1: (+1)
+   \       0x3A   0x....             LDR.N    R5,??DataTable5_6
+   \       0x3C   0x0020             MOVS     R0,R4
+   \       0x3E   0x.... 0x....      BL       TIM_GetCapture1
+   \       0x42   0x6028             STR      R0,[R5, #+0]
+     87          			pulse_width = (uint32_t)(cap_falling_edge - cap_rising_edge);
+   \       0x44   0x....             LDR.N    R2,??DataTable5_7
+   \       0x46   0x6829             LDR      R1,[R5, #+0]
+   \       0x48   0x....             LDR.N    R0,??DataTable5_4
+   \       0x4A   0x6800             LDR      R0,[R0, #+0]
+   \       0x4C   0x1A09             SUBS     R1,R1,R0
+   \       0x4E   0x6011             STR      R1,[R2, #+0]
+     88          			TIM3->CCER &= ~TIM_CCER_CC1P;	// change ICPolarity(capture timing) to rising edge
+   \       0x50   0x....             LDR.N    R1,??DataTable5_5
+   \       0x52   0x880B             LDRH     R3,[R1, #+0]
+   \       0x54   0xF64F 0x70FD      MOVW     R0,#+65533
+   \       0x58   0x4003             ANDS     R3,R0,R3
+   \       0x5A   0x800B             STRH     R3,[R1, #+0]
+     89          			
+     90          
+     91          
+     92          			/*	Result Distance (cm)	*/
+     93          			Distance = pulse_width * 17 / 1000;
+   \       0x5C   0x6811             LDR      R1,[R2, #+0]
+   \       0x5E   0x2011             MOVS     R0,#+17
+   \       0x60   0x4341             MULS     R1,R0,R1
+   \       0x62   0xF44F 0x707A      MOV      R0,#+1000
+   \       0x66   0xFB91 0xF0F0      SDIV     R0,R1,R0
+   \       0x6A   0x....             LDR.N    R1,??DataTable5_8
+   \       0x6C   0x6008             STR      R0,[R1, #+0]
+     94          		}
+     95          	}
+     96          }
+   \                     ??Ultra_TIM3_IRQHandler_0: (+1)
+   \       0x6E   0xBD31             POP      {R0,R4,R5,PC}
+     97          
+     98          /* Library Function */
+
+   \                                 In section .text, align 2, keep-with-next
+     99          void TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
+   \                     TIM3_IRQHandler: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    100          	Ultra_TIM3_IRQHandler();
+   \        0x2   0x.... 0x....      BL       Ultra_TIM3_IRQHandler
+    101          }
+   \        0x6   0xBD01             POP      {R0,PC}
+    102          
+
+   \                                 In section .text, align 2, keep-with-next
+    103          void Ultra_Trigger(void) {
+   \                     Ultra_Trigger: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+    104          	int i;
+    105          
+    106          	GPIO_SetBits(GPIOA, GPIO_Pin_7);	// set trigger
+   \        0x2   0x....             LDR.N    R4,??DataTable5
+   \        0x4   0x2180             MOVS     R1,#+128
+   \        0x6   0x0020             MOVS     R0,R4
+   \        0x8   0x.... 0x....      BL       GPIO_SetBits
+    107          	for (i = 0; i < 50000; i++) {
+   \        0xC   0x2000             MOVS     R0,#+0
+   \        0xE   0xE000             B.N      ??Ultra_Trigger_0
+   \                     ??Ultra_Trigger_1: (+1)
+   \       0x10   0x1C40             ADDS     R0,R0,#+1
+   \                     ??Ultra_Trigger_0: (+1)
+   \       0x12   0xF24C 0x3150      MOVW     R1,#+50000
+   \       0x16   0x4288             CMP      R0,R1
+   \       0x18   0xDBFA             BLT.N    ??Ultra_Trigger_1
+    108          		/* delay(); */				// send ultrasonic wave
+    109          	}	
+    110          	GPIO_ResetBits(GPIOA, GPIO_Pin_7);	// reset trigger
+   \       0x1A   0x2180             MOVS     R1,#+128
+   \       0x1C   0x0020             MOVS     R0,R4
+   \       0x1E   0x.... 0x....      BL       GPIO_ResetBits
+    111          }
+   \       0x22   0xBD10             POP      {R4,PC}
+    112          
+    113          
+
+   \                                 In section .text, align 2, keep-with-next
+    114          void Ultra_Measure_Distance(void) {	// Call in main function
+   \                     Ultra_Measure_Distance: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    115          	Ultra_Init();
+   \        0x2   0x.... 0x....      BL       Ultra_Init
+    116          	Ultra_Trigger();
+   \        0x6   0x.... 0x....      BL       Ultra_Trigger
+    117          }
+   \        0xA   0xBD01             POP      {R0,PC}
+    118          
+
+   \                                 In section .text, align 2, keep-with-next
+    119          int Ultra_Get_Distance(void){
+    120          	return Distance;
+   \                     Ultra_Get_Distance: (+1)
+   \        0x0   0x....             LDR.N    R0,??DataTable5_8
+   \        0x2   0x6800             LDR      R0,[R0, #+0]
+   \        0x4   0x4770             BX       LR
+    121          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5:
+   \        0x0   0x4001'0800        DC32     0x40010800
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_1:
+   \        0x0   0x....'....        DC32     SystemCoreClock
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_2:
+   \        0x0   0x000F'4240        DC32     0xf4240
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_3:
+   \        0x0   0x4000'0400        DC32     0x40000400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_4:
+   \        0x0   0x....'....        DC32     cap_rising_edge
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_5:
+   \        0x0   0x4000'0420        DC32     0x40000420
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_6:
+   \        0x0   0x....'....        DC32     cap_falling_edge
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_7:
+   \        0x0   0x....'....        DC32     pulse_width
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable5_8:
+   \        0x0   0x....'....        DC32     Distance
+    122          
+    123          /*
+    124          int main() {
+    125          	Ultra_Measure_Distance();
+    126          }
+    127          */
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   TIM3_IRQHandler
+         8   -> Ultra_TIM3_IRQHandler
+      16   Ultra_GPIO_Configure
+        16   -> GPIO_Init
+       0   Ultra_Get_Distance
+       8   Ultra_Init
+         8   -> Ultra_GPIO_Configure
+         8   -> Ultra_NVIC_Configure
+         8   -> Ultra_RCC_Configure
+         8   -> Ultra_TIM_Configure
+       8   Ultra_Measure_Distance
+         8   -> Ultra_Init
+         8   -> Ultra_Trigger
+       8   Ultra_NVIC_Configure
+         8   -> NVIC_Init
+       8   Ultra_RCC_Configure
+         8   -> RCC_APB1PeriphClockCmd
+         8   -> RCC_APB2PeriphClockCmd
+      16   Ultra_TIM3_IRQHandler
+        16   -> GPIO_ReadInputDataBit
+        16   -> TIM_ClearITPendingBit
+        16   -> TIM_GetCapture1
+        16   -> TIM_GetITStatus
+      32   Ultra_TIM_Configure
+        32   -> TIM_Cmd
+        32   -> TIM_ICInit
+        32   -> TIM_ITConfig
+        32   -> TIM_TimeBaseInit
+       8   Ultra_Trigger
+         8   -> GPIO_ResetBits
+         8   -> GPIO_SetBits
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable5
+       4  ??DataTable5_1
+       4  ??DataTable5_2
+       4  ??DataTable5_3
+       4  ??DataTable5_4
+       4  ??DataTable5_5
+       4  ??DataTable5_6
+       4  ??DataTable5_7
+       4  ??DataTable5_8
+       4  Distance
+       8  TIM3_IRQHandler
+      58  Ultra_GPIO_Configure
+       6  Ultra_Get_Distance
+      20  Ultra_Init
+      12  Ultra_Measure_Distance
+      34  Ultra_NVIC_Configure
+      28  Ultra_RCC_Configure
+     112  Ultra_TIM3_IRQHandler
+     110  Ultra_TIM_Configure
+      36  Ultra_Trigger
+       4  cap_falling_edge
+       4  cap_rising_edge
+       4  pulse_width
+
+ 
+  16 bytes in section .bss
+ 460 bytes in section .text
+ 
+ 460 bytes of CODE memory
+  16 bytes of DATA memory
+
+Errors: none
+Warnings: none

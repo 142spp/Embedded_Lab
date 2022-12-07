@@ -3,12 +3,13 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_tim.h"
+
 void DC_Motor_PWM_Configure(void) {
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
   TIM_OCInitTypeDef  TIM_OCInitStructure;
   
   TIM_TimeBaseStructure.TIM_Period = 1000 - 1;
-  TIM_TimeBaseStructure.TIM_Prescaler = 720 - 1;   // clockÀÇ ÁÖÆÄ¼ö¸¦ 100Hz.
+  TIM_TimeBaseStructure.TIM_Prescaler = 720 - 1;   // clockï¿½ï¿½ ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ 100Hz.
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Down;
   
@@ -41,6 +42,7 @@ void DC_Motor_RCC_configure(void) {
    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 }
+
 void DC_Motor_Speed(float distance) {
    if(distance < 50.0f)
      TIM4->CCR1 = CCR3_Val4;
