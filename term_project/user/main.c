@@ -13,6 +13,7 @@
 
 // Modules 
 #include "servo.h"
+#include "uart.h"
 #include "ultra.h"
 #include "GP2Y.h"
 #include "pir.h"
@@ -102,7 +103,7 @@ int main(void) {
 
     Init_Configure();
 
-    uint16_t state = OFF;
+    uint16_t state = STATE_OFF;
 
     uint16_t position = MID;
     uint16_t angle;
@@ -112,14 +113,10 @@ int main(void) {
     uint16_t interval = 50;
     uint32_t speed = 0;
     
-    Ultra_Measure_Distance();
-    
     while(1){
-        distance = (uint32_t) Ultra_Get_Distance();
-        
-      /*
+        state = UART_GetState();
         // use PIR Sensor
-        if(state == OFF || PIR_Get_Exist() == false ) {
+        if(state && STATE_OFF || PIR_Get_Exist() == false ) {
             Delay(2);
             continue;
         }
@@ -136,9 +133,8 @@ int main(void) {
         // use DC Motor
         DC_Update(distance);
 
+        pre_angle = angle;
         Delay(2);
-        pre_angle = angle;*/
-        
     }
     return 0;
 }

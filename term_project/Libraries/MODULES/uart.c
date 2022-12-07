@@ -4,6 +4,8 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_usart.h"
 
+uint16_t uart_state;
+
 void UART_RCC_Init(void){
     /* UART TX/RX port clock enable */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
@@ -55,12 +57,24 @@ void UART_NVIC_Init(void){
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void USART1_IRQHandler(void) {  
-    uint16_t word;
+void UART_UpdateState(uint16_t data){
+    uint16_t to_update;
+         if(data == 's') to_update = STATE_OFF;
+    else if(data == 'o') to_update = STATE_ON;
+    else if(data == 'm') to_update = STATE_MAN;
+    else if(data == 'a') to_update = STATE_AUTO;
+    else if(data == 'l') to_update = STATE_LEFT;
+    else if(data == 'r') to_update = STATE_RIGHT;
+
+    uart_state |= to_update;
+}
+
+void USART1_IRQHandler(void) {
+    uint16_t data
     if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
         // the most recent received data by the USART1 peripheral
-        word = USART_ReceiveData(USART1);
-        USART_SendData(word);
+        data = USART_ReceiveData(USART1);
+        UART_UpdateState(data);
         // clear 'Read data register not empty' flag
         USART_ClearITPendingBit(USART1, USART_IT_RXNE);
     }
@@ -72,3 +86,8 @@ void UART_Init(void){
     URAT_USART1_Init();
     UART_NVIC_Init();
 }
+
+uint16_t UART_GetState(void){
+    return uart_state;
+}
+
