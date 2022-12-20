@@ -5,7 +5,13 @@
 #include "stm32f10x_usart.h"
 #include "uart.h"
 
-uint16_t uart_state;
+typedef struct {
+    enum power      {OFF, ON} ;
+    enum mode       {MAN, AUTO} ;
+    enum timer      {DEFAULT, TIMER} ;
+    enum position   {LEFT, MIDDLE, RIGHT} ;
+    enum strength   {STRONG, WEAK} ;
+} UARTState;
 
 void UART_RCC_Init(void){
     /* UART TX/RX port clock enable */
@@ -59,18 +65,20 @@ void UART_NVIC_Init(void){
 }
 
 void UART_UpdateState(uint16_t data){
-    uint16_t to_update;
-         if(data == 's') to_update = STATE_OFF;
-    else if(data == 'o') to_update = STATE_ON;
-    else if(data == 'm') to_update = STATE_MAN;
-    else if(data == 'a') to_update = STATE_AUTO;
-    else if(data == 'l') to_update = STATE_LEFT;
-    else if(data == 'r') to_update = STATE_RIGHT;
+         if(data == '1') uart_state = (uart_state & !STATE_OFF) | STATE_ON;
+    else if(data == '0') uart_state = (uart_state & !STATE_ON)  | STATE_OFF;
+    else if(data == 'a') uart_state = (uart_state & !STATE_MAN) | STATE_AUTO;
+    else if(data == 'm') uart_state = (uart_state & !STATE_AUTO)| STATE_MAN; 
+    else if(data == 't') uart_state = (uart_state & !STATE_AUTO)| STATE_MAN; 
+    else if(data == 'l') uart_state = (uart_state & !STATE_AUTO)| STATE_MAN; 
+    else if(data == 'r') uart_state = (uart_state & !STATE_AUTO)| STATE_MAN; 
+    else if(data == 's') uart_state = (uart_state & !STATE_AUTO)| STATE_MAN; 
+    else if(data == 'w') uart_state = (uart_state & !STATE_AUTO)| STATE_MAN; 
 
     uart_state |= to_update;
 }
 
-void USART1_IRQHandler(void) {
+void UART_IRQHandler(void) {
     uint16_t data;
     if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
         // the most recent received data by the USART1 peripheral

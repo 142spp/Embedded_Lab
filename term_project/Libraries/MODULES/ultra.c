@@ -106,10 +106,6 @@ void Ultra_TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
 	}
 }
 
-/* Library Function */
-void TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
-	Ultra_TIM3_IRQHandler();
-}
 
 void Ultra_Measure_Distance(void){
 	int i;
@@ -120,6 +116,6 @@ void Ultra_Measure_Distance(void){
 	GPIO_ResetBits(GPIOA, GPIO_Pin_7);	// reset trigger
 }
 
-void Ultra_Get_Distance(void){
+uint32_t Ultra_Get_Distance(void){
 	return Left_Distance*100 + Right_Distance;
 }

@@ -2208,13 +2208,13 @@
                 <name>$PROJ_DIR$\Libraries\MODULES\dcmotor.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\GP2Y.c</name>
+                <name>$PROJ_DIR$\Libraries\MODULES\dist.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\GP2Y.h</name>
+                <name>$PROJ_DIR$\Libraries\MODULES\dist.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\pwm.c</name>
+                <name>$PROJ_DIR$\Libraries\MODULES\handler.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\MODULES\pwm.h</name>
@@ -2224,12 +2224,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\MODULES\servo.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\tim.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\tim.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\MODULES\uart.c</name>

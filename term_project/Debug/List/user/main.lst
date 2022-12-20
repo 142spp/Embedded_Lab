@@ -1,12 +1,13 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         19/Dec/2022  20:35:39
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  11:50:04
 # Copyright 1999-2022 IAR Systems AB.
 #
-#    Cpu mode          =  thumb
-#    Endian            =  little
-#    Source file       =  C:\code\Embedded_Lab\term_project\user\main.c
-#    Command line      =
+#    Cpu mode                     =  thumb
+#    Endian                       =  little
+#    Source file                  =
+#        C:\code\Embedded_Lab\term_project\user\main.c
+#    Command line                 =
 #        -f C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o.rsp
 #        (C:\code\Embedded_Lab\term_project\user\main.c -D USE_STDPERIPH_DRIVER
 #        -D STM32F10X_CL -lC C:\code\Embedded_Lab\term_project\Debug\List\user
@@ -28,467 +29,301 @@
 #        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
 #        --dependencies=n
 #        C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o.d
-#    Locale            =  C
-#    List file         =
+#    Locale                       =  C
+#    List file                    =
 #        C:\code\Embedded_Lab\term_project\Debug\List\user\main.lst
-#    Object file       =
+#    Object file                  =
 #        C:\code\Embedded_Lab\term_project\Debug\Obj\user\main.o
-#    Runtime model:       
-#      __CPP_Runtime   =  1
-#      __SystemLibrary =  DLib
-#      __dlib_version  =  6
-#      __size_limit    =  32768|ARM.EW.LINKER
+#    Runtime model:                  
+#      __CPP_Runtime              =  1
+#      __SystemLibrary            =  DLib
+#      __dlib_file_descriptor     =  0
+#      __dlib_full_locale_support =  0
+#      __dlib_version             =  6
+#      __size_limit               =  32768|ARM.EW.LINKER
 #
 ###############################################################################
 
 C:\code\Embedded_Lab\term_project\user\main.c
-      1          #include "ultra.h"
-      2          
-
-   \                                 In section .bss, align 4
-      3          int cap_rising_edge = 0;	// counter value at rising edge
-   \                     cap_rising_edge:
-   \        0x0                      DS8 4
-
-   \                                 In section .bss, align 4
-      4          int cap_falling_edge = 0;	// counter value at falling edge
-   \                     cap_falling_edge:
-   \        0x0                      DS8 4
-
-   \                                 In section .bss, align 4
-      5          int pulse_width = 0;		// = (counter value at falling edge) - (counter value at rising edge)
-   \                     pulse_width:
-   \        0x0                      DS8 4
-      6          
-      7          /* Distance Result */
-
-   \                                 In section .bss, align 4
-      8          int Distance = 0;
-   \                     Distance:
-   \        0x0                      DS8 4
-      9          
-
-   \                                 In section .text, align 2, keep-with-next
-     10          void Ultra_RCC_Configure(void) {
-   \                     Ultra_RCC_Configure: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
-     11          	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-   \        0x2   0x2101             MOVS     R1,#+1
-   \        0x4   0x2004             MOVS     R0,#+4
-   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     12          	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-   \        0xA   0x2101             MOVS     R1,#+1
-   \        0xC   0x2008             MOVS     R0,#+8
-   \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     13          	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-   \       0x12   0x2101             MOVS     R1,#+1
-   \       0x14   0x2002             MOVS     R0,#+2
-   \       0x16   0x.... 0x....      BL       RCC_APB1PeriphClockCmd
-     14          }
-   \       0x1A   0xBD01             POP      {R0,PC}
-     15          
-
-   \                                 In section .text, align 2, keep-with-next
-     16          void Ultra_GPIO_Configure(void) {
-   \                     Ultra_GPIO_Configure: (+1)
-   \        0x0   0xB51C             PUSH     {R2-R4,LR}
-     17          	GPIO_InitTypeDef GPIO_InitStructure;
-     18          
-     19          	// Trigger (PA7)
-     20          	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-   \        0x2   0x2080             MOVS     R0,#+128
-   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     21          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-   \        0x8   0x2014             MOVS     R0,#+20
-   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     22          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-   \        0xE   0x2003             MOVS     R0,#+3
-   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     23          	GPIO_Init(GPIOA, &GPIO_InitStructure);
-   \       0x14   0x....             LDR.N    R4,??DataTable4
-   \       0x16   0x4669             MOV      R1,SP
-   \       0x18   0x0020             MOVS     R0,R4
-   \       0x1A   0x.... 0x....      BL       GPIO_Init
+      1          // Standard
+      2          #include <stdio.h>
+      3          #include <stdlib.h>
+      4          
+      5          // System
+      6          #include "misc.h"
+      7          #include "stm32f10x.h"
+      8          #include "stm32f10x_adc.h"
+      9          #include "stm32f10x_dma.h"
+     10          #include "stm32f10x_gpio.h"
+     11          #include "stm32f10x_rcc.h"
+     12          #include "stm32f10x_tim.h"
+     13          
+     14          // Modules 
+     15          #include "servo.h"
+     16          #include "uart.h"
+     17          #include "ultra.h"
+     18          #include "pir.h"
+     19          #include "dcmotor.h"
+     20          #include "pwm.h"
+     21          
+     22          enum { OFF = 0, ON = 1 } ; 
+     23          enum { LEFT = 0, MID = 1, RIGHT = 2 } ;
      24          
-     25          	// TIM3 Ch1 (PA6) echo
-     26          	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-   \       0x1E   0x2040             MOVS     R0,#+64
-   \       0x20   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     27          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-   \       0x24   0x2048             MOVS     R0,#+72
-   \       0x26   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     28          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-   \       0x2A   0x2003             MOVS     R0,#+3
-   \       0x2C   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     29          	GPIO_Init(GPIOA, &GPIO_InitStructure);
-   \       0x30   0x4669             MOV      R1,SP
-   \       0x32   0x0020             MOVS     R0,R4
-   \       0x34   0x.... 0x....      BL       GPIO_Init
-     30          }
-   \       0x38   0xBD13             POP      {R0,R1,R4,PC}
-     31          
+     25          /* function prototype */
+     26          void Delay(uint16_t);
+     27          void RCC_Configure(void);
+     28          void GPIO_Configure(void);
+     29          void ADC_Configure(void);
+     30          void DMA_Configure(void);
+     31          void TIM_Configure(void);
+     32          void EXTI_Configure(void);
+     33          void NVIC_Configure(void);
+     34          void Init_Configure(void);
+     35          
+     36          /**
+     37           * @brief Enable or Disable Clocks Using
+     38           *      RCC_APB1PeriphClockCmd , RCC_APB2PeriphClockCmd, RCC_AHBPeriphClockCmd
+     39           *      함수의 definition의 주석을 참고해서 원하는 모듈에 clock을 인가한다.
+     40           */
 
    \                                 In section .text, align 2, keep-with-next
-     32          void Ultra_TIM_Configure(void) {
-   \                     Ultra_TIM_Configure: (+1)
-   \        0x0   0xB510             PUSH     {R4,LR}
-   \        0x2   0xB086             SUB      SP,SP,#+24
-     33          	/* Time base configuration */
-     34          	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
-     35          	TIM_TimeBaseStructure.TIM_Period = 0xFFFF;
-   \        0x4   0xF64F 0x70FF      MOVW     R0,#+65535
-   \        0x8   0xF8AD 0x0010      STRH     R0,[SP, #+16]
-     36          	TIM_TimeBaseStructure.TIM_Prescaler = (uint16_t)(SystemCoreClock / 1000000) - 1;	// 1Hz
-   \        0xC   0x....             LDR.N    R0,??DataTable4_1
-   \        0xE   0x6800             LDR      R0,[R0, #+0]
-   \       0x10   0x....             LDR.N    R1,??DataTable4_2
-   \       0x12   0xFBB0 0xF0F1      UDIV     R0,R0,R1
-   \       0x16   0x1E40             SUBS     R0,R0,#+1
-   \       0x18   0xF8AD 0x000C      STRH     R0,[SP, #+12]
-     37          	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-   \       0x1C   0x2000             MOVS     R0,#+0
-   \       0x1E   0xF8AD 0x0012      STRH     R0,[SP, #+18]
-     38          	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-   \       0x22   0x2000             MOVS     R0,#+0
-   \       0x24   0xF8AD 0x000E      STRH     R0,[SP, #+14]
-     39          	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-   \       0x28   0x....             LDR.N    R4,??DataTable4_3
-   \       0x2A   0xA903             ADD      R1,SP,#+12
-   \       0x2C   0x0020             MOVS     R0,R4
-   \       0x2E   0x.... 0x....      BL       TIM_TimeBaseInit
-     40          
-     41          	/* PWM1 Mode configuration: Channel3 */
-     42          	TIM_ICInitTypeDef TIM_ICInitStructure;
-     43          	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;		// input capture timing
-   \       0x32   0x2000             MOVS     R0,#+0
-   \       0x34   0xF8AD 0x0002      STRH     R0,[SP, #+2]
-     44          	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;	// TIM Input1 is connected to IC1
-   \       0x38   0x2001             MOVS     R0,#+1
-   \       0x3A   0xF8AD 0x0004      STRH     R0,[SP, #+4]
-     45          	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
-   \       0x3E   0x2000             MOVS     R0,#+0
-   \       0x40   0xF8AD 0x0006      STRH     R0,[SP, #+6]
-     46          	TIM_ICInitStructure.TIM_ICFilter = 0x0;
-   \       0x44   0x2000             MOVS     R0,#+0
-   \       0x46   0xF8AD 0x0008      STRH     R0,[SP, #+8]
-     47          	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
-   \       0x4A   0x2000             MOVS     R0,#+0
-   \       0x4C   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     48          	TIM_ICInit(TIM3, &TIM_ICInitStructure);
-   \       0x50   0x4669             MOV      R1,SP
-   \       0x52   0x0020             MOVS     R0,R4
-   \       0x54   0x.... 0x....      BL       TIM_ICInit
-     49          	TIM_Cmd(TIM3, ENABLE);
-   \       0x58   0x2101             MOVS     R1,#+1
-   \       0x5A   0x0020             MOVS     R0,R4
-   \       0x5C   0x.... 0x....      BL       TIM_Cmd
-     50          	TIM_ITConfig(TIM3, TIM_IT_CC1, ENABLE);
-   \       0x60   0x2201             MOVS     R2,#+1
-   \       0x62   0x2102             MOVS     R1,#+2
-   \       0x64   0x0020             MOVS     R0,R4
-   \       0x66   0x.... 0x....      BL       TIM_ITConfig
-     51          }
-   \       0x6A   0xB006             ADD      SP,SP,#+24
-   \       0x6C   0xBD10             POP      {R4,PC}
-     52          
+     41          void RCC_Configure(void) {
+     42              //RCC_APB1PeriphClockCmd(); 
+     43              //RCC_APB2PeriphClockCmd(); 
+     44              //RCC_AHBPeriphClockCmd();
+     45          }
+   \                     RCC_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     46          
+     47          
+     48          /**
+     49           * @brief Enable GPIO Pins using GPIO_InitTypeDef
+     50           */
 
    \                                 In section .text, align 2, keep-with-next
-     53          void Ultra_NVIC_Configure(void) {
-   \                     Ultra_NVIC_Configure: (+1)
+     51          void GPIO_Configure(void) {
+     52              //GPIO_InitTypeDef GPIO_InitStruct;
+     53          }
+   \                     GPIO_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     54          
+     55          /**
+     56           * @brief ADC Configure using ADC_InitTypeDef
+     57           */
+
+   \                                 In section .text, align 2, keep-with-next
+     58          void ADC_Configure(void) {
+     59              //ADC_InitTypeDef ADC_InitStruct;
+     60          }
+   \                     ADC_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     61          
+     62          /**
+     63           * @brief DMA Configure using DMA_InitTypeDef
+     64           */
+
+   \                                 In section .text, align 2, keep-with-next
+     65          void DMA_Configure(void) {
+     66              //DMA_InitTypeDef DMA_InitStruct;
+     67          }
+   \                     DMA_Configure: (+1)
+   \        0x0   0x4770             BX       LR
+     68          
+     69          /**
+     70           * @brief excute All configuration function
+     71           */
+
+   \                                 In section .text, align 2, keep-with-next
+     72          void Init_Configure(void) {
+   \                     Init_Configure: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     54          	// Enable the TIM3 global Interrupt
-     55                  NVIC_InitTypeDef NVIC_InitStructure;
-     56          	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
-   \        0x2   0x201D             MOVS     R0,#+29
-   \        0x4   0xF88D 0x0000      STRB     R0,[SP, #+0]
-     57          	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-   \        0x8   0x2000             MOVS     R0,#+0
-   \        0xA   0xF88D 0x0001      STRB     R0,[SP, #+1]
-     58          	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-   \        0xE   0x2000             MOVS     R0,#+0
-   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     59          	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-   \       0x14   0x2001             MOVS     R0,#+1
-   \       0x16   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     60          	NVIC_Init(&NVIC_InitStructure);
-   \       0x1A   0x4668             MOV      R0,SP
-   \       0x1C   0x.... 0x....      BL       NVIC_Init
-     61          }
-   \       0x20   0xBD01             POP      {R0,PC}
-     62          
-
-   \                                 In section .text, align 2, keep-with-next
-     63          void Ultra_Init(void) {
-   \                     Ultra_Init: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
-     64          	Ultra_RCC_Configure();
-   \        0x2   0x.... 0x....      BL       Ultra_RCC_Configure
-     65          	Ultra_GPIO_Configure();
-   \        0x6   0x.... 0x....      BL       Ultra_GPIO_Configure
-     66          	Ultra_TIM_Configure();
-   \        0xA   0x.... 0x....      BL       Ultra_TIM_Configure
-     67          	Ultra_NVIC_Configure();
-   \        0xE   0x.... 0x....      BL       Ultra_NVIC_Configure
-     68          }
+     73              //Init System
+     74              SystemInit();
+   \        0x2   0x.... 0x....      BL       SystemInit
+     75              //RCC_Configure();
+     76              //GPIO_Configure();
+     77              //ADC_Configure();
+     78              //TIM_Configure();
+     79              //EXTI_Configure();
+     80              //NVIC_Configure();
+     81              //DMA_Configure();
+     82          
+     83              //Init Modules
+     84              Servo_Init();
+   \        0x6   0x.... 0x....      BL       Servo_Init
+     85              //PIR_Init();
+     86              Ultra_Init();
+   \        0xA   0x.... 0x....      BL       Ultra_Init
+     87              //Dist_Init();
+     88              DC_Motor_Init();
+   \        0xE   0x.... 0x....      BL       DC_Motor_Init
+     89              //Gesture_Init();
+     90          }
    \       0x12   0xBD01             POP      {R0,PC}
-     69          
+     91          
+     92          /**
+     93           * @brief Delay around 0.1 * t sec
+     94           */
 
    \                                 In section .text, align 2, keep-with-next
-     70          void Ultra_TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
-   \                     Ultra_TIM3_IRQHandler: (+1)
-   \        0x0   0xB538             PUSH     {R3-R5,LR}
-     71          	/*ITStatus*/
-     72          	if (TIM_GetITStatus(TIM3, TIM_IT_CC1) == SET)	// if there is input value that has been captured
-   \        0x2   0x....             LDR.N    R4,??DataTable4_3
-   \        0x4   0x2102             MOVS     R1,#+2
-   \        0x6   0x0020             MOVS     R0,R4
-   \        0x8   0x.... 0x....      BL       TIM_GetITStatus
-   \        0xC   0x2801             CMP      R0,#+1
-   \        0xE   0xD12E             BNE.N    ??Ultra_TIM3_IRQHandler_0
-     73          	{												// (= if TIM3->SR register CC1IF bit is High)
-     74          
-     75          		TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);	// clear TIM3->SR register CC1IF bit to Low
-   \       0x10   0x2102             MOVS     R1,#+2
-   \       0x12   0x0020             MOVS     R0,R4
-   \       0x14   0x.... 0x....      BL       TIM_ClearITPendingBit
-     76          
-     77          		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET)	// if Timer3 Ch1 pin(PA6) value is High (rising edge)
-   \       0x18   0x2140             MOVS     R1,#+64
-   \       0x1A   0x....             LDR.N    R0,??DataTable4
-   \       0x1C   0x.... 0x....      BL       GPIO_ReadInputDataBit
-   \       0x20   0x2801             CMP      R0,#+1
-   \       0x22   0xD10A             BNE.N    ??Ultra_TIM3_IRQHandler_1
-     78          		{
-     79          			cap_rising_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at rising edge)
-   \       0x24   0x0020             MOVS     R0,R4
-   \       0x26   0x.... 0x....      BL       TIM_GetCapture1
-   \       0x2A   0x....             LDR.N    R1,??DataTable4_4
-   \       0x2C   0x6008             STR      R0,[R1, #+0]
-     80          			TIM3->CCER |= TIM_CCER_CC1P;	// change ICPolarity(capture timing) to falling edge
-   \       0x2E   0x....             LDR.N    R0,??DataTable4_5
-   \       0x30   0x8801             LDRH     R1,[R0, #+0]
-   \       0x32   0xF051 0x0102      ORRS     R1,R1,#0x2
-   \       0x36   0x8001             STRH     R1,[R0, #+0]
-   \       0x38   0xE019             B.N      ??Ultra_TIM3_IRQHandler_0
-     81          		}
-     82          		else			// if Timer3 Ch1 pin(PA6) value is Low (falling edge)
-     83          		{
-     84          			cap_falling_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at falling edge)
-   \                     ??Ultra_TIM3_IRQHandler_1: (+1)
-   \       0x3A   0x....             LDR.N    R5,??DataTable4_6
-   \       0x3C   0x0020             MOVS     R0,R4
-   \       0x3E   0x.... 0x....      BL       TIM_GetCapture1
-   \       0x42   0x6028             STR      R0,[R5, #+0]
-     85          			pulse_width = (uint32_t)(cap_falling_edge - cap_rising_edge);
-   \       0x44   0x....             LDR.N    R2,??DataTable4_7
-   \       0x46   0x6829             LDR      R1,[R5, #+0]
-   \       0x48   0x....             LDR.N    R0,??DataTable4_4
-   \       0x4A   0x6800             LDR      R0,[R0, #+0]
-   \       0x4C   0x1A09             SUBS     R1,R1,R0
-   \       0x4E   0x6011             STR      R1,[R2, #+0]
-     86          			TIM3->CCER &= ~TIM_CCER_CC1P;	// change ICPolarity(capture timing) to rising edge
-   \       0x50   0x....             LDR.N    R1,??DataTable4_5
-   \       0x52   0x880B             LDRH     R3,[R1, #+0]
-   \       0x54   0xF64F 0x70FD      MOVW     R0,#+65533
-   \       0x58   0x4003             ANDS     R3,R0,R3
-   \       0x5A   0x800B             STRH     R3,[R1, #+0]
-     87          			
-     88          
-     89          
-     90          			/*	Result Distance (cm)	*/
-     91          			Distance = pulse_width * 17 / 1000;
-   \       0x5C   0x6811             LDR      R1,[R2, #+0]
-   \       0x5E   0x2011             MOVS     R0,#+17
-   \       0x60   0x4341             MULS     R1,R0,R1
-   \       0x62   0xF44F 0x707A      MOV      R0,#+1000
-   \       0x66   0xFB91 0xF0F0      SDIV     R0,R1,R0
-   \       0x6A   0x....             LDR.N    R1,??DataTable4_8
-   \       0x6C   0x6008             STR      R0,[R1, #+0]
-     92          		}
-     93          	}
-     94          }
-   \                     ??Ultra_TIM3_IRQHandler_0: (+1)
-   \       0x6E   0xBD31             POP      {R0,R4,R5,PC}
-     95          
-     96          /* Library Function */
+     95          void Delay(uint16_t t) {
+     96              for (uint32_t j = 0; j < t; j++)
+   \                     Delay: (+1)
+   \        0x0   0x2100             MOVS     R1,#+0
+   \        0x2   0xE004             B.N      ??Delay_0
+     97                  for (uint32_t i = 0; i < 1000000; i++) ;
+   \                     ??Delay_1: (+1)
+   \        0x4   0x1C52             ADDS     R2,R2,#+1
+   \                     ??Delay_2: (+1)
+   \        0x6   0x....             LDR.N    R3,??DataTable1
+   \        0x8   0x429A             CMP      R2,R3
+   \        0xA   0xD3FB             BCC.N    ??Delay_1
+   \        0xC   0x1C49             ADDS     R1,R1,#+1
+   \                     ??Delay_0: (+1)
+   \        0xE   0x0002             MOVS     R2,R0
+   \       0x10   0xB292             UXTH     R2,R2
+   \       0x12   0x4291             CMP      R1,R2
+   \       0x14   0xD201             BCS.N    ??Delay_3
+   \       0x16   0x2200             MOVS     R2,#+0
+   \       0x18   0xE7F5             B.N      ??Delay_2
+     98          }
+   \                     ??Delay_3: (+1)
+   \       0x1A   0x4770             BX       LR
+     99          
 
    \                                 In section .text, align 2, keep-with-next
-     97          void TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
-   \                     TIM3_IRQHandler: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
-     98          	Ultra_TIM3_IRQHandler();
-   \        0x2   0x.... 0x....      BL       Ultra_TIM3_IRQHandler
-     99          }
-   \        0x6   0xBD01             POP      {R0,PC}
-    100          
-
-   \                                 In section .text, align 2, keep-with-next
-    101          void Ultra_Trigger(void) {
-   \                     Ultra_Trigger: (+1)
-   \        0x0   0xB510             PUSH     {R4,LR}
-    102          	int i;
-    103          
-    104          	GPIO_SetBits(GPIOA, GPIO_Pin_7);	// set trigger
-   \        0x2   0x....             LDR.N    R4,??DataTable4
-   \        0x4   0x2180             MOVS     R1,#+128
-   \        0x6   0x0020             MOVS     R0,R4
-   \        0x8   0x.... 0x....      BL       GPIO_SetBits
-    105          	for (i = 0; i < 50000; i++) {
-   \        0xC   0x2000             MOVS     R0,#+0
-   \        0xE   0xE000             B.N      ??Ultra_Trigger_0
-   \                     ??Ultra_Trigger_1: (+1)
-   \       0x10   0x1C40             ADDS     R0,R0,#+1
-   \                     ??Ultra_Trigger_0: (+1)
-   \       0x12   0xF24C 0x3150      MOVW     R1,#+50000
-   \       0x16   0x4288             CMP      R0,R1
-   \       0x18   0xDBFA             BLT.N    ??Ultra_Trigger_1
-    106          		/* delay(); */				// send ultrasonic wave
-    107          	}	
-    108          	GPIO_ResetBits(GPIOA, GPIO_Pin_7);	// reset trigger
-   \       0x1A   0x2180             MOVS     R1,#+128
-   \       0x1C   0x0020             MOVS     R0,R4
-   \       0x1E   0x.... 0x....      BL       GPIO_ResetBits
-    109          }
-   \       0x22   0xBD10             POP      {R4,PC}
-    110          
-    111          
-
-   \                                 In section .text, align 2, keep-with-next
-    112          void Ultra_Measure_Distance(void) {	// Call in main function
-   \                     Ultra_Measure_Distance: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
-    113          	Ultra_Init();
-   \        0x2   0x.... 0x....      BL       Ultra_Init
-    114          	while (1) {
-    115          		Ultra_Trigger();
-   \                     ??Ultra_Measure_Distance_0: (+1)
-   \        0x6   0x.... 0x....      BL       Ultra_Trigger
-   \        0xA   0xE7FC             B.N      ??Ultra_Measure_Distance_0
-    116          	}
-    117          }
-    118          
-    119          
-    120          
-
-   \                                 In section .text, align 2, keep-with-next
-    121          int main() {
+    100          int main(void) {
    \                     main: (+1)
-   \        0x0   0xB580             PUSH     {R7,LR}
-    122          	Ultra_Measure_Distance();
-   \        0x2   0x.... 0x....      BL       Ultra_Measure_Distance
-    123          }
-   \        0x6   0x2000             MOVS     R0,#+0
-   \        0x8   0xBD02             POP      {R1,PC}
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+    101          
+    102              Init_Configure();
+   \        0x2   0x.... 0x....      BL       Init_Configure
+    103          
+    104              uint16_t state = STATE_OFF;
+   \        0x6   0xF44F 0x5080      MOV      R0,#+4096
+    105          
+    106              uint16_t position = MID;
+   \        0xA   0x2001             MOVS     R0,#+1
+    107              uint16_t angle;
+    108              uint16_t pre_angle;
+    109          
+    110              uint32_t distance = 0;
+   \        0xC   0x2400             MOVS     R4,#+0
+    111              uint16_t interval = 10;
+   \        0xE   0x250A             MOVS     R5,#+10
+    112              uint32_t speed = 0;
+   \       0x10   0x2000             MOVS     R0,#+0
+    113              
+    114              while(1){	
+    115          		DC_Motor_Speed(distance);
+   \                     ??main_0: (+1)
+   \       0x12   0x0020             MOVS     R0,R4
+   \       0x14   0x.... 0x....      BL       DC_Motor_Speed
+    116          		distance += interval;
+   \       0x18   0x0028             MOVS     R0,R5
+   \       0x1A   0xB280             UXTH     R0,R0
+   \       0x1C   0x1904             ADDS     R4,R0,R4
+    117                          if (distance > 200) distance = 0;
+   \       0x1E   0x2CC9             CMP      R4,#+201
+   \       0x20   0xD300             BCC.N    ??main_1
+   \       0x22   0x2400             MOVS     R4,#+0
+    118                  // state = UART_GetState();
+    119                  // // use PIR Sensor
+    120                  // if(state && STATE_OFF || PIR_Get_Exist() == false ) {
+    121                  //     Delay(2);
+    122                  //     continue;
+    123                  // }
+    124                  // // use Ultrasound Sensor
+    125                  // angle = Usound_Get_Angle();
+    126          
+    127                  // if(pre_angle != angle){
+    128                  //     // use Servo Motor
+    129                  //     Servo_Turn(angle);
+    130                  //     Delay(20);
+    131                  // }
+    132                  // // use Distance Sensor
+    133                  // distance = Dist_Get_Distance();
+    134                  // // use DC Motor
+    135                  // DC_Update(distance);
+    136          
+    137                  // pre_angle = angle;
+    138                  Delay(2);
+   \                     ??main_1: (+1)
+   \       0x24   0x2002             MOVS     R0,#+2
+   \       0x26   0x.... 0x....      BL       Delay
+   \       0x2A   0xE7F2             B.N      ??main_0
+    139              }
+    140              return 0;
+                     ^
+Warning[Pe111]: statement is unreachable
+
+      uint16_t state = STATE_OFF;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",104  Warning[Pe177]: variable
+          "state" was declared but never referenced
+
+      uint16_t position = MID;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",106  Warning[Pe177]: variable
+          "position" was declared but never referenced
+
+      uint16_t angle;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",107  Warning[Pe177]: variable
+          "angle" was declared but never referenced
+
+      uint16_t pre_angle;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",108  Warning[Pe177]: variable
+          "pre_angle" was declared but never referenced
+
+      uint32_t speed = 0;
+               ^
+"C:\code\Embedded_Lab\term_project\user\main.c",112  Warning[Pe177]: variable
+          "speed" was declared but never referenced
+    141          }
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4:
-   \        0x0   0x4001'0800        DC32     0x40010800
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_1:
-   \        0x0   0x....'....        DC32     SystemCoreClock
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_2:
+   \                     ??DataTable1:
    \        0x0   0x000F'4240        DC32     0xf4240
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_3:
-   \        0x0   0x4000'0400        DC32     0x40000400
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_4:
-   \        0x0   0x....'....        DC32     cap_rising_edge
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_5:
-   \        0x0   0x4000'0420        DC32     0x40000420
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_6:
-   \        0x0   0x....'....        DC32     cap_falling_edge
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_7:
-   \        0x0   0x....'....        DC32     pulse_width
-
-   \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_8:
-   \        0x0   0x....'....        DC32     Distance
-    124          
 
    Maximum stack usage in bytes:
 
    .cstack Function
    ------- --------
-       8   TIM3_IRQHandler
-         8   -> Ultra_TIM3_IRQHandler
-      16   Ultra_GPIO_Configure
-        16   -> GPIO_Init
-       8   Ultra_Init
-         8   -> Ultra_GPIO_Configure
-         8   -> Ultra_NVIC_Configure
-         8   -> Ultra_RCC_Configure
-         8   -> Ultra_TIM_Configure
-       8   Ultra_Measure_Distance
+       0   ADC_Configure
+       0   DMA_Configure
+       0   Delay
+       0   GPIO_Configure
+       8   Init_Configure
+         8   -> DC_Motor_Init
+         8   -> Servo_Init
+         8   -> SystemInit
          8   -> Ultra_Init
-         8   -> Ultra_Trigger
-       8   Ultra_NVIC_Configure
-         8   -> NVIC_Init
-       8   Ultra_RCC_Configure
-         8   -> RCC_APB1PeriphClockCmd
-         8   -> RCC_APB2PeriphClockCmd
-      16   Ultra_TIM3_IRQHandler
-        16   -> GPIO_ReadInputDataBit
-        16   -> TIM_ClearITPendingBit
-        16   -> TIM_GetCapture1
-        16   -> TIM_GetITStatus
-      32   Ultra_TIM_Configure
-        32   -> TIM_Cmd
-        32   -> TIM_ICInit
-        32   -> TIM_ITConfig
-        32   -> TIM_TimeBaseInit
-       8   Ultra_Trigger
-         8   -> GPIO_ResetBits
-         8   -> GPIO_SetBits
-       8   main
-         8   -> Ultra_Measure_Distance
+       0   RCC_Configure
+      16   main
+        16   -> DC_Motor_Speed
+        16   -> Delay
+        16   -> Init_Configure
 
 
    Section sizes:
 
    Bytes  Function/Label
    -----  --------------
-       4  ??DataTable4
-       4  ??DataTable4_1
-       4  ??DataTable4_2
-       4  ??DataTable4_3
-       4  ??DataTable4_4
-       4  ??DataTable4_5
-       4  ??DataTable4_6
-       4  ??DataTable4_7
-       4  ??DataTable4_8
-       4  Distance
-       8  TIM3_IRQHandler
-      58  Ultra_GPIO_Configure
-      20  Ultra_Init
-      12  Ultra_Measure_Distance
-      34  Ultra_NVIC_Configure
-      28  Ultra_RCC_Configure
-     112  Ultra_TIM3_IRQHandler
-     110  Ultra_TIM_Configure
-      36  Ultra_Trigger
-       4  cap_falling_edge
-       4  cap_rising_edge
-      10  main
-       4  pulse_width
+       4  ??DataTable1
+       2  ADC_Configure
+       2  DMA_Configure
+      28  Delay
+       2  GPIO_Configure
+      20  Init_Configure
+       2  RCC_Configure
+      44  main
 
  
-  16 bytes in section .bss
- 464 bytes in section .text
+ 104 bytes in section .text
  
- 464 bytes of CODE memory
-  16 bytes of DATA memory
+ 104 bytes of CODE memory
 
 Errors: none
-Warnings: none
+Warnings: 6

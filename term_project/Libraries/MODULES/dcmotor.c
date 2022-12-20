@@ -4,6 +4,12 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_tim.h"
 
+void DC_Motor_RCC_Configure(void) {
+   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE); // Tim4 Clock enable.
+   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+   RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+}
+
 void DC_Motor_GPIO_Configure(void) {
   GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -38,18 +44,19 @@ void DC_Motor_PWM_Configure(void) {
   TIM_Cmd(TIM4, ENABLE);
 }
 
-void DC_Motor_RCC_configure(void) {
-   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE); // Tim4 Clock enable.
-   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
-   RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+void DC_Motor_Init(void){
+  DC_Motor_RCC_Configure();
+  DC_Motor_GPIO_Configure();
+  DC_Motor_PWM_Configure();
 }
 
-void DC_Motor_Speed(float distance) {
-   if(distance < 50.0f)
+void DC_Motor_Speed(uint32_t distance) {
+   if(distance < 50)
+     TIM4->CCR1 = CCR4_Val4;
+   else if(distance < 100)
      TIM4->CCR1 = CCR3_Val4;
-   else if(distance < 100.0f)
+   else if(distance < 150)
      TIM4->CCR1 = CCR2_Val4;
-   else if(distance < 150.0f)
+   else 
      TIM4->CCR1 = CCR1_Val4;
-   
 }

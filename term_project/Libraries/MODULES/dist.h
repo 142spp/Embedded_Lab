@@ -1,5 +1,5 @@
-#ifndef GP2Y
-#define GP2Y
+#ifndef __DIST
+#define __DIST  
 
 #include "stdint.h"
 #include "stm32f10x.h"

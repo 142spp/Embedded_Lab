@@ -42,8 +42,6 @@ void Servo_Pwm_Init(void){
     // if Period = 1000
     // 0.5/20 * 1000 = 25
 
-    // if Period = 20000
-    // 0.5/20 * 20000 = 500
 
     TIM_OC3Init(TIM3, &TIM_OCInitStructure);
     TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Disable);

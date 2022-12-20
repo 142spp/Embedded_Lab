@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         07/Dec/2022  20:35:45
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  10:58:54
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode          =  thumb
@@ -57,7 +57,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\uart.c
    \        0x8   0x2201             MOVS     R2,#+1
    \        0xA   0xF010 0x011F      ANDS     R1,R0,#0x1F
    \        0xE   0x408A             LSLS     R2,R2,R1
-   \       0x10   0x....             LDR.N    R1,??DataTable4
+   \       0x10   0x....             LDR.N    R1,??DataTable5
    \       0x12   0xB240             SXTB     R0,R0
    \       0x14   0x0940             LSRS     R0,R0,#+5
    \       0x16   0xF841 0x2020      STR      R2,[R1, R0, LSL #+2]
@@ -117,7 +117,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\uart.c
    \       0x10   0x2018             MOVS     R0,#+24
    \       0x12   0xF88D 0x0003      STRB     R0,[SP, #+3]
      27              GPIO_Init(GPIOA, &GPIO_InitStructure);
-   \       0x16   0x....             LDR.N    R4,??DataTable4_1
+   \       0x16   0x....             LDR.N    R4,??DataTable5_1
    \       0x18   0x4669             MOV      R1,SP
    \       0x1A   0x0020             MOVS     R0,R4
    \       0x1C   0x.... 0x....      BL       GPIO_Init
@@ -146,7 +146,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\uart.c
      36              USART_InitTypeDef USART1_InitStructure;
      37          
      38              USART_Cmd(USART1, ENABLE);
-   \        0x2   0x....             LDR.N    R4,??DataTable4_2
+   \        0x2   0x....             LDR.N    R4,??DataTable5_2
    \        0x4   0x2101             MOVS     R1,#+1
    \        0x6   0x0020             MOVS     R0,R4
    \        0x8   0x.... 0x....      BL       USART_Cmd
@@ -262,23 +262,43 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\uart.c
      69          
      70              uart_state |= to_update;
    \                     ??UART_UpdateState_1: (+1)
-   \       0x50   0x....             LDR.N    R0,??DataTable4_3
+   \       0x50   0x....             LDR.N    R0,??DataTable5_3
    \       0x52   0x8802             LDRH     R2,[R0, #+0]
    \       0x54   0x4311             ORRS     R1,R1,R2
    \       0x56   0x8001             STRH     R1,[R0, #+0]
      71          }
    \       0x58   0x4770             BX       LR
-     72          /*
+     72          
+
+   \                                 In section .text, align 2, keep-with-next
      73          void USART1_IRQHandler(void) {
+   \                     USART1_IRQHandler: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
      74              uint16_t data;
      75              if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
+   \        0x2   0x....             LDR.N    R4,??DataTable5_2
+   \        0x4   0xF240 0x5525      MOVW     R5,#+1317
+   \        0x8   0x0029             MOVS     R1,R5
+   \        0xA   0x0020             MOVS     R0,R4
+   \        0xC   0x.... 0x....      BL       USART_GetITStatus
+   \       0x10   0x2800             CMP      R0,#+0
+   \       0x12   0xD009             BEQ.N    ??USART1_IRQHandler_0
      76                  // the most recent received data by the USART1 peripheral
      77                  data = USART_ReceiveData(USART1);
+   \       0x14   0x0020             MOVS     R0,R4
+   \       0x16   0x.... 0x....      BL       USART_ReceiveData
      78                  UART_UpdateState(data);
+   \       0x1A   0xB280             UXTH     R0,R0
+   \       0x1C   0x.... 0x....      BL       UART_UpdateState
      79                  // clear 'Read data register not empty' flag
      80                  USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+   \       0x20   0x0029             MOVS     R1,R5
+   \       0x22   0x0020             MOVS     R0,R4
+   \       0x24   0x.... 0x....      BL       USART_ClearITPendingBit
      81              }
-     82          }*/
+     82          }
+   \                     ??USART1_IRQHandler_0: (+1)
+   \       0x28   0xBD31             POP      {R0,R4,R5,PC}
      83          
 
    \                                 In section .text, align 2, keep-with-next
@@ -303,25 +323,25 @@ Warning[Pe223]: function "URAT_USART1_Init" declared implicitly
      91          uint16_t UART_GetState(void){
      92              return uart_state;
    \                     UART_GetState: (+1)
-   \        0x0   0x....             LDR.N    R0,??DataTable4_3
+   \        0x0   0x....             LDR.N    R0,??DataTable5_3
    \        0x2   0x8800             LDRH     R0,[R0, #+0]
    \        0x4   0x4770             BX       LR
      93          }
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4:
+   \                     ??DataTable5:
    \        0x0   0xE000'E100        DC32     0xe000e100
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_1:
+   \                     ??DataTable5_1:
    \        0x0   0x4001'0800        DC32     0x40010800
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_2:
+   \                     ??DataTable5_2:
    \        0x0   0x4001'3800        DC32     0x40013800
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable4_3:
+   \                     ??DataTable5_3:
    \        0x0   0x....'....        DC32     uart_state
      94          
 
@@ -347,6 +367,11 @@ Warning[Pe223]: function "URAT_USART1_Init" declared implicitly
         24   -> USART_ITConfig
         24   -> USART_Init
        0   UART_UpdateState
+      16   USART1_IRQHandler
+        16   -> UART_UpdateState
+        16   -> USART_ClearITPendingBit
+        16   -> USART_GetITStatus
+        16   -> USART_ReceiveData
        0   __NVIC_EnableIRQ
 
 
@@ -354,10 +379,10 @@ Warning[Pe223]: function "URAT_USART1_Init" declared implicitly
 
    Bytes  Function/Label
    -----  --------------
-       4  ??DataTable4
-       4  ??DataTable4_1
-       4  ??DataTable4_2
-       4  ??DataTable4_3
+       4  ??DataTable5
+       4  ??DataTable5_1
+       4  ??DataTable5_2
+       4  ??DataTable5_3
       62  UART_GPIO_Init
        6  UART_GetState
       20  UART_Init
@@ -365,14 +390,15 @@ Warning[Pe223]: function "URAT_USART1_Init" declared implicitly
       30  UART_RCC_Init
       70  UART_USART1_Init
       90  UART_UpdateState
+      42  USART1_IRQHandler
       28  __NVIC_EnableIRQ
        2  uart_state
 
  
    2 bytes in section .bss
- 362 bytes in section .text
+ 404 bytes in section .text
  
- 362 bytes of CODE memory
+ 404 bytes of CODE memory
    2 bytes of DATA memory
 
 Errors: none

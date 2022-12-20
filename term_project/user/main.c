@@ -15,10 +15,8 @@
 #include "servo.h"
 #include "uart.h"
 #include "ultra.h"
-#include "GP2Y.h"
 #include "pir.h"
 #include "dcmotor.h"
-#include "tim.h"
 #include "pwm.h"
 
 enum { OFF = 0, ON = 1 } ; 
@@ -46,7 +44,6 @@ void RCC_Configure(void) {
     //RCC_AHBPeriphClockCmd();
 }
 
-
 /**
  * @brief Enable GPIO Pins using GPIO_InitTypeDef
  */
@@ -60,7 +57,24 @@ void GPIO_Configure(void) {
 void ADC_Configure(void) {
     //ADC_InitTypeDef ADC_InitStruct;
 }
-
+/**
+ * @brief TIM Configure using TIM_TimeBaseInitTypeDef, TIM_ICTypedef
+ */
+void TIM_Configure(void) {
+    //TIM_TimeBaseInitTypeDef TIM_InitStruct;
+}
+/**
+ * @brief EXTI Configure using EXTI_InitTypeDef
+ */
+void EXTI_Configure(void) {
+    //EXTI_InitTypeDef EXTI_InitStruct;
+}
+/**
+ * @brief NVIC Configure using NVIC_InitTypeDef
+ */
+void NVIC_Configure(void) {
+    //NVIC_InitTypeDef NVIC_InitStruct;
+}
 /**
  * @brief DMA Configure using DMA_InitTypeDef
  */
@@ -74,21 +88,21 @@ void DMA_Configure(void) {
 void Init_Configure(void) {
     //Init System
     SystemInit();
-    //RCC_Configure();
-    //GPIO_Configure();
-    //ADC_Configure();
-    //TIM_Configure();
-    //EXTI_Configure();
-    //NVIC_Configure();
-    //DMA_Configure();
+    RCC_Configure();
+    GPIO_Configure();
+    ADC_Configure();
+    TIM_Configure();
+    EXTI_Configure();
+    NVIC_Configure();
+    DMA_Configure();
 
     //Init Modules
+    DC_Motor_Init();
+    Dist_Init();
+    PIR_Init();
     Servo_Init();
-    //PIR_Init();
+    UART_Init();
     Ultra_Init();
-    //Dist_Init();
-    //DC_Init();
-    //Gesture_Init();
 }
 
 /**
@@ -109,14 +123,19 @@ int main(void) {
     uint16_t angle;
     uint16_t pre_angle;
 
-    uint32_t distance;
-    uint16_t interval = 50;
+    uint32_t distance = 0;
+    uint16_t interval = 10;
     uint32_t speed = 0;
     
-    while(1){
+    while(1){	
         state = UART_GetState();
         // use PIR Sensor
-        if(state && STATE_OFF || PIR_Get_Exist() == false ) {
+        if( state == STATE_OFF) {
+            Delay(2);
+            continue;
+        }   // turn of machine
+
+        if ( PIR_Get_Exist() == false ) {
             Delay(2);
             continue;
         }

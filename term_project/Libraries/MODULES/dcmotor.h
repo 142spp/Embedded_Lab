@@ -13,6 +13,7 @@
 void DC_Motor_PWM_Configure(void);
 void DC_Motor_GPIO_Configure(void);
 void DC_Motor_RCC_configure(void);
-void DC_Motor_Speed(float distance);
+void DC_Motor_Init(void);
+void DC_Motor_Speed(uint32_t distance);
 
 #endif

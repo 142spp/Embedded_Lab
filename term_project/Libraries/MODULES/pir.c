@@ -1,84 +1,82 @@
 #include "pir.h"
 
-/*void PIR_RCC_Configure(void) {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);   //PIR Sensor Pin Enable
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC, ENABLE);     //ADC Enable
-}*/
+#include "misc.h"
+#include "stm32f10x.h"
+#include "stm32f10x_exti.h"
 
-void PIR_RCC_Init(){
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);   //PIR Sensor Pin Enable
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);     //ADC Enable
+bool exist;
+
+void PIR_RCC_Init() {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);  // PIR Sensor Pin Enable
 }
 
 void PIR_GPIO_Init(void) {
     GPIO_InitTypeDef GPIO_InitStructure;
+    // GPIOA Configuration
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    //GPIOA Configuration
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    //PIR ADC1?GPIOA 0? Pin ??
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
-void PIR_ADC_Init(void){
-    ADC_InitTypeDef ADC_InitStructure;
+void PIR_EXTI_Init(void) {
+    EXTI_InitTypeDef EXTI_InitStructure;
 
-    //ADC1 Configuration
-    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-    ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
-    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-    ADC_InitStructure.ADC_NbrOfChannel = 1;
-    ADC_Init(ADC1, &ADC_InitStructure);
-?
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 0 is GPIOA_Pin0
-    ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
-    // ADC_DMACmd(ADC1, ENABLE);  // DMA Enable
-    ADC_Cmd(ADC1, ENABLE);     // ADC1 enable
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource6);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line6;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
 
-    ADC_ResetCalibration(ADC1);
-    while (ADC_GetResetCalibrationStatus(ADC1)) ;
-    ADC_StartCalibration(ADC1);
-    while (ADC_GetCalibrationStatus(ADC1)) ;
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource6);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line8;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
 }
 
 void PIR_NVIC_Init(void) {
     NVIC_InitTypeDef NVIC_InitStructure;
-
     // PIR Sensor
-    NVIC_InitStructure.NVIC_IRQChannel = ADC_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;         
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void ADC1_2_IRQHandler(void) {
-    //
+void PIR_IRQHandler(void) {
+    if (EXTI_GetITStatus(EXTI_Line6) != RESET || 
+        EXTI_GetITStatus(EXTI_Line8) != RESET) {
+        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6) == Bit_SET ||
+            GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8) == Bit_SET) {
+            exist = true;
+        } else {
+            exist = false;
+        }
+        EXTI_ClearITPendingBit(EXTI_Line6);
+        EXTI_ClearITPendingBit(EXTI_Line8);
+    }
 }
 
-void Pir_Delay(void) {
+void PIR_Delay(void) {
     for (int i = 0; i < 1000000; i++)
-        ;   
+        ;
 }
 
-void PIR_Init(void){
-    PIR_RCC_Init(void);
-    PIR_ADC_Init(void);
-    PIR_GPIO_Init(void);
-    PIR_NVIC_Init(void);
-    Pir_Delay(void);
+void PIR_Init(void) {
+    PIR_RCC_Init();
+    PIR_ADC_Init();
+    PIR_GPIO_Init();
+    PIR_EXIT_Init();
+    PIR_NVIC_Init();
 }
 
-//HIGH->on,LOW->off
-
-/*val = digitalRead(SensorOut);
-if (val == HIGH) {
-    digitalWrite(Led, HIGH);
+bool PIR_Get_Exist(void){
+    return exist;
 }
-else {
-    digitalWrite(Led, LOW);
-}
-delay(100);*/

@@ -1,0 +1,342 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  11:21:44
+# Copyright 1999-2022 IAR Systems AB.
+#
+#    Cpu mode          =  thumb
+#    Endian            =  little
+#    Source file       =
+#        C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
+#    Command line      =
+#        -f
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\dist.o.rsp
+#        (C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c -D
+#        USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\code\Embedded_Lab\term_project\Debug\List\Libraries\MODULES -o
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M3 -e --fpu=None
+#        --dlib_config "C:\Program Files\IAR Systems\Embedded Workbench
+#        9.1\arm\inc\c\DLib_Config_Normal.h" -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I C:\code\Embedded_Lab\term_project\libraries\LCD\ -I
+#        C:\code\Embedded_Lab\term_project\libraries\MODULES\ -I
+#        C:\code\Embedded_Lab\term_project\user\ -I
+#        C:\code\Embedded_Lab\term_project\user\inc\ -Ol -I "C:\Program
+#        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
+#        --dependencies=n
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\dist.o.d
+#    Locale            =  C
+#    List file         =
+#        C:\code\Embedded_Lab\term_project\Debug\List\Libraries\MODULES\dist.lst
+#    Object file       =
+#        C:\code\Embedded_Lab\term_project\Debug\Obj\Libraries\MODULES\dist.o
+#    Runtime model:       
+#      __CPP_Runtime   =  1
+#      __SystemLibrary =  DLib
+#      __dlib_version  =  6
+#      __size_limit    =  32768|ARM.EW.LINKER
+#
+###############################################################################
+
+C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
+      1          #include <math.h>
+      2          #include "stm32f10x.h"
+      3          #include "stm32f10x_adc.h"
+      4          #include "stm32f10x_gpio.h"
+      5          #include "stm32f10x_rcc.h"
+      6          
+      7          /* function prototype */
+      8          void Dist_RCC_Configure(void);
+      9          void Dist_GPIO_Configure(void);
+     10          void Dist_ADC_Configure(void);
+     11          void Dist_Init_Configure(void);
+     12          uint32_t Dist_Get_Distance(void);
+     13          
+
+   \                                 In section .bss, align 4
+     14          uint32_t Forward_Distance;
+   \                     Forward_Distance:
+   \        0x0                      DS8 4
+     15          
+     16          /**
+     17           * @brief Enable or Disable Clocks
+     18           */
+
+   \                                 In section .text, align 2, keep-with-next
+     19          void Dist_RCC_Configure(void) {
+   \                     Dist_RCC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     20              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); // Photoresistor Pin Enable
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x2008             MOVS     R0,#+8
+   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     21              RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);  // ADC Enable
+   \        0xA   0x2101             MOVS     R1,#+1
+   \        0xC   0xF44F 0x7000      MOV      R0,#+512
+   \       0x10   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     22          }
+   \       0x14   0xBD01             POP      {R0,PC}
+     23          /**
+     24           * @brief Enable GPIO Pins using GPIO_InitStructure
+     25           */
+
+   \                                 In section .text, align 2, keep-with-next
+     26          void Dist_GPIO_Configure(void) {
+   \                     Dist_GPIO_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     27              /* Photoresistor Enable */
+     28              GPIO_InitTypeDef GPIO_InitStructure;
+     29              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+   \        0x2   0x2001             MOVS     R0,#+1
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     30              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+   \        0x8   0x2000             MOVS     R0,#+0
+   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     31              GPIO_Init(GPIOB, &GPIO_InitStructure);
+   \        0xE   0x4669             MOV      R1,SP
+   \       0x10   0x....             LDR.N    R0,??DataTable4
+   \       0x12   0x.... 0x....      BL       GPIO_Init
+     32          	// GPIOA�� 0�� Pin�� �����. 
+     33          	// �̴� ���� ADC�� Channel0 ��. (schematic ����)
+     34          }
+   \       0x16   0xBD01             POP      {R0,PC}
+     35          /**
+     36           * @brief ADC Configure using ADC_InitStructure
+     37           */
+
+   \                                 In section .text, align 2, keep-with-next
+     38          void Dist_ADC_Configure(void) {
+   \                     Dist_ADC_Configure: (+1)
+   \        0x0   0xB518             PUSH     {R3,R4,LR}
+   \        0x2   0xB085             SUB      SP,SP,#+20
+     39              ADC_InitTypeDef ADC_InitStructure;
+     40          
+     41              // ADC1 Configuration
+     42              ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+   \        0x4   0x2000             MOVS     R0,#+0
+   \        0x6   0x9000             STR      R0,[SP, #+0]
+     43              ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+   \        0x8   0x2000             MOVS     R0,#+0
+   \        0xA   0xF88D 0x0004      STRB     R0,[SP, #+4]
+     44              ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+   \        0xE   0x2001             MOVS     R0,#+1
+   \       0x10   0xF88D 0x0005      STRB     R0,[SP, #+5]
+     45              ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+   \       0x14   0xF45F 0x2060      MOVS     R0,#+917504
+   \       0x18   0x9002             STR      R0,[SP, #+8]
+     46              ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+   \       0x1A   0x2000             MOVS     R0,#+0
+   \       0x1C   0x9003             STR      R0,[SP, #+12]
+     47              ADC_InitStructure.ADC_NbrOfChannel = 1;
+   \       0x1E   0x2001             MOVS     R0,#+1
+   \       0x20   0xF88D 0x0010      STRB     R0,[SP, #+16]
+     48              ADC_Init(ADC1, &ADC_InitStructure);
+   \       0x24   0x....             LDR.N    R4,??DataTable4_1
+   \       0x26   0x4669             MOV      R1,SP
+   \       0x28   0x0020             MOVS     R0,R4
+   \       0x2A   0x.... 0x....      BL       ADC_Init
+     49          	// �� �κ��� 8������ ����ߴ� �ڵ带 �״�� ���Ŷ� ���� ������� �ʾƵ� ��.
+     50              
+     51              ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
+   \       0x2E   0x2307             MOVS     R3,#+7
+   \       0x30   0x2201             MOVS     R2,#+1
+   \       0x32   0x2108             MOVS     R1,#+8
+   \       0x34   0x0020             MOVS     R0,R4
+   \       0x36   0x.... 0x....      BL       ADC_RegularChannelConfig
+     52              ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
+   \       0x3A   0x2201             MOVS     R2,#+1
+   \       0x3C   0xF44F 0x7108      MOV      R1,#+544
+   \       0x40   0x0020             MOVS     R0,R4
+   \       0x42   0x.... 0x....      BL       ADC_ITConfig
+     53              // ADC_DMACmd(ADC1, ENABLE);  // DMA Enable
+     54              ADC_Cmd(ADC1, ENABLE);     // ADC1 enable
+   \       0x46   0x2101             MOVS     R1,#+1
+   \       0x48   0x0020             MOVS     R0,R4
+   \       0x4A   0x.... 0x....      BL       ADC_Cmd
+     55          
+     56              ADC_ResetCalibration(ADC1);
+   \       0x4E   0x0020             MOVS     R0,R4
+   \       0x50   0x.... 0x....      BL       ADC_ResetCalibration
+     57              while (ADC_GetResetCalibrationStatus(ADC1)) ;
+   \                     ??Dist_ADC_Configure_0: (+1)
+   \       0x54   0x0020             MOVS     R0,R4
+   \       0x56   0x.... 0x....      BL       ADC_GetResetCalibrationStatus
+   \       0x5A   0x2800             CMP      R0,#+0
+   \       0x5C   0xD1FA             BNE.N    ??Dist_ADC_Configure_0
+     58              ADC_StartCalibration(ADC1);
+   \       0x5E   0x0020             MOVS     R0,R4
+   \       0x60   0x.... 0x....      BL       ADC_StartCalibration
+     59              while (ADC_GetCalibrationStatus(ADC1)) ;
+   \                     ??Dist_ADC_Configure_1: (+1)
+   \       0x64   0x0020             MOVS     R0,R4
+   \       0x66   0x.... 0x....      BL       ADC_GetCalibrationStatus
+   \       0x6A   0x2800             CMP      R0,#+0
+   \       0x6C   0xD1FA             BNE.N    ??Dist_ADC_Configure_1
+     60              ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+   \       0x6E   0x2101             MOVS     R1,#+1
+   \       0x70   0x0020             MOVS     R0,R4
+   \       0x72   0x.... 0x....      BL       ADC_SoftwareStartConvCmd
+     61          }
+   \       0x76   0xB006             ADD      SP,SP,#+24
+   \       0x78   0xBD10             POP      {R4,PC}
+     62          
+
+   \                                 In section .text, align 2, keep-with-next
+     63          void Dist_NVIC_Configure(void) {
+   \                     Dist_NVIC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     64              NVIC_InitTypeDef NVIC_InitStructure;
+     65          
+     66              NVIC_InitStructure.NVIC_IRQChannel = ADC1_2_IRQn;
+   \        0x2   0x2012             MOVS     R0,#+18
+   \        0x4   0xF88D 0x0000      STRB     R0,[SP, #+0]
+     67              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+   \        0x8   0x2000             MOVS     R0,#+0
+   \        0xA   0xF88D 0x0001      STRB     R0,[SP, #+1]
+     68              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+   \        0xE   0x2000             MOVS     R0,#+0
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     69              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+   \       0x14   0x2001             MOVS     R0,#+1
+   \       0x16   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     70              NVIC_Init(&NVIC_InitStructure);
+   \       0x1A   0x4668             MOV      R0,SP
+   \       0x1C   0x.... 0x....      BL       NVIC_Init
+     71          }
+   \       0x20   0xBD01             POP      {R0,PC}
+     72          
+     73          // void ADC1_2_IRQHandler(void) {
+
+   \                                 In section .text, align 2, keep-with-next
+     74          void Dist_IRQHandler(void) {
+   \                     Dist_IRQHandler: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+     75              if (ADC_GetITStatus(ADC1, ADC_IT_EOC) != RESET) {
+   \        0x2   0x....             LDR.N    R4,??DataTable4_1
+   \        0x4   0xF44F 0x7108      MOV      R1,#+544
+   \        0x8   0x0020             MOVS     R0,R4
+   \        0xA   0x.... 0x....      BL       ADC_GetITStatus
+   \        0xE   0x2800             CMP      R0,#+0
+   \       0x10   0xD009             BEQ.N    ??Dist_IRQHandler_0
+     76                  Forward_Distance = ADC_GetConversionValue(ADC1 );
+   \       0x12   0x0020             MOVS     R0,R4
+   \       0x14   0x.... 0x....      BL       ADC_GetConversionValue
+   \       0x18   0x....             LDR.N    R1,??DataTable4_2
+   \       0x1A   0x6008             STR      R0,[R1, #+0]
+     77                  //--- Clear ADC1 AWD pending interrupt bit
+     78                  ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
+   \       0x1C   0xF44F 0x7108      MOV      R1,#+544
+   \       0x20   0x0020             MOVS     R0,R4
+   \       0x22   0x.... 0x....      BL       ADC_ClearITPendingBit
+     79              }
+     80          }
+   \                     ??Dist_IRQHandler_0: (+1)
+   \       0x26   0xBD10             POP      {R4,PC}
+     81          
+     82          /**
+     83           * @brief excute All configuration function
+     84           */
+
+   \                                 In section .text, align 2, keep-with-next
+     85          void Dist_Init_Configure(void) {
+   \                     Dist_Init_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     86              SystemInit();
+   \        0x2   0x.... 0x....      BL       SystemInit
+     87              Dist_RCC_Configure();
+   \        0x6   0x.... 0x....      BL       Dist_RCC_Configure
+     88              Dist_GPIO_Configure();
+   \        0xA   0x.... 0x....      BL       Dist_GPIO_Configure
+     89              Dist_ADC_Configure();
+   \        0xE   0x.... 0x....      BL       Dist_ADC_Configure
+     90              Dist_NVIC_Configure();
+   \       0x12   0x.... 0x....      BL       Dist_NVIC_Configure
+     91          }
+   \       0x16   0xBD01             POP      {R0,PC}
+     92          
+
+   \                                 In section .text, align 2, keep-with-next
+     93          uint32_t Dist_Get_Distance() {
+     94              return Forward_Distance;
+   \                     Dist_Get_Distance: (+1)
+   \        0x0   0x....             LDR.N    R0,??DataTable4_2
+   \        0x2   0x6800             LDR      R0,[R0, #+0]
+   \        0x4   0x4770             BX       LR
+     95          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4:
+   \        0x0   0x4001'0C00        DC32     0x40010c00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4_1:
+   \        0x0   0x4001'2400        DC32     0x40012400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4_2:
+   \        0x0   0x....'....        DC32     Forward_Distance
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      32   Dist_ADC_Configure
+        32   -> ADC_Cmd
+        32   -> ADC_GetCalibrationStatus
+        32   -> ADC_GetResetCalibrationStatus
+        32   -> ADC_ITConfig
+        32   -> ADC_Init
+        32   -> ADC_RegularChannelConfig
+        32   -> ADC_ResetCalibration
+        32   -> ADC_SoftwareStartConvCmd
+        32   -> ADC_StartCalibration
+       8   Dist_GPIO_Configure
+         8   -> GPIO_Init
+       0   Dist_Get_Distance
+       8   Dist_IRQHandler
+         8   -> ADC_ClearITPendingBit
+         8   -> ADC_GetConversionValue
+         8   -> ADC_GetITStatus
+       8   Dist_Init_Configure
+         8   -> Dist_ADC_Configure
+         8   -> Dist_GPIO_Configure
+         8   -> Dist_NVIC_Configure
+         8   -> Dist_RCC_Configure
+         8   -> SystemInit
+       8   Dist_NVIC_Configure
+         8   -> NVIC_Init
+       8   Dist_RCC_Configure
+         8   -> RCC_APB2PeriphClockCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable4
+       4  ??DataTable4_1
+       4  ??DataTable4_2
+     122  Dist_ADC_Configure
+      24  Dist_GPIO_Configure
+       6  Dist_Get_Distance
+      40  Dist_IRQHandler
+      24  Dist_Init_Configure
+      34  Dist_NVIC_Configure
+      22  Dist_RCC_Configure
+       4  Forward_Distance
+
+ 
+   4 bytes in section .bss
+ 284 bytes in section .text
+ 
+ 284 bytes of CODE memory
+   4 bytes of DATA memory
+
+Errors: none
+Warnings: none

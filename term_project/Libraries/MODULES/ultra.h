@@ -1,3 +1,6 @@
+#ifndef __ULTRA
+#define __ULTRA
+
 #include "stm32f10x.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_tim.h"
@@ -12,6 +15,7 @@ void Ultra_TIM_Configure(void);
 void Ultra_NVIC_Configure(void);
 void Ultra_Init(void);
 void Ultra_TIM3_IRQHandler(void);
-
 void Ultra_Measure_Distance(void);
 uint32_t Ultra_Get_Distance(void);
+
+#endif

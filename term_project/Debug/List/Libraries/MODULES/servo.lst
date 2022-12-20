@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         30/Nov/2022  21:58:01
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  11:48:40
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode          =  thumb
@@ -114,99 +114,97 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\servo.c
      42              // if Period = 1000
      43              // 0.5/20 * 1000 = 25
      44          
-     45              // if Period = 20000
-     46              // 0.5/20 * 20000 = 500
-     47          
-     48              TIM_OC3Init(TIM3, &TIM_OCInitStructure);
+     45          
+     46              TIM_OC3Init(TIM3, &TIM_OCInitStructure);
    \       0x42   0xA903             ADD      R1,SP,#+12
    \       0x44   0x0020             MOVS     R0,R4
    \       0x46   0x.... 0x....      BL       TIM_OC3Init
-     49              TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Disable);
+     47              TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Disable);
    \       0x4A   0x2100             MOVS     R1,#+0
    \       0x4C   0x0020             MOVS     R0,R4
    \       0x4E   0x.... 0x....      BL       TIM_OC3PreloadConfig
-     50              
-     51              TIM_ARRPreloadConfig(TIM3, ENABLE);
+     48              
+     49              TIM_ARRPreloadConfig(TIM3, ENABLE);
    \       0x52   0x2101             MOVS     R1,#+1
    \       0x54   0x0020             MOVS     R0,R4
    \       0x56   0x.... 0x....      BL       TIM_ARRPreloadConfig
-     52              TIM_Cmd(TIM3, ENABLE);
+     50              TIM_Cmd(TIM3, ENABLE);
    \       0x5A   0x2101             MOVS     R1,#+1
    \       0x5C   0x0020             MOVS     R0,R4
    \       0x5E   0x.... 0x....      BL       TIM_Cmd
-     53          }
+     51          }
    \       0x62   0xB008             ADD      SP,SP,#+32
    \       0x64   0xBD10             POP      {R4,PC}
-     54          
+     52          
 
    \                                 In section .text, align 2, keep-with-next
-     55          void Servo_GPIO_Init(void){
+     53          void Servo_GPIO_Init(void){
    \                     Servo_GPIO_Init: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     56              GPIO_InitTypeDef GPIO_InitStructure;
-     57          
-     58              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+     54              GPIO_InitTypeDef GPIO_InitStructure;
+     55          
+     56              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
    \        0x2   0x2001             MOVS     R0,#+1
    \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     59              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+     57              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
    \        0x8   0x2018             MOVS     R0,#+24
    \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     60              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+     58              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
    \        0xE   0x2003             MOVS     R0,#+3
    \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
-     61              GPIO_Init(GPIOB, &GPIO_InitStructure);
+     59              GPIO_Init(GPIOB, &GPIO_InitStructure);
    \       0x14   0x4669             MOV      R1,SP
    \       0x16   0x....             LDR.N    R0,??DataTable2_1
    \       0x18   0x.... 0x....      BL       GPIO_Init
-     62          }
+     60          }
    \       0x1C   0xBD01             POP      {R0,PC}
-     63          
+     61          
 
    \                                 In section .text, align 2, keep-with-next
-     64          void Servo_RCC_Init(void){
+     62          void Servo_RCC_Init(void){
    \                     Servo_RCC_Init: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     65              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
+     63              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
    \        0x2   0x2101             MOVS     R1,#+1
    \        0x4   0x2002             MOVS     R0,#+2
    \        0x6   0x.... 0x....      BL       RCC_APB1PeriphClockCmd
-     66              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+     64              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
    \        0xA   0x2101             MOVS     R1,#+1
    \        0xC   0x2008             MOVS     R0,#+8
    \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     67              RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+     65              RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
    \       0x12   0x2101             MOVS     R1,#+1
    \       0x14   0x2001             MOVS     R0,#+1
    \       0x16   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     68          }
+     66          }
    \       0x1A   0xBD01             POP      {R0,PC}
-     69          
+     67          
 
    \                                 In section .text, align 2, keep-with-next
-     70          void Servo_Init(void){
+     68          void Servo_Init(void){
    \                     Servo_Init: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     71              Servo_RCC_Init();
+     69              Servo_RCC_Init();
    \        0x2   0x.... 0x....      BL       Servo_RCC_Init
-     72              Servo_GPIO_Init();
+     70              Servo_GPIO_Init();
    \        0x6   0x.... 0x....      BL       Servo_GPIO_Init
-     73              Servo_Pwm_Init();
+     71              Servo_Pwm_Init();
    \        0xA   0x.... 0x....      BL       Servo_Pwm_Init
-     74          }
+     72          }
    \        0xE   0xBD01             POP      {R0,PC}
-     75          /**
-     76           * @brief servo motor turn phi
-     77           * 
-     78           * @param phi 0 < phi < 180 
-     79           */
+     73          /**
+     74           * @brief servo motor turn phi
+     75           * 
+     76           * @param phi 0 < phi < 180 
+     77           */
 
    \                                 In section .text, align 2, keep-with-next
-     80          void Servo_Turn(uint16_t phi){
+     78          void Servo_Turn(uint16_t phi){
    \                     Servo_Turn: (+1)
    \        0x0   0xB5F8             PUSH     {R3-R7,LR}
-     81              //if(phi > 180 || phi < 0) return;
-     82          
-     83              uint16_t pulse = (uint16_t) (((double) phi/180)*100 + 25);
+     79              //if(phi > 180 || phi < 0) return;
+     80          
+     81              uint16_t pulse = (uint16_t) (((double) phi/180)*100 + 25);
    \        0x2   0xB280             UXTH     R0,R0
    \        0x4   0x.... 0x....      BL       __aeabi_ui2d
    \        0x8   0x2200             MOVS     R2,#+0
@@ -219,28 +217,28 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\servo.c
    \       0x1A   0x....             LDR.N    R3,??DataTable2_4
    \       0x1C   0x.... 0x....      BL       __aeabi_dadd
    \       0x20   0x.... 0x....      BL       __aeabi_d2iz
-     84          
-     85              TIM_OCInitTypeDef TIM_OCInitStructure;
-     86              TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+     82          
+     83              TIM_OCInitTypeDef TIM_OCInitStructure;
+     84              TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
    \       0x24   0x2160             MOVS     R1,#+96
    \       0x26   0xF8AD 0x1000      STRH     R1,[SP, #+0]
-     87              TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+     85              TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
    \       0x2A   0x2100             MOVS     R1,#+0
    \       0x2C   0xF8AD 0x1008      STRH     R1,[SP, #+8]
-     88              TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+     86              TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
    \       0x30   0x2101             MOVS     R1,#+1
    \       0x32   0xF8AD 0x1002      STRH     R1,[SP, #+2]
-     89              TIM_OCInitStructure.TIM_Pulse = (uint16_t) pulse; // us
+     87              TIM_OCInitStructure.TIM_Pulse = (uint16_t) pulse; // us
    \       0x36   0xF8AD 0x0006      STRH     R0,[SP, #+6]
-     90              TIM_OC3Init(TIM3, &TIM_OCInitStructure);
+     88              TIM_OC3Init(TIM3, &TIM_OCInitStructure);
    \       0x3A   0x4669             MOV      R1,SP
    \       0x3C   0x....             LDR.N    R0,??DataTable2
    \       0x3E   0x.... 0x....      BL       TIM_OC3Init
-     91          
-     92              return;
+     89          
+     90              return;
    \       0x42   0xB005             ADD      SP,SP,#+20
    \       0x44   0xBD00             POP      {PC}
-     93          }
+     91          }
 
    \                                 In section .text, align 4, keep-with-next
    \                     ??DataTable2:

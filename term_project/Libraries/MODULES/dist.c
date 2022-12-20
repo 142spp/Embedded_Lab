@@ -87,7 +87,7 @@ void Dist_Init_Configure(void) {
     Dist_RCC_Configure();
     Dist_GPIO_Configure();
     Dist_ADC_Configure();
-    GP2Y_NVIC_Configure();
+    Dist_NVIC_Configure();
 }
 
 uint32_t Dist_Get_Distance() {
