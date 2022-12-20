@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         30/Nov/2022  19:49:45
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         07/Dec/2022  20:34:10
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode          =  thumb
@@ -103,8 +103,8 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\GP2Y.c
    \        0xE   0x4669             MOV      R1,SP
    \       0x10   0x....             LDR.N    R0,??DataTable5
    \       0x12   0x.... 0x....      BL       GPIO_Init
-     33          	// GPIOAÀÇ 0¹ø Pin¸¦ »ç¿ëÇÔ. 
-     34          	// ÀÌ´Â ¶ÇÇÑ ADCÀÇ Channel0 ÀÓ. (schematic Âü°í)
+     33          	// GPIOAï¿½ï¿½ 0ï¿½ï¿½ Pinï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½. 
+     34          	// ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ADCï¿½ï¿½ Channel0 ï¿½ï¿½. (schematic ï¿½ï¿½ï¿½ï¿½)
      35          }
    \       0x16   0xBD01             POP      {R0,PC}
      36          /**
@@ -142,7 +142,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\GP2Y.c
    \       0x26   0x4669             MOV      R1,SP
    \       0x28   0x0020             MOVS     R0,R4
    \       0x2A   0x.... 0x....      BL       ADC_Init
-     50          	// À§ ºÎºÐÀº 8ÁÖÂ÷¶§ »ç¿ëÇß´ø ÄÚµå¸¦ ±×´ë·Î ¾´°Å¶ó µû·Î ±â¼úÇÏÁö ¾Ê¾Æµµ µÊ.
+     50          	// ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ 8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½Úµå¸¦ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½Å¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½ï¿½.
      51              
      52              ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
    \       0x2E   0x2307             MOVS     R3,#+7

@@ -1,13 +1,12 @@
 #include "ultra.h"
-#include "misc.h"
-#include "stm32f10x.h"
 
-int cap_rising_edge = 0;	// counter value at rising edge
-int cap_falling_edge = 0;	// counter value at falling edge
-int pulse_width = 0;		// = (counter value at falling edge) - (counter value at rising edge)
+int Cap_rising_edge = 0;	// counter value at rising edge
+int Cap_falling_edge = 0;	// counter value at falling edge
+int Pulse_width = 0;		// = (counter value at falling edge) - (counter value at rising edge)
 
 /* Distance Result */
-int Distance = 0;
+uint32_t Left_Distance = 0;
+uint32_t Right_Distance = 0;
 
 void Ultra_RCC_Configure(void) {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
@@ -40,7 +39,7 @@ void Ultra_TIM_Configure(void) {
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
 
-	/* PWM1 Mode configuration: Channel3 */
+	/* PWM1 Mode configuration: Channel 1 */
 	TIM_ICInitTypeDef TIM_ICInitStructure;
 	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;		// input capture timing
 	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;	// TIM Input1 is connected to IC1
@@ -48,13 +47,23 @@ void Ultra_TIM_Configure(void) {
 	TIM_ICInitStructure.TIM_ICFilter = 0x0;
 	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
 	TIM_ICInit(TIM3, &TIM_ICInitStructure);
+
+	/* PWM1 Mode configuration: Channel 2 */
+	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;		// input capture timing
+	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;	// TIM Input1 is connected to IC1
+	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+	TIM_ICInitStructure.TIM_ICFilter = 0x0;
+	TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
+	TIM_ICInit(TIM3, &TIM_ICInitStructure);
+
 	TIM_Cmd(TIM3, ENABLE);
 	TIM_ITConfig(TIM3, TIM_IT_CC1, ENABLE);
+	TIM_ITConfig(TIM3, TIM_IT_CC2, ENABLE);
 }
 
 void Ultra_NVIC_Configure(void) {
 	// Enable the TIM3 global Interrupt
-	NVIC_InitTypeDef NVIC_InitStructure;
+    NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
@@ -71,26 +80,28 @@ void Ultra_Init(void) {
 
 void Ultra_TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
 	/*ITStatus*/
-	if (TIM_GetITStatus(TIM3, TIM_IT_CC1) == SET)	// if there is input value that has been captured
-	{												// (= if TIM3->SR register CC1IF bit is High)
-
+	if (TIM_GetITStatus(TIM3, TIM_IT_CC1) == SET){	// if there is input value that has been captured
 		TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);	// clear TIM3->SR register CC1IF bit to Low
-
-		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET)	// if Timer3 Ch1 pin(PA6) value is High (rising edge)
-		{
-			cap_rising_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at rising edge)
+		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET){	// if Timer3 Ch1 pin(PA6) value is High (rising edge)
+			Cap_rising_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at rising edge)
 			TIM3->CCER |= TIM_CCER_CC1P;	// change ICPolarity(capture timing) to falling edge
-		}
-		else			// if Timer3 Ch1 pin(PA6) value is Low (falling edge)
-		{
-			cap_falling_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at falling edge)
-			pulse_width = (uint32_t)(cap_falling_edge - cap_rising_edge);
+		}else{			// if Timer3 Ch1 pin(PA6) value is Low (falling edge)
+			Cap_falling_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at falling edge)
+			Pulse_width = (uint32_t)(Cap_falling_edge - Cap_rising_edge);
 			TIM3->CCER &= ~TIM_CCER_CC1P;	// change ICPolarity(capture timing) to rising edge
-			
-
-
-			/*	Result Distance (cm)	*/
-			Distance = pulse_width * 17 / 1000;
+			Left_Distance = Pulse_width * 17 / 1000;
+		}
+	}
+	if (TIM_GetITStatus(TIM3, TIM_IT_CC2) == SET){	// if there is input value that has been captured
+		TIM_ClearITPendingBit(TIM3, TIM_IT_CC2);	// clear TIM3->SR register CC2IF bit to Low
+		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET){	// if Timer3 Ch2 pin(PA6) value is High (rising edge)
+			Cap_rising_edge = TIM_GetCapture2(TIM3);	// read captured data (counter value at rising edge)
+			TIM3->CCER |= TIM_CCER_CC2P;	// change ICPolarity(capture timing) to falling edge
+		}else{			// if Timer3 Ch2 pin(PA6) value is Low (falling edge)
+			Cap_falling_edge = TIM_GetCapture2(TIM3);	// read captured data (counter value at falling edge)
+			Pulse_width = (uint32_t)(Cap_falling_edge - Cap_rising_edge);
+			TIM3->CCER &= ~TIM_CCER_CC2P;	// change ICPolarity(capture timing) to rising edge
+			Right_Distance = Pulse_width * 17 / 1000;
 		}
 	}
 }
@@ -100,9 +111,8 @@ void TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
 	Ultra_TIM3_IRQHandler();
 }
 
-void Ultra_Trigger(void) {
+void Ultra_Measure_Distance(void){
 	int i;
-
 	GPIO_SetBits(GPIOA, GPIO_Pin_7);	// set trigger
 	for (i = 0; i < 50000; i++) {
 		/* delay(); */				// send ultrasonic wave
@@ -110,18 +120,6 @@ void Ultra_Trigger(void) {
 	GPIO_ResetBits(GPIOA, GPIO_Pin_7);	// reset trigger
 }
 
-
-void Ultra_Measure_Distance(void) {	// Call in main function
-	Ultra_Init();
-	Ultra_Trigger();
+void Ultra_Get_Distance(void){
+	return Left_Distance*100 + Right_Distance;
 }
-
-int Ultra_Get_Distance(void){
-	return Distance;
-}
-
-/*
-int main() {
-	Ultra_Measure_Distance();
-}
-*/

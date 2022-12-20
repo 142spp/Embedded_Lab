@@ -4,6 +4,17 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_tim.h"
 
+void DC_Motor_GPIO_Configure(void) {
+  GPIO_InitTypeDef GPIO_InitStructure;
+
+  /*GPIOA Configuration: TIM4 channel 1 as alternate function push-pull */
+  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_6; 
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+}
+
 void DC_Motor_PWM_Configure(void) {
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
   TIM_OCInitTypeDef  TIM_OCInitStructure;
@@ -26,17 +37,7 @@ void DC_Motor_PWM_Configure(void) {
   TIM_ARRPreloadConfig(TIM4, ENABLE);
   TIM_Cmd(TIM4, ENABLE);
 }
-void DC_Motor_GPIO_Configure(void) {
-  GPIO_InitTypeDef GPIO_InitStructure;
 
-  /*GPIOA Configuration: TIM4 channel 1 as alternate function push-pull */
-  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_6; 
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-}
 void DC_Motor_RCC_configure(void) {
    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE); // Tim4 Clock enable.
    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);

@@ -247,6 +247,7 @@ int main(void) {
         switch (index) {
             case 0:
                 GPIOD->BSRR |= GPIO_BSRR_BS2;
+                GPIOD->IDR & GPIO_IDR_IDR4;
                 break;
             case 1:
                 GPIOD->BSRR |= GPIO_BSRR_BS3;

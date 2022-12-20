@@ -3,6 +3,7 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_usart.h"
+#include "uart.h"
 
 uint16_t uart_state;
 
@@ -70,7 +71,7 @@ void UART_UpdateState(uint16_t data){
 }
 
 void USART1_IRQHandler(void) {
-    uint16_t data
+    uint16_t data;
     if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
         // the most recent received data by the USART1 peripheral
         data = USART_ReceiveData(USART1);

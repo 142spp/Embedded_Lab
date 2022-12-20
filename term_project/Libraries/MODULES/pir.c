@@ -5,7 +5,7 @@
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC, ENABLE);     //ADC Enable
 }*/
 
-void Pir_RCC_Init(){
+void PIR_RCC_Init(){
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);   //PIR Sensor Pin Enable
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);     //ADC Enable
 }

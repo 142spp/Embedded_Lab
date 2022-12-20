@@ -1,8 +1,16 @@
+/* This Header is addtional information file */
 #ifndef __PWM_H
-#define __PWM_H
+/*----------------------------------------------------------------
 
-void PWM_TIM3_Channel1_Init(void);
-void PWM_TIM3_Channel2_Init(void);
-void PWM_TIM3_Channel3_Init(void);
+        Ch1     Ch2     Ch3     Ch4     Ch5     Ch6
 
+TIM 1   
+TIM 2
+TIM 3   Ultra_L Ultra_R
+TIM 4   DCmotor 
+TIM 5
+TIM 6
+TIM 7
+
+------------------------------------------------------------------*/
 #endif

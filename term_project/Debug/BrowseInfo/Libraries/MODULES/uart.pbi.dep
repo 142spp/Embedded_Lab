@@ -1,5 +1,6 @@
 C:\code\Embedded_Lab\term_project\Debug\BrowseInfo\Libraries\MODULES\uart.pbi: \
   C:\code\Embedded_Lab\term_project\Libraries\MODULES\uart.c \
+  C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\misc.h \
   C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\stm32f10x.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\CMSIS\Core\Include\core_cm3.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\stdint.h \
@@ -36,4 +37,4 @@ C:\code\Embedded_Lab\term_project\Debug\BrowseInfo\Libraries\MODULES\uart.pbi: \
   C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\stm32f10x_tim.h \
   C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\stm32f10x_usart.h \
   C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\stm32f10x_wwdg.h \
-  C:\code\Embedded_Lab\term_project\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\misc.h
+  C:\code\Embedded_Lab\term_project\Libraries\MODULES\uart.h
