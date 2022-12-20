@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         30/Nov/2022  19:50:10
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  20:19:36
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode          =  thumb
@@ -46,128 +46,320 @@
 
 C:\code\Embedded_Lab\term_project\Libraries\MODULES\pir.c
       1          #include "pir.h"
-      2          
-      3          /*void PIR_RCC_Configure(void) {
-      4              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);   //PIR Sensor Pin Enable
-      5              RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC, ENABLE);     //ADC Enable
-      6          }*/
-      7          
-      8          void Pir_RCC_Init(){
-      9              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);   //PIR Sensor Pin Enable
-     10              RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);     //ADC Enable
+      2          #include "misc.h"
+      3          #include "stm32f10x.h"
+      4          #include "stm32f10x_exti.h"
+      5          
+
+   \                                 In section .bss, align 1
+      6          uint8_t l_exist;
+   \                     l_exist:
+   \        0x0                      DS8 1
+
+   \                                 In section .bss, align 1
+      7          uint8_t r_exist;
+   \                     r_exist:
+   \        0x0                      DS8 1
+      8          
+
+   \                                 In section .text, align 2, keep-with-next
+      9          void PIR_RCC_Init() {
+   \                     PIR_RCC_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     10              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);  // PIR Sensor Pin Enable
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x2008             MOVS     R0,#+8
+   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
      11          }
+   \        0xA   0xBD01             POP      {R0,PC}
      12          
+
+   \                                 In section .text, align 2, keep-with-next
      13          void PIR_GPIO_Init(void) {
+   \                     PIR_GPIO_Init: (+1)
+   \        0x0   0xB51C             PUSH     {R2-R4,LR}
      14              GPIO_InitTypeDef GPIO_InitStructure;
-     15          
-     16              //GPIOA Configuration
-     17              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-     18              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-     19              GPIO_Init(GPIOA, &GPIO_InitStructure);
-     20              //PIR ADC1?GPIOA 0? Pin ??
-     21          }
-     22          
-     23          void PIR_ADC_Init(void){
-     24              ADC_InitTypeDef ADC_InitStructure;
-     25          
-     26              //ADC1 Configuration
-     27              ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-     28              ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-     29              ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
-     30              ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-     31              ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-     32              ADC_InitStructure.ADC_NbrOfChannel = 1;
-     33              ADC_Init(ADC1, &ADC_InitStructure);
-     34          ?
-                 ^
-Error[Pe029]: expected an expression
-     35              ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 0 is GPIOA_Pin0
-     36              ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
-     37              // ADC_DMACmd(ADC1, ENABLE);  // DMA Enable
-     38              ADC_Cmd(ADC1, ENABLE);     // ADC1 enable
-     39          
-     40              ADC_ResetCalibration(ADC1);
-     41              while (ADC_GetResetCalibrationStatus(ADC1)) ;
-     42              ADC_StartCalibration(ADC1);
-     43              while (ADC_GetCalibrationStatus(ADC1)) ;
-     44              ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-     45          }
-     46          
-     47          void PIR_NVIC_Init(void) {
-     48              NVIC_InitTypeDef NVIC_InitStructure;
-     49          
-     50              // PIR Sensor
-     51              NVIC_InitStructure.NVIC_IRQChannel = ADC_IRQn;
-                                                          ^
-Error[Pe020]: identifier "ADC_IRQn" is undefined
-     52              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  
-     53              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;         
-     54              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-     55              NVIC_Init(&NVIC_InitStructure);
-     56          }
-     57          
-     58          void ADC1_2_IRQHandler(void) {
-     59              //
-     60          }
-     61          
-     62          void Pir_Delay(void) {
-     63              for (int i = 0; i < 1000000; i++)
-     64                  ;   
-     65          }
-     66          
-     67          void PIR_Init(void){
-     68              PIR_RCC_Init(void);
-                                  ^
-Error[Pe029]: expected an expression
+     15              // GPIOA Configuration
+     16              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+   \        0x2   0x2040             MOVS     R0,#+64
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     17              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+   \        0x8   0x2028             MOVS     R0,#+40
+   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     18              GPIO_Init(GPIOB, &GPIO_InitStructure);
+   \        0xE   0x....             LDR.N    R4,??DataTable4
+   \       0x10   0x4669             MOV      R1,SP
+   \       0x12   0x0020             MOVS     R0,R4
+   \       0x14   0x.... 0x....      BL       GPIO_Init
+     19          
+     20              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+   \       0x18   0xF44F 0x7080      MOV      R0,#+256
+   \       0x1C   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     21              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+   \       0x20   0x2028             MOVS     R0,#+40
+   \       0x22   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     22              GPIO_Init(GPIOB, &GPIO_InitStructure);
+   \       0x26   0x4669             MOV      R1,SP
+   \       0x28   0x0020             MOVS     R0,R4
+   \       0x2A   0x.... 0x....      BL       GPIO_Init
+     23          }
+   \       0x2E   0xBD13             POP      {R0,R1,R4,PC}
+     24          
 
-      PIR_RCC_Init(void);
-                       ^
-"C:\code\Embedded_Lab\term_project\Libraries\MODULES\pir.c",68  Error[Pe140]: 
-          too many arguments in function call
-     69              PIR_ADC_Init(void);
-                                  ^
-Error[Pe029]: expected an expression
+   \                                 In section .text, align 2, keep-with-next
+     25          void PIR_EXTI_Init(void) {
+   \                     PIR_EXTI_Init: (+1)
+   \        0x0   0xB5E0             PUSH     {R5-R7,LR}
+     26              EXTI_InitTypeDef EXTI_InitStructure;
+     27          
+     28              GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource6);
+   \        0x2   0x2106             MOVS     R1,#+6
+   \        0x4   0x2001             MOVS     R0,#+1
+   \        0x6   0x.... 0x....      BL       GPIO_EXTILineConfig
+     29              EXTI_InitStructure.EXTI_Line = EXTI_Line6;
+   \        0xA   0x2040             MOVS     R0,#+64
+   \        0xC   0x9000             STR      R0,[SP, #+0]
+     30              EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+   \        0xE   0x2000             MOVS     R0,#+0
+   \       0x10   0xF88D 0x0004      STRB     R0,[SP, #+4]
+     31              EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+   \       0x14   0x200C             MOVS     R0,#+12
+   \       0x16   0xF88D 0x0005      STRB     R0,[SP, #+5]
+     32              EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+   \       0x1A   0x2001             MOVS     R0,#+1
+   \       0x1C   0xF88D 0x0006      STRB     R0,[SP, #+6]
+     33              EXTI_Init(&EXTI_InitStructure);
+   \       0x20   0x4668             MOV      R0,SP
+   \       0x22   0x.... 0x....      BL       EXTI_Init
+     34          
+     35              GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource6);
+   \       0x26   0x2106             MOVS     R1,#+6
+   \       0x28   0x2001             MOVS     R0,#+1
+   \       0x2A   0x.... 0x....      BL       GPIO_EXTILineConfig
+     36              EXTI_InitStructure.EXTI_Line = EXTI_Line8;
+   \       0x2E   0xF44F 0x7080      MOV      R0,#+256
+   \       0x32   0x9000             STR      R0,[SP, #+0]
+     37              EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+   \       0x34   0x2000             MOVS     R0,#+0
+   \       0x36   0xF88D 0x0004      STRB     R0,[SP, #+4]
+     38              EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+   \       0x3A   0x200C             MOVS     R0,#+12
+   \       0x3C   0xF88D 0x0005      STRB     R0,[SP, #+5]
+     39              EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+   \       0x40   0x2001             MOVS     R0,#+1
+   \       0x42   0xF88D 0x0006      STRB     R0,[SP, #+6]
+     40              EXTI_Init(&EXTI_InitStructure);
+   \       0x46   0x4668             MOV      R0,SP
+   \       0x48   0x.... 0x....      BL       EXTI_Init
+     41          }
+   \       0x4C   0xBD07             POP      {R0-R2,PC}
+     42          
 
-      PIR_ADC_Init(void);
-                       ^
-"C:\code\Embedded_Lab\term_project\Libraries\MODULES\pir.c",69  Error[Pe140]: 
-          too many arguments in function call
-     70              PIR_GPIO_Init(void);
-                                   ^
-Error[Pe029]: expected an expression
+   \                                 In section .text, align 2, keep-with-next
+     43          void PIR_NVIC_Init(void) {
+   \                     PIR_NVIC_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     44              NVIC_InitTypeDef NVIC_InitStructure;
+     45              // PIR Sensor
+     46              NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
+   \        0x2   0x2017             MOVS     R0,#+23
+   \        0x4   0xF88D 0x0000      STRB     R0,[SP, #+0]
+     47              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+   \        0x8   0x2001             MOVS     R0,#+1
+   \        0xA   0xF88D 0x0001      STRB     R0,[SP, #+1]
+     48              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+   \        0xE   0x2002             MOVS     R0,#+2
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     49              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+   \       0x14   0x2001             MOVS     R0,#+1
+   \       0x16   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     50              NVIC_Init(&NVIC_InitStructure);
+   \       0x1A   0x4668             MOV      R0,SP
+   \       0x1C   0x.... 0x....      BL       NVIC_Init
+     51          }
+   \       0x20   0xBD01             POP      {R0,PC}
+     52          
 
-      PIR_GPIO_Init(void);
-                        ^
-"C:\code\Embedded_Lab\term_project\Libraries\MODULES\pir.c",70  Error[Pe140]: 
-          too many arguments in function call
-     71              PIR_NVIC_Init(void);
-                                   ^
-Error[Pe029]: expected an expression
+   \                                 In section .text, align 2, keep-with-next
+     53          void PIR_IRQHandler(void) {
+   \                     PIR_IRQHandler: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     54              if (EXTI_GetITStatus(EXTI_Line6) != RESET){
+   \        0x2   0x2040             MOVS     R0,#+64
+   \        0x4   0x.... 0x....      BL       EXTI_GetITStatus
+   \        0x8   0x2800             CMP      R0,#+0
+   \        0xA   0xD00F             BEQ.N    ??PIR_IRQHandler_0
+     55                  if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6) == Bit_SET){
+   \        0xC   0x2140             MOVS     R1,#+64
+   \        0xE   0x....             LDR.N    R0,??DataTable4
+   \       0x10   0x.... 0x....      BL       GPIO_ReadInputDataBit
+   \       0x14   0x2801             CMP      R0,#+1
+   \       0x16   0xD103             BNE.N    ??PIR_IRQHandler_1
+     56                      l_exist = 1;
+   \       0x18   0x2001             MOVS     R0,#+1
+   \       0x1A   0x....             LDR.N    R1,??DataTable4_1
+   \       0x1C   0x7008             STRB     R0,[R1, #+0]
+   \       0x1E   0xE002             B.N      ??PIR_IRQHandler_2
+     57                  } else{
+     58                      l_exist = 0;
+   \                     ??PIR_IRQHandler_1: (+1)
+   \       0x20   0x2000             MOVS     R0,#+0
+   \       0x22   0x....             LDR.N    R1,??DataTable4_1
+   \       0x24   0x7008             STRB     R0,[R1, #+0]
+     59                  }
+     60                  EXTI_ClearITPendingBit(EXTI_Line6);
+   \                     ??PIR_IRQHandler_2: (+1)
+   \       0x26   0x2040             MOVS     R0,#+64
+   \       0x28   0x.... 0x....      BL       EXTI_ClearITPendingBit
+     61              }
+     62              if (EXTI_GetITStatus(EXTI_Line8) != RESET) {
+   \                     ??PIR_IRQHandler_0: (+1)
+   \       0x2C   0xF44F 0x7080      MOV      R0,#+256
+   \       0x30   0x.... 0x....      BL       EXTI_GetITStatus
+   \       0x34   0x2800             CMP      R0,#+0
+   \       0x36   0xD011             BEQ.N    ??PIR_IRQHandler_3
+     63                  if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8) == Bit_SET) {
+   \       0x38   0xF44F 0x7180      MOV      R1,#+256
+   \       0x3C   0x....             LDR.N    R0,??DataTable4
+   \       0x3E   0x.... 0x....      BL       GPIO_ReadInputDataBit
+   \       0x42   0x2801             CMP      R0,#+1
+   \       0x44   0xD103             BNE.N    ??PIR_IRQHandler_4
+     64                      r_exist = 1;
+   \       0x46   0x2001             MOVS     R0,#+1
+   \       0x48   0x....             LDR.N    R1,??DataTable4_2
+   \       0x4A   0x7008             STRB     R0,[R1, #+0]
+   \       0x4C   0xE002             B.N      ??PIR_IRQHandler_5
+     65                  } else {
+     66                      r_exist = 0;
+   \                     ??PIR_IRQHandler_4: (+1)
+   \       0x4E   0x2000             MOVS     R0,#+0
+   \       0x50   0x....             LDR.N    R1,??DataTable4_2
+   \       0x52   0x7008             STRB     R0,[R1, #+0]
+     67                  }
+     68                  EXTI_ClearITPendingBit(EXTI_Line8);
+   \                     ??PIR_IRQHandler_5: (+1)
+   \       0x54   0xF44F 0x7080      MOV      R0,#+256
+   \       0x58   0x.... 0x....      BL       EXTI_ClearITPendingBit
+     69              }
+     70          }
+   \                     ??PIR_IRQHandler_3: (+1)
+   \       0x5C   0xBD01             POP      {R0,PC}
+     71          
 
-      PIR_NVIC_Init(void);
-                        ^
-"C:\code\Embedded_Lab\term_project\Libraries\MODULES\pir.c",71  Error[Pe140]: 
-          too many arguments in function call
-     72              Pir_Delay(void);
-                               ^
-Error[Pe029]: expected an expression
-
-      Pir_Delay(void);
-                    ^
-"C:\code\Embedded_Lab\term_project\Libraries\MODULES\pir.c",72  Error[Pe140]: 
-          too many arguments in function call
-     73          }
-     74          
-     75          //HIGH->on,LOW->off
+   \                                 In section .text, align 2, keep-with-next
+     72          void PIR_Delay(void) {
+     73              for (int i = 0; i < 1000000; i++)
+   \                     PIR_Delay: (+1)
+   \        0x0   0x2000             MOVS     R0,#+0
+   \        0x2   0xE000             B.N      ??PIR_Delay_0
+   \                     ??PIR_Delay_1: (+1)
+   \        0x4   0x1C40             ADDS     R0,R0,#+1
+   \                     ??PIR_Delay_0: (+1)
+   \        0x6   0x....             LDR.N    R1,??DataTable4_3
+   \        0x8   0x4288             CMP      R0,R1
+   \        0xA   0xDBFB             BLT.N    ??PIR_Delay_1
+     74                  ;
+     75          }
+   \        0xC   0x4770             BX       LR
      76          
-     77          /*val = digitalRead(SensorOut);
-     78          if (val == HIGH) {
-     79              digitalWrite(Led, HIGH);
-     80          }
-     81          else {
-     82              digitalWrite(Led, LOW);
-     83          }
-     84          delay(100);*/
 
-Errors: 12
+   \                                 In section .text, align 2, keep-with-next
+     77          void PIR_Init(void) {
+   \                     PIR_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     78              PIR_RCC_Init();
+   \        0x2   0x.... 0x....      BL       PIR_RCC_Init
+     79              PIR_GPIO_Init();
+   \        0x6   0x.... 0x....      BL       PIR_GPIO_Init
+     80              PIR_EXTI_Init();
+   \        0xA   0x.... 0x....      BL       PIR_EXTI_Init
+     81              PIR_NVIC_Init();
+   \        0xE   0x.... 0x....      BL       PIR_NVIC_Init
+     82          }
+   \       0x12   0xBD01             POP      {R0,PC}
+     83          
+
+   \                                 In section .text, align 2, keep-with-next
+     84          uint8_t PIR_Get_Exist(void){
+     85              return l_exist*10 + r_exist;
+   \                     PIR_Get_Exist: (+1)
+   \        0x0   0x....             LDR.N    R0,??DataTable4_1
+   \        0x2   0x7800             LDRB     R0,[R0, #+0]
+   \        0x4   0x220A             MOVS     R2,#+10
+   \        0x6   0x....             LDR.N    R1,??DataTable4_2
+   \        0x8   0x7809             LDRB     R1,[R1, #+0]
+   \        0xA   0xFB02 0x1000      MLA      R0,R2,R0,R1
+   \        0xE   0xB2C0             UXTB     R0,R0
+   \       0x10   0x4770             BX       LR
+     86          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4:
+   \        0x0   0x4001'0C00        DC32     0x40010c00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4_1:
+   \        0x0   0x....'....        DC32     l_exist
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4_2:
+   \        0x0   0x....'....        DC32     r_exist
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable4_3:
+   \        0x0   0x000F'4240        DC32     0xf4240
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   PIR_Delay
+      16   PIR_EXTI_Init
+        16   -> EXTI_Init
+        16   -> GPIO_EXTILineConfig
+      16   PIR_GPIO_Init
+        16   -> GPIO_Init
+       0   PIR_Get_Exist
+       8   PIR_IRQHandler
+         8   -> EXTI_ClearITPendingBit
+         8   -> EXTI_GetITStatus
+         8   -> GPIO_ReadInputDataBit
+       8   PIR_Init
+         8   -> PIR_EXTI_Init
+         8   -> PIR_GPIO_Init
+         8   -> PIR_NVIC_Init
+         8   -> PIR_RCC_Init
+       8   PIR_NVIC_Init
+         8   -> NVIC_Init
+       8   PIR_RCC_Init
+         8   -> RCC_APB2PeriphClockCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable4
+       4  ??DataTable4_1
+       4  ??DataTable4_2
+       4  ??DataTable4_3
+      14  PIR_Delay
+      78  PIR_EXTI_Init
+      48  PIR_GPIO_Init
+      18  PIR_Get_Exist
+      94  PIR_IRQHandler
+      20  PIR_Init
+      34  PIR_NVIC_Init
+      12  PIR_RCC_Init
+       1  l_exist
+       1  r_exist
+
+ 
+   2 bytes in section .bss
+ 334 bytes in section .text
+ 
+ 334 bytes of CODE memory
+   2 bytes of DATA memory
+
+Errors: none
 Warnings: none

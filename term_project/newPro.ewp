@@ -760,11 +760,11 @@
                 </option>
                 <option>
                     <name>IlinkIcfOverride</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$TOOLKIT_DIR$/config/linker/ST/stm32f107xC.icf</state>
+                    <state>C:\code\Embedded_Lab\term_project\newPro.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -2217,7 +2217,10 @@
                 <name>$PROJ_DIR$\Libraries\MODULES\handler.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\Libraries\MODULES\pwm.h</name>
+                <name>$PROJ_DIR$\Libraries\MODULES\pir.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Libraries\MODULES\pir.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Libraries\MODULES\servo.c</name>

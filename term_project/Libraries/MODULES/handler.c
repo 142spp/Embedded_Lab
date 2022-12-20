@@ -1,3 +1,4 @@
+#include "handler.h"
 #include "stm32f10x.h"
 #include "dist.h"
 #include "ultra.h"
@@ -12,7 +13,7 @@ void EXTI9_5_IRQHandler(void) {
     PIR_IRQHandler();
 }
 
-void USART1_IRQHandler(void) {
+void USART2_IRQHandler(void) {
     UART_IRQHandler();
 }
 

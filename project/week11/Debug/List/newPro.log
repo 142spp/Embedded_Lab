@@ -6,7 +6,7 @@ Global:
               definition:  __as_table_start
               definition:  __as_entries_start
               definition:  __iar_systems$$module
-Loading object C:\week11\Debug\Obj\CoreSupport\core_cm3.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\CoreSupport\core_cm3.o.
               definition:  __LDREXB
               definition:  __LDREXH
               definition:  __LDREXW
@@ -19,7 +19,7 @@ Loading object C:\week11\Debug\Obj\CoreSupport\core_cm3.o.
               definition:  __get_PSP
               definition:  __set_MSP
               definition:  __set_PSP
-Loading object C:\week11\Debug\Obj\Libraries\LCD\lcd.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\LCD\lcd.o.
               reference :  GPIO_Init
               reference :  GPIO_ReadInputData
               reference :  GPIO_ResetBits
@@ -48,7 +48,7 @@ Loading object C:\week11\Debug\Obj\Libraries\LCD\lcd.o.
               definition:  asc2_1206
               definition:  asc2_1608
               definition:  gImage_fg
-Loading object C:\week11\Debug\Obj\user\main.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\user\main.o.
               reference :  ADC_Cmd
               reference :  ADC_DMACmd
               reference :  ADC_GetCalibrationStatus
@@ -76,13 +76,13 @@ Loading object C:\week11\Debug\Obj\user\main.o.
               definition:  RCC_Configure
               definition:  color
               definition:  main
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\misc.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\misc.o.
               definition:  NVIC_Init
               definition:  NVIC_PriorityGroupConfig
               definition:  NVIC_SetVectorTable
               definition:  NVIC_SystemLPConfig
               definition:  SysTick_CLKSourceConfig
-Loading object C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o.
               reference :  __iar_program_start
               reference :  SystemInit
               definition:  __vector_table
@@ -158,7 +158,7 @@ Loading object C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup
               weak def  :  CAN2_SCE_IRQHandler
               weak def  :  OTG_FS_IRQHandler
               reference :  CSTACK$$Limit
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_adc.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_adc.o.
               reference :  RCC_APB2PeriphResetCmd
               definition:  ADC_AnalogWatchdogCmd
               definition:  ADC_AnalogWatchdogSingleChannelConfig
@@ -196,7 +196,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  ADC_StartCalibration
               definition:  ADC_StructInit
               definition:  ADC_TempSensorVrefintCmd
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_bkp.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_bkp.o.
               reference :  RCC_BackupResetCmd
               definition:  BKP_ClearFlag
               definition:  BKP_ClearITPendingBit
@@ -210,7 +210,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  BKP_TamperPinCmd
               definition:  BKP_TamperPinLevelConfig
               definition:  BKP_WriteBackupRegister
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_can.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_can.o.
               reference :  RCC_APB1PeriphResetCmd
               definition:  CAN_CancelTransmit
               definition:  CAN_ClearFlag
@@ -236,7 +236,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  CAN_Transmit
               definition:  CAN_TransmitStatus
               definition:  CAN_WakeUp
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_cec.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_cec.o.
               reference :  RCC_APB1PeriphResetCmd
               definition:  CEC_ClearFlag
               definition:  CEC_ClearITPendingBit
@@ -252,14 +252,14 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  CEC_SendDataByte
               definition:  CEC_SetPrescaler
               definition:  CEC_StartOfMessage
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_crc.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_crc.o.
               definition:  CRC_CalcBlockCRC
               definition:  CRC_CalcCRC
               definition:  CRC_GetCRC
               definition:  CRC_GetIDRegister
               definition:  CRC_ResetDR
               definition:  CRC_SetIDRegister
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_dac.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_dac.o.
               reference :  RCC_APB1PeriphResetCmd
               definition:  DAC_Cmd
               definition:  DAC_DMACmd
@@ -273,11 +273,11 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  DAC_SoftwareTriggerCmd
               definition:  DAC_StructInit
               definition:  DAC_WaveGenerationCmd
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_dbgmcu.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_dbgmcu.o.
               definition:  DBGMCU_Config
               definition:  DBGMCU_GetDEVID
               definition:  DBGMCU_GetREVID
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_dma.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_dma.o.
               definition:  DMA_ClearFlag
               definition:  DMA_ClearITPendingBit
               definition:  DMA_Cmd
@@ -289,7 +289,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  DMA_Init
               definition:  DMA_SetCurrDataCounter
               definition:  DMA_StructInit
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_exti.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_exti.o.
               definition:  EXTI_ClearFlag
               definition:  EXTI_ClearITPendingBit
               definition:  EXTI_DeInit
@@ -298,7 +298,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  EXTI_GetITStatus
               definition:  EXTI_Init
               definition:  EXTI_StructInit
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_flash.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_flash.o.
               definition:  FLASH_ClearFlag
               definition:  FLASH_EnableWriteProtection
               definition:  FLASH_EraseAllBank1Pages
@@ -327,7 +327,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  FLASH_UserOptionByteConfig
               definition:  FLASH_WaitForLastBank1Operation
               definition:  FLASH_WaitForLastOperation
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_fsmc.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_fsmc.o.
               definition:  FSMC_ClearFlag
               definition:  FSMC_ClearITPendingBit
               definition:  FSMC_GetECC
@@ -347,7 +347,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  FSMC_PCCARDDeInit
               definition:  FSMC_PCCARDInit
               definition:  FSMC_PCCARDStructInit
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_gpio.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_gpio.o.
               reference :  RCC_APB2PeriphResetCmd
               definition:  GPIO_AFIODeInit
               definition:  GPIO_DeInit
@@ -367,7 +367,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  GPIO_StructInit
               definition:  GPIO_Write
               definition:  GPIO_WriteBit
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_i2c.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_i2c.o.
               reference :  RCC_APB1PeriphResetCmd
               reference :  RCC_GetClocksFreq
               definition:  I2C_ARPCmd
@@ -403,7 +403,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  I2C_StretchClockCmd
               definition:  I2C_StructInit
               definition:  I2C_TransmitPEC
-Loading object C:\week11\Debug\Obj\user\stm32f10x_it.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o.
               definition:  BusFault_Handler
               definition:  DebugMon_Handler
               definition:  HardFault_Handler
@@ -413,14 +413,14 @@ Loading object C:\week11\Debug\Obj\user\stm32f10x_it.o.
               definition:  SVC_Handler
               definition:  SysTick_Handler
               definition:  UsageFault_Handler
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_iwdg.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_iwdg.o.
               definition:  IWDG_Enable
               definition:  IWDG_GetFlagStatus
               definition:  IWDG_ReloadCounter
               definition:  IWDG_SetPrescaler
               definition:  IWDG_SetReload
               definition:  IWDG_WriteAccessCmd
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_pwr.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_pwr.o.
               reference :  RCC_APB1PeriphResetCmd
               definition:  PWR_BackupAccessCmd
               definition:  PWR_ClearFlag
@@ -431,7 +431,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  PWR_PVDCmd
               definition:  PWR_PVDLevelConfig
               definition:  PWR_WakeUpPinCmd
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_rcc.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_rcc.o.
               definition:  RCC_ADCCLKConfig
               definition:  RCC_AHBPeriphClockCmd
               definition:  RCC_AHBPeriphResetCmd
@@ -473,7 +473,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  RCC_RTCCLKConfig
               definition:  RCC_SYSCLKConfig
               definition:  RCC_WaitForHSEStartUp
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_rtc.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_rtc.o.
               definition:  RTC_ClearFlag
               definition:  RTC_ClearITPendingBit
               definition:  RTC_EnterConfigMode
@@ -488,7 +488,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  RTC_SetPrescaler
               definition:  RTC_WaitForLastTask
               definition:  RTC_WaitForSynchro
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_sdio.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_sdio.o.
               definition:  SDIO_CEATAITCmd
               definition:  SDIO_ClearFlag
               definition:  SDIO_ClearITPendingBit
@@ -519,7 +519,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  SDIO_StopSDIOReadWait
               definition:  SDIO_StructInit
               definition:  SDIO_WriteData
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_spi.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_spi.o.
               reference :  RCC_APB1PeriphResetCmd
               reference :  RCC_APB2PeriphResetCmd
               reference :  RCC_GetClocksFreq
@@ -546,7 +546,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  SPI_SSOutputCmd
               definition:  SPI_StructInit
               definition:  SPI_TransmitCRC
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_tim.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_tim.o.
               reference :  RCC_APB1PeriphResetCmd
               reference :  RCC_APB2PeriphResetCmd
               definition:  TIM_ARRPreloadConfig
@@ -636,7 +636,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  TIM_TimeBaseStructInit
               definition:  TIM_UpdateDisableConfig
               definition:  TIM_UpdateRequestConfig
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_usart.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_usart.o.
               reference :  RCC_APB1PeriphResetCmd
               reference :  RCC_APB2PeriphResetCmd
               reference :  RCC_GetClocksFreq
@@ -669,7 +669,7 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  USART_SmartCardNACKCmd
               definition:  USART_StructInit
               definition:  USART_WakeUpConfig
-Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_wwdg.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_wwdg.o.
               reference :  RCC_APB1PeriphResetCmd
               definition:  WWDG_ClearFlag
               definition:  WWDG_DeInit
@@ -679,12 +679,12 @@ Loading object C:\week11\Debug\Obj\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src
               definition:  WWDG_SetCounter
               definition:  WWDG_SetPrescaler
               definition:  WWDG_SetWindowValue
-Loading object C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\system_stm32f10x.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\system_stm32f10x.o.
               definition:  AHBPrescTable
               definition:  SystemCoreClock
               definition:  SystemCoreClockUpdate
               definition:  SystemInit
-Loading object C:\week11\Debug\Obj\Libraries\LCD\touch.o.
+Loading object C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\LCD\touch.o.
               reference :  GPIO_Init
               reference :  LCD_Clear
               reference :  LCD_DrawLine
@@ -846,24 +846,24 @@ Selecting member abort.o(dl7M_tln.a) to define abort (optional).
               reference :  __exit
               definition:  abort
 Resolving duplicate symbol definitions
-  Picking BusFault_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing BusFault_Handler [s12 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking DebugMon_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing DebugMon_Handler [s15 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking HardFault_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing HardFault_Handler [s10 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking UsageFault_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing UsageFault_Handler [s13 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking MemManage_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing MemManage_Handler [s11 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking NMI_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing NMI_Handler [s9 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking PendSV_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing PendSV_Handler [s16 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking SVC_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing SVC_Handler [s14 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
-  Picking SysTick_Handler [s8 C:\week11\Debug\Obj\user\stm32f10x_it.o]
-    Suppressing SysTick_Handler [s17 C:\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking BusFault_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing BusFault_Handler [s12 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking DebugMon_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing DebugMon_Handler [s15 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking HardFault_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing HardFault_Handler [s10 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking UsageFault_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing UsageFault_Handler [s13 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking MemManage_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing MemManage_Handler [s11 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking NMI_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing NMI_Handler [s9 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking PendSV_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing PendSV_Handler [s16 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking SVC_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing SVC_Handler [s14 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
+  Picking SysTick_Handler [s8 C:\code\Embedded_Lab\project\week11\Debug\Obj\user\stm32f10x_it.o]
+    Suppressing SysTick_Handler [s17 C:\code\Embedded_Lab\project\week11\Debug\Obj\Libraries\CMSIS\DeviceSupport\StartUp\startup_stm32f10x_cl.o]
 *** Marking from roots ***
 Marking symbol __iar_program_start              Glb (11 cstartup_M.o) [program entry]
   Marking fragment #5061 .text (6 cstartup_M.o(rt7M_tl.a)) init:always
@@ -7649,8 +7649,8 @@ Creating initializer unit for P1 -> P2
 Veneer stats:
 
   118 definitions
-  252 references
-      181 R_ARM_THM_CALL
+  251 references
+      180 R_ARM_THM_CALL
        71 R_ARM_THM_JUMP24
     0 veneers               0 bytes
     0 redirected references

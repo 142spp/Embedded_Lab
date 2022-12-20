@@ -11,8 +11,7 @@ void PIR_GPIO_Init(void);
 void PIR_EXTI_Init(void);
 void PIR_IRQHandler(void);
 void PIR_NVIC_Init(void);
-void PIR_Delay(void);
 void PIR_Init(void);
-bool PIR_Get_Exist(void);
+uint8_t PIR_Get_Exist(void);
 
 #endif

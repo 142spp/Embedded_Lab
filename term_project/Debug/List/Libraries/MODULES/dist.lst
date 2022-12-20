@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  11:21:44
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         21/Dec/2022  00:48:53
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode          =  thumb
@@ -55,7 +55,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
       8          void Dist_RCC_Configure(void);
       9          void Dist_GPIO_Configure(void);
      10          void Dist_ADC_Configure(void);
-     11          void Dist_Init_Configure(void);
+     11          void Dist_Init(void);
      12          uint32_t Dist_Get_Distance(void);
      13          
 
@@ -92,8 +92,8 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
    \        0x0   0xB580             PUSH     {R7,LR}
      27              /* Photoresistor Enable */
      28              GPIO_InitTypeDef GPIO_InitStructure;
-     29              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-   \        0x2   0x2001             MOVS     R0,#+1
+     29              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+   \        0x2   0x2002             MOVS     R0,#+2
    \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
      30              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
    \        0x8   0x2000             MOVS     R0,#+0
@@ -143,10 +143,10 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
    \       0x2A   0x.... 0x....      BL       ADC_Init
      49          	// �� �κ��� 8������ ����ߴ� �ڵ带 �״�� ���Ŷ� ���� ������� �ʾƵ� ��.
      50              
-     51              ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
+     51              ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
    \       0x2E   0x2307             MOVS     R3,#+7
    \       0x30   0x2201             MOVS     R2,#+1
-   \       0x32   0x2108             MOVS     R1,#+8
+   \       0x32   0x2109             MOVS     R1,#+9
    \       0x34   0x0020             MOVS     R0,R4
    \       0x36   0x.... 0x....      BL       ADC_RegularChannelConfig
      52              ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
@@ -211,64 +211,63 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
      71          }
    \       0x20   0xBD01             POP      {R0,PC}
      72          
-     73          // void ADC1_2_IRQHandler(void) {
 
    \                                 In section .text, align 2, keep-with-next
-     74          void Dist_IRQHandler(void) {
+     73          void Dist_IRQHandler(void) {
    \                     Dist_IRQHandler: (+1)
    \        0x0   0xB510             PUSH     {R4,LR}
-     75              if (ADC_GetITStatus(ADC1, ADC_IT_EOC) != RESET) {
+     74              if (ADC_GetITStatus(ADC1, ADC_IT_EOC) != RESET) {
    \        0x2   0x....             LDR.N    R4,??DataTable4_1
    \        0x4   0xF44F 0x7108      MOV      R1,#+544
    \        0x8   0x0020             MOVS     R0,R4
    \        0xA   0x.... 0x....      BL       ADC_GetITStatus
    \        0xE   0x2800             CMP      R0,#+0
    \       0x10   0xD009             BEQ.N    ??Dist_IRQHandler_0
-     76                  Forward_Distance = ADC_GetConversionValue(ADC1 );
+     75                  Forward_Distance = ADC_GetConversionValue(ADC1 );
    \       0x12   0x0020             MOVS     R0,R4
    \       0x14   0x.... 0x....      BL       ADC_GetConversionValue
    \       0x18   0x....             LDR.N    R1,??DataTable4_2
    \       0x1A   0x6008             STR      R0,[R1, #+0]
-     77                  //--- Clear ADC1 AWD pending interrupt bit
-     78                  ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
+     76                  //--- Clear ADC1 AWD pending interrupt bit
+     77                  ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
    \       0x1C   0xF44F 0x7108      MOV      R1,#+544
    \       0x20   0x0020             MOVS     R0,R4
    \       0x22   0x.... 0x....      BL       ADC_ClearITPendingBit
-     79              }
-     80          }
+     78              }
+     79          }
    \                     ??Dist_IRQHandler_0: (+1)
    \       0x26   0xBD10             POP      {R4,PC}
-     81          
-     82          /**
-     83           * @brief excute All configuration function
-     84           */
+     80          
+     81          /**
+     82           * @brief excute All configuration function
+     83           */
 
    \                                 In section .text, align 2, keep-with-next
-     85          void Dist_Init_Configure(void) {
-   \                     Dist_Init_Configure: (+1)
+     84          void Dist_Init(void) {
+   \                     Dist_Init: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     86              SystemInit();
+     85              SystemInit();
    \        0x2   0x.... 0x....      BL       SystemInit
-     87              Dist_RCC_Configure();
+     86              Dist_RCC_Configure();
    \        0x6   0x.... 0x....      BL       Dist_RCC_Configure
-     88              Dist_GPIO_Configure();
+     87              Dist_GPIO_Configure();
    \        0xA   0x.... 0x....      BL       Dist_GPIO_Configure
-     89              Dist_ADC_Configure();
+     88              Dist_ADC_Configure();
    \        0xE   0x.... 0x....      BL       Dist_ADC_Configure
-     90              Dist_NVIC_Configure();
+     89              Dist_NVIC_Configure();
    \       0x12   0x.... 0x....      BL       Dist_NVIC_Configure
-     91          }
+     90          }
    \       0x16   0xBD01             POP      {R0,PC}
-     92          
+     91          
 
    \                                 In section .text, align 2, keep-with-next
-     93          uint32_t Dist_Get_Distance() {
-     94              return Forward_Distance;
+     92          uint32_t Dist_Get_Distance() {
+     93              return Forward_Distance;
    \                     Dist_Get_Distance: (+1)
    \        0x0   0x....             LDR.N    R0,??DataTable4_2
    \        0x2   0x6800             LDR      R0,[R0, #+0]
    \        0x4   0x4770             BX       LR
-     95          }
+     94          }
 
    \                                 In section .text, align 4, keep-with-next
    \                     ??DataTable4:
@@ -303,7 +302,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
          8   -> ADC_ClearITPendingBit
          8   -> ADC_GetConversionValue
          8   -> ADC_GetITStatus
-       8   Dist_Init_Configure
+       8   Dist_Init
          8   -> Dist_ADC_Configure
          8   -> Dist_GPIO_Configure
          8   -> Dist_NVIC_Configure
@@ -326,7 +325,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\dist.c
       24  Dist_GPIO_Configure
        6  Dist_Get_Distance
       40  Dist_IRQHandler
-      24  Dist_Init_Configure
+      24  Dist_Init
       34  Dist_NVIC_Configure
       22  Dist_RCC_Configure
        4  Forward_Distance

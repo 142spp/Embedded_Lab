@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  11:18:00
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  18:33:55
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode          =  thumb
@@ -113,7 +113,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \        0xE   0x2003             MOVS     R0,#+3
    \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
      24          	GPIO_Init(GPIOA, &GPIO_InitStructure);
-   \       0x14   0x....             LDR.N    R4,??DataTable5
+   \       0x14   0x....             LDR.N    R4,??DataTable4
    \       0x16   0x4669             MOV      R1,SP
    \       0x18   0x0020             MOVS     R0,R4
    \       0x1A   0x.... 0x....      BL       GPIO_Init
@@ -147,9 +147,9 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \        0x4   0xF64F 0x70FF      MOVW     R0,#+65535
    \        0x8   0xF8AD 0x0010      STRH     R0,[SP, #+16]
      37          	TIM_TimeBaseStructure.TIM_Prescaler = (uint16_t)(SystemCoreClock / 1000000) - 1;	// 1Hz
-   \        0xC   0x....             LDR.N    R0,??DataTable5_1
+   \        0xC   0x....             LDR.N    R0,??DataTable4_1
    \        0xE   0x6800             LDR      R0,[R0, #+0]
-   \       0x10   0x....             LDR.N    R1,??DataTable5_2
+   \       0x10   0x....             LDR.N    R1,??DataTable4_2
    \       0x12   0xFBB0 0xF0F1      UDIV     R0,R0,R1
    \       0x16   0x1E40             SUBS     R0,R0,#+1
    \       0x18   0xF8AD 0x000C      STRH     R0,[SP, #+12]
@@ -160,7 +160,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \       0x22   0x2000             MOVS     R0,#+0
    \       0x24   0xF8AD 0x000E      STRH     R0,[SP, #+14]
      40          	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-   \       0x28   0x....             LDR.N    R4,??DataTable5_3
+   \       0x28   0x....             LDR.N    R4,??DataTable4_3
    \       0x2A   0xA903             ADD      R1,SP,#+12
    \       0x2C   0x0020             MOVS     R0,R4
    \       0x2E   0x.... 0x....      BL       TIM_TimeBaseInit
@@ -274,7 +274,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \        0x0   0xB538             PUSH     {R3-R5,LR}
      82          	/*ITStatus*/
      83          	if (TIM_GetITStatus(TIM3, TIM_IT_CC1) == SET){	// if there is input value that has been captured
-   \        0x2   0x....             LDR.N    R4,??DataTable5_3
+   \        0x2   0x....             LDR.N    R4,??DataTable4_3
    \        0x4   0x2102             MOVS     R1,#+2
    \        0x6   0x0020             MOVS     R0,R4
    \        0x8   0x.... 0x....      BL       TIM_GetITStatus
@@ -286,17 +286,17 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \       0x14   0x.... 0x....      BL       TIM_ClearITPendingBit
      85          		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET){	// if Timer3 Ch1 pin(PA6) value is High (rising edge)
    \       0x18   0x2140             MOVS     R1,#+64
-   \       0x1A   0x....             LDR.N    R0,??DataTable5
+   \       0x1A   0x....             LDR.N    R0,??DataTable4
    \       0x1C   0x.... 0x....      BL       GPIO_ReadInputDataBit
    \       0x20   0x2801             CMP      R0,#+1
    \       0x22   0xD10A             BNE.N    ??Ultra_TIM3_IRQHandler_1
      86          			Cap_rising_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at rising edge)
    \       0x24   0x0020             MOVS     R0,R4
    \       0x26   0x.... 0x....      BL       TIM_GetCapture1
-   \       0x2A   0x....             LDR.N    R1,??DataTable5_4
+   \       0x2A   0x....             LDR.N    R1,??DataTable4_4
    \       0x2C   0x6008             STR      R0,[R1, #+0]
      87          			TIM3->CCER |= TIM_CCER_CC1P;	// change ICPolarity(capture timing) to falling edge
-   \       0x2E   0x....             LDR.N    R0,??DataTable5_5
+   \       0x2E   0x....             LDR.N    R0,??DataTable4_5
    \       0x30   0x8801             LDRH     R1,[R0, #+0]
    \       0x32   0xF051 0x0102      ORRS     R1,R1,#0x2
    \       0x36   0x8001             STRH     R1,[R0, #+0]
@@ -304,19 +304,19 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
      88          		}else{			// if Timer3 Ch1 pin(PA6) value is Low (falling edge)
      89          			Cap_falling_edge = TIM_GetCapture1(TIM3);	// read captured data (counter value at falling edge)
    \                     ??Ultra_TIM3_IRQHandler_1: (+1)
-   \       0x3A   0x....             LDR.N    R5,??DataTable5_6
+   \       0x3A   0x....             LDR.N    R5,??DataTable4_6
    \       0x3C   0x0020             MOVS     R0,R4
    \       0x3E   0x.... 0x....      BL       TIM_GetCapture1
    \       0x42   0x6028             STR      R0,[R5, #+0]
      90          			Pulse_width = (uint32_t)(Cap_falling_edge - Cap_rising_edge);
-   \       0x44   0x....             LDR.N    R2,??DataTable5_7
+   \       0x44   0x....             LDR.N    R2,??DataTable4_7
    \       0x46   0x6829             LDR      R1,[R5, #+0]
-   \       0x48   0x....             LDR.N    R0,??DataTable5_4
+   \       0x48   0x....             LDR.N    R0,??DataTable4_4
    \       0x4A   0x6800             LDR      R0,[R0, #+0]
    \       0x4C   0x1A09             SUBS     R1,R1,R0
    \       0x4E   0x6011             STR      R1,[R2, #+0]
      91          			TIM3->CCER &= ~TIM_CCER_CC1P;	// change ICPolarity(capture timing) to rising edge
-   \       0x50   0x....             LDR.N    R1,??DataTable5_5
+   \       0x50   0x....             LDR.N    R1,??DataTable4_5
    \       0x52   0x880B             LDRH     R3,[R1, #+0]
    \       0x54   0xF64F 0x70FD      MOVW     R0,#+65533
    \       0x58   0x4003             ANDS     R3,R0,R3
@@ -327,7 +327,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \       0x60   0x4341             MULS     R1,R0,R1
    \       0x62   0xF44F 0x707A      MOV      R0,#+1000
    \       0x66   0xFB91 0xF0F0      SDIV     R0,R1,R0
-   \       0x6A   0x....             LDR.N    R1,??DataTable5_8
+   \       0x6A   0x....             LDR.N    R1,??DataTable4_8
    \       0x6C   0x6008             STR      R0,[R1, #+0]
      93          		}
      94          	}
@@ -344,17 +344,17 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \       0x7E   0x.... 0x....      BL       TIM_ClearITPendingBit
      97          		if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_SET){	// if Timer3 Ch2 pin(PA6) value is High (rising edge)
    \       0x82   0x2140             MOVS     R1,#+64
-   \       0x84   0x....             LDR.N    R0,??DataTable5
+   \       0x84   0x....             LDR.N    R0,??DataTable4
    \       0x86   0x.... 0x....      BL       GPIO_ReadInputDataBit
    \       0x8A   0x2801             CMP      R0,#+1
    \       0x8C   0xD10A             BNE.N    ??Ultra_TIM3_IRQHandler_3
      98          			Cap_rising_edge = TIM_GetCapture2(TIM3);	// read captured data (counter value at rising edge)
    \       0x8E   0x0020             MOVS     R0,R4
    \       0x90   0x.... 0x....      BL       TIM_GetCapture2
-   \       0x94   0x....             LDR.N    R1,??DataTable5_4
+   \       0x94   0x....             LDR.N    R1,??DataTable4_4
    \       0x96   0x6008             STR      R0,[R1, #+0]
      99          			TIM3->CCER |= TIM_CCER_CC2P;	// change ICPolarity(capture timing) to falling edge
-   \       0x98   0x....             LDR.N    R0,??DataTable5_5
+   \       0x98   0x....             LDR.N    R0,??DataTable4_5
    \       0x9A   0x8801             LDRH     R1,[R0, #+0]
    \       0x9C   0xF051 0x0120      ORRS     R1,R1,#0x20
    \       0xA0   0x8001             STRH     R1,[R0, #+0]
@@ -362,19 +362,19 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
     100          		}else{			// if Timer3 Ch2 pin(PA6) value is Low (falling edge)
     101          			Cap_falling_edge = TIM_GetCapture2(TIM3);	// read captured data (counter value at falling edge)
    \                     ??Ultra_TIM3_IRQHandler_3: (+1)
-   \       0xA4   0x....             LDR.N    R5,??DataTable5_6
+   \       0xA4   0x....             LDR.N    R5,??DataTable4_6
    \       0xA6   0x0020             MOVS     R0,R4
    \       0xA8   0x.... 0x....      BL       TIM_GetCapture2
    \       0xAC   0x6028             STR      R0,[R5, #+0]
     102          			Pulse_width = (uint32_t)(Cap_falling_edge - Cap_rising_edge);
-   \       0xAE   0x....             LDR.N    R2,??DataTable5_7
+   \       0xAE   0x....             LDR.N    R2,??DataTable4_7
    \       0xB0   0x6829             LDR      R1,[R5, #+0]
-   \       0xB2   0x....             LDR.N    R0,??DataTable5_4
+   \       0xB2   0x....             LDR.N    R0,??DataTable4_4
    \       0xB4   0x6800             LDR      R0,[R0, #+0]
    \       0xB6   0x1A09             SUBS     R1,R1,R0
    \       0xB8   0x6011             STR      R1,[R2, #+0]
     103          			TIM3->CCER &= ~TIM_CCER_CC2P;	// change ICPolarity(capture timing) to rising edge
-   \       0xBA   0x....             LDR.N    R1,??DataTable5_5
+   \       0xBA   0x....             LDR.N    R1,??DataTable4_5
    \       0xBC   0x880B             LDRH     R3,[R1, #+0]
    \       0xBE   0xF64F 0x70DF      MOVW     R0,#+65503
    \       0xC2   0x4003             ANDS     R3,R0,R3
@@ -385,7 +385,7 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \       0xCA   0x4341             MULS     R1,R0,R1
    \       0xCC   0xF44F 0x707A      MOV      R0,#+1000
    \       0xD0   0xFB91 0xF0F0      SDIV     R0,R1,R0
-   \       0xD4   0x....             LDR.N    R1,??DataTable5_9
+   \       0xD4   0x....             LDR.N    R1,??DataTable4_9
    \       0xD6   0x6008             STR      R0,[R1, #+0]
     105          		}
     106          	}
@@ -396,12 +396,12 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
     109          
 
    \                                 In section .text, align 2, keep-with-next
-    110          void Ultra_Measure_Distance(void){
+    110          uint32_t Ultra_Measure_Distance(void){
    \                     Ultra_Measure_Distance: (+1)
    \        0x0   0xB510             PUSH     {R4,LR}
     111          	int i;
     112          	GPIO_SetBits(GPIOA, GPIO_Pin_7);	// set trigger
-   \        0x2   0x....             LDR.N    R4,??DataTable5
+   \        0x2   0x....             LDR.N    R4,??DataTable4
    \        0x4   0x2180             MOVS     R1,#+128
    \        0x6   0x0020             MOVS     R0,R4
    \        0x8   0x.... 0x....      BL       GPIO_SetBits
@@ -420,62 +420,57 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    \       0x1A   0x2180             MOVS     R1,#+128
    \       0x1C   0x0020             MOVS     R0,R4
    \       0x1E   0x.... 0x....      BL       GPIO_ResetBits
-    117          }
-   \       0x22   0xBD10             POP      {R4,PC}
-    118          
-
-   \                                 In section .text, align 2, keep-with-next
-    119          uint32_t Ultra_Get_Distance(void){
-    120          	return Left_Distance*100 + Right_Distance;
-   \                     Ultra_Get_Distance: (+1)
-   \        0x0   0x....             LDR.N    R0,??DataTable5_8
-   \        0x2   0x6800             LDR      R0,[R0, #+0]
-   \        0x4   0x2264             MOVS     R2,#+100
-   \        0x6   0x....             LDR.N    R1,??DataTable5_9
-   \        0x8   0x6809             LDR      R1,[R1, #+0]
-   \        0xA   0xFB02 0x1000      MLA      R0,R2,R0,R1
-   \        0xE   0x4770             BX       LR
-    121          }
+    117          
+    118          	return Left_Distance*100 + Right_Distance;
+   \       0x22   0x....             LDR.N    R0,??DataTable4_8
+   \       0x24   0x6800             LDR      R0,[R0, #+0]
+   \       0x26   0x2264             MOVS     R2,#+100
+   \       0x28   0x....             LDR.N    R1,??DataTable4_9
+   \       0x2A   0x6809             LDR      R1,[R1, #+0]
+   \       0x2C   0xFB02 0x1000      MLA      R0,R2,R0,R1
+   \       0x30   0xBD10             POP      {R4,PC}
+    119          }
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5:
+   \                     ??DataTable4:
    \        0x0   0x4001'0800        DC32     0x40010800
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_1:
+   \                     ??DataTable4_1:
    \        0x0   0x....'....        DC32     SystemCoreClock
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_2:
+   \                     ??DataTable4_2:
    \        0x0   0x000F'4240        DC32     0xf4240
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_3:
+   \                     ??DataTable4_3:
    \        0x0   0x4000'0400        DC32     0x40000400
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_4:
+   \                     ??DataTable4_4:
    \        0x0   0x....'....        DC32     Cap_rising_edge
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_5:
+   \                     ??DataTable4_5:
    \        0x0   0x4000'0420        DC32     0x40000420
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_6:
+   \                     ??DataTable4_6:
    \        0x0   0x....'....        DC32     Cap_falling_edge
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_7:
+   \                     ??DataTable4_7:
    \        0x0   0x....'....        DC32     Pulse_width
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_8:
+   \                     ??DataTable4_8:
    \        0x0   0x....'....        DC32     Left_Distance
 
    \                                 In section .text, align 4, keep-with-next
-   \                     ??DataTable5_9:
+   \                     ??DataTable4_9:
    \        0x0   0x....'....        DC32     Right_Distance
+    120          
 
    Maximum stack usage in bytes:
 
@@ -483,7 +478,6 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
    ------- --------
       16   Ultra_GPIO_Configure
         16   -> GPIO_Init
-       0   Ultra_Get_Distance
        8   Ultra_Init
          8   -> Ultra_GPIO_Configure
          8   -> Ultra_NVIC_Configure
@@ -514,25 +508,24 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
 
    Bytes  Function/Label
    -----  --------------
-       4  ??DataTable5
-       4  ??DataTable5_1
-       4  ??DataTable5_2
-       4  ??DataTable5_3
-       4  ??DataTable5_4
-       4  ??DataTable5_5
-       4  ??DataTable5_6
-       4  ??DataTable5_7
-       4  ??DataTable5_8
-       4  ??DataTable5_9
+       4  ??DataTable4
+       4  ??DataTable4_1
+       4  ??DataTable4_2
+       4  ??DataTable4_3
+       4  ??DataTable4_4
+       4  ??DataTable4_5
+       4  ??DataTable4_6
+       4  ??DataTable4_7
+       4  ??DataTable4_8
+       4  ??DataTable4_9
        4  Cap_falling_edge
        4  Cap_rising_edge
        4  Left_Distance
        4  Pulse_width
        4  Right_Distance
       58  Ultra_GPIO_Configure
-      16  Ultra_Get_Distance
       20  Ultra_Init
-      36  Ultra_Measure_Distance
+      50  Ultra_Measure_Distance
       34  Ultra_NVIC_Configure
       28  Ultra_RCC_Configure
      218  Ultra_TIM3_IRQHandler
@@ -540,9 +533,9 @@ C:\code\Embedded_Lab\term_project\Libraries\MODULES\ultra.c
 
  
   20 bytes in section .bss
- 608 bytes in section .text
+ 606 bytes in section .text
  
- 608 bytes of CODE memory
+ 606 bytes of CODE memory
   20 bytes of DATA memory
 
 Errors: none

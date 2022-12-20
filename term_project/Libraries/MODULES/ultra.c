@@ -107,15 +107,14 @@ void Ultra_TIM3_IRQHandler(void) {	// if rising(or falling) edge occurs
 }
 
 
-void Ultra_Measure_Distance(void){
+uint32_t Ultra_Measure_Distance(void){
 	int i;
 	GPIO_SetBits(GPIOA, GPIO_Pin_7);	// set trigger
 	for (i = 0; i < 50000; i++) {
 		/* delay(); */				// send ultrasonic wave
 	}	
 	GPIO_ResetBits(GPIOA, GPIO_Pin_7);	// reset trigger
-}
 
-uint32_t Ultra_Get_Distance(void){
 	return Left_Distance*100 + Right_Distance;
 }
+

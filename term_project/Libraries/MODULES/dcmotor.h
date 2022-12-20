@@ -12,8 +12,9 @@
 
 void DC_Motor_PWM_Configure(void);
 void DC_Motor_GPIO_Configure(void);
-void DC_Motor_RCC_configure(void);
+void DC_Motor_RCC_Configure(void);
 void DC_Motor_Init(void);
-void DC_Motor_Speed(uint32_t distance);
+void DC_Motor_UpdateAUTO(uint32_t);
+void DC_Motor_UpdateMAN(uint8_t);
 
 #endif

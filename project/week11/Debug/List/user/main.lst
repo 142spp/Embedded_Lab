@@ -1,30 +1,39 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         09/Nov/2022  20:25:01
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         20/Dec/2022  23:47:56
 # Copyright 1999-2022 IAR Systems AB.
 #
 #    Cpu mode                     =  thumb
 #    Endian                       =  little
-#    Source file                  =  C:\week11\user\main.c
+#    Source file                  =
+#        C:\code\Embedded_Lab\project\week11\user\main.c
 #    Command line                 =
-#        -f C:\week11\Debug\Obj\user\main.o.rsp (C:\week11\user\main.c -D
-#        USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC C:\week11\Debug\List\user -o
-#        C:\week11\Debug\Obj\user --no_cse --no_unroll --no_inline
-#        --no_code_motion --no_tbaa --no_clustering --no_scheduling --debug
-#        --endian=little --cpu=Cortex-M3 -e --fpu=None --dlib_config
-#        "C:\Program Files\IAR Systems\Embedded Workbench
+#        -f C:\code\Embedded_Lab\project\week11\Debug\Obj\user\main.o.rsp
+#        (C:\code\Embedded_Lab\project\week11\user\main.c -D
+#        USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\code\Embedded_Lab\project\week11\Debug\List\user -o
+#        C:\code\Embedded_Lab\project\week11\Debug\Obj\user --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M3 -e --fpu=None
+#        --dlib_config "C:\Program Files\IAR Systems\Embedded Workbench
 #        9.1\arm\inc\c\DLib_Config_Normal.h" -I
-#        C:\week11\libraries\CMSIS\DeviceSupport\ -I
-#        C:\week11\libraries\CMSIS\DeviceSupport\Startup\ -I
-#        C:\week11\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\ -I
-#        C:\week11\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\ -I
-#        C:\week11\libraries\LCD\ -I C:\week11\user\ -I C:\week11\user\inc\ -Ol
-#        -I "C:\Program Files\IAR Systems\Embedded Workbench
-#        9.1\arm\CMSIS\Core\Include\\") --dependencies=n
-#        C:\week11\Debug\Obj\user\main.o.d
+#        C:\code\Embedded_Lab\project\week11\libraries\CMSIS\DeviceSupport\ -I
+#        C:\code\Embedded_Lab\project\week11\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\code\Embedded_Lab\project\week11\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\code\Embedded_Lab\project\week11\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I C:\code\Embedded_Lab\project\week11\libraries\LCD\ -I
+#        C:\code\Embedded_Lab\project\week11\user\ -I
+#        C:\code\Embedded_Lab\project\week11\user\inc\ -Ol -I "C:\Program
+#        Files\IAR Systems\Embedded Workbench 9.1\arm\CMSIS\Core\Include\\")
+#        --dependencies=n
+#        C:\code\Embedded_Lab\project\week11\Debug\Obj\user\main.o.d
 #    Locale                       =  C
-#    List file                    =  C:\week11\Debug\List\user\main.lst
-#    Object file                  =  C:\week11\Debug\Obj\user\main.o
+#    List file                    =
+#        C:\code\Embedded_Lab\project\week11\Debug\List\user\main.lst
+#    Object file                  =
+#        C:\code\Embedded_Lab\project\week11\Debug\Obj\user\main.o
 #    Runtime model:                  
 #      __CPP_Runtime              =  1
 #      __SystemLibrary            =  DLib
@@ -35,65 +44,62 @@
 #
 ###############################################################################
 
-C:\week11\user\main.c
+C:\code\Embedded_Lab\project\week11\user\main.c
       1          #include <stdio.h>
       2          #include <stdlib.h>
       3          
-      4          #include "stm32f10x.h"
-      5          #include "stm32f10x_adc.h"
-      6          #include "stm32f10x_gpio.h"
-      7          #include "stm32f10x_rcc.h"
-      8          #include "stm32f10x_tim.h"
-      9          #include "stm32f10x_dma.h"
-     10          #include "misc.h"
+      4          #include "misc.h"
+      5          #include "stm32f10x.h"
+      6          #include "stm32f10x_adc.h"
+      7          #include "stm32f10x_dma.h"
+      8          #include "stm32f10x_gpio.h"
+      9          #include "stm32f10x_rcc.h"
+     10          // #include "stm32f10x_tim.h"
      11          
      12          #include "lcd.h"
      13          #include "touch.h"
      14          
-     15          enum {OFF=0,ON=!OFF};
+     15          enum { OFF = 0,
+     16                 ON = !OFF };
 
    \                                 In section .bss, align 4
-     16          volatile uint32_t ADC_Value[1];
+     17          volatile uint32_t ADC_Value[1]; 
    \                     ADC_Value:
    \        0x0                      DS8 4
-     17          
-     18          /* function prototype */
-     19          void Delay(void);
-     20          void RCC_Configure(void);
-     21          void GPIO_Configure(void);
-     22          void ADC_Configure(void);
-     23          void DMA_Configure(void);
-     24          void TIM_Configure(void);
-     25          void EXTI_Configure(void);
-     26          void NVIC_Configure(void);
-     27          void Init_Configure(void);
-     28          
-     29          /**
-     30           * @brief Enable or Disable Clocks
-     31           */
+     18          
+     19          /* function prototype */
+     20          void Delay(void);
+     21          void RCC_Configure(void);
+     22          void GPIO_Configure(void);
+     23          void ADC_Configure(void);
+     24          void DMA_Configure(void);
+     25          void TIM_Configure(void);
+     26          void EXTI_Configure(void);
+     27          void NVIC_Configure(void);
+     28          void Init_Configure(void);
+     29          
+     30          /**
+     31           * @brief Enable or Disable Clocks
+     32           */
 
    \                                 In section .text, align 2, keep-with-next
-     32          void RCC_Configure(void) {
+     33          void RCC_Configure(void) {
    \                     RCC_Configure: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     33              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); 
+     34              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); // Photoresistor Pin Enable
    \        0x2   0x2101             MOVS     R1,#+1
-   \        0x4   0x2004             MOVS     R0,#+4
+   \        0x4   0x2008             MOVS     R0,#+8
    \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     34              RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); 
+     35              RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);  // ADC Enable
    \        0xA   0x2101             MOVS     R1,#+1
-   \        0xC   0x2008             MOVS     R0,#+8
-   \        0xE   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     35              RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,ENABLE);
-   \       0x12   0x2101             MOVS     R1,#+1
-   \       0x14   0xF44F 0x7000      MOV      R0,#+512
-   \       0x18   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
-     36              RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
-   \       0x1C   0x2101             MOVS     R1,#+1
-   \       0x1E   0x2001             MOVS     R0,#+1
-   \       0x20   0x.... 0x....      BL       RCC_AHBPeriphClockCmd
+   \        0xC   0xF44F 0x7000      MOV      R0,#+512
+   \       0x10   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+     36              RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);    // DMA Enable
+   \       0x14   0x2101             MOVS     R1,#+1
+   \       0x16   0x2001             MOVS     R0,#+1
+   \       0x18   0x.... 0x....      BL       RCC_AHBPeriphClockCmd
      37          }
-   \       0x24   0xBD01             POP      {R0,PC}
+   \       0x1C   0xBD01             POP      {R0,PC}
      38          /**
      39           * @brief Enable GPIO Pins using GPIO_InitStructure
      40           */
@@ -102,179 +108,202 @@ C:\week11\user\main.c
      41          void GPIO_Configure(void) {
    \                     GPIO_Configure: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     42              GPIO_InitTypeDef GPIO_InitStructure;
-     43          
-     44              /* Brightness sensor Enable */
-     45              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+     42              /* Photoresistor Enable */
+     43              GPIO_InitTypeDef GPIO_InitStructure;
+     44              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
    \        0x2   0x2001             MOVS     R0,#+1
    \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
-     46              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+     45              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
    \        0x8   0x2000             MOVS     R0,#+0
    \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
-     47              GPIO_Init(GPIOB, &GPIO_InitStructure);
+     46              GPIO_Init(GPIOB, &GPIO_InitStructure);
    \        0xE   0x4669             MOV      R1,SP
    \       0x10   0x....             LDR.N    R0,??DataTable5
    \       0x12   0x.... 0x....      BL       GPIO_Init
-     48          }
+     47          	// GPIOB의 0번 Pin를 사용함. 
+     48          	// 이는 또한 ADC의 Channel8 임. (schematic 참고)
+     49          }
    \       0x16   0xBD01             POP      {R0,PC}
-     49          
+     50          /**
+     51           * @brief ADC Configure using ADC_InitStructure
+     52           */
 
    \                                 In section .text, align 2, keep-with-next
-     50          void ADC_Configure(void) {
+     53          void ADC_Configure(void) {
    \                     ADC_Configure: (+1)
    \        0x0   0xB518             PUSH     {R3,R4,LR}
    \        0x2   0xB085             SUB      SP,SP,#+20
-     51              ADC_InitTypeDef ADC_InitStructure;
-     52          
-     53              // ADC1 Configuration
-     54              ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+     54              ADC_InitTypeDef ADC_InitStructure;
+     55          
+     56              // ADC1 Configuration
+     57              ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
    \        0x4   0x2000             MOVS     R0,#+0
    \        0x6   0x9000             STR      R0,[SP, #+0]
-     55              ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+     58              ADC_InitStructure.ADC_ScanConvMode = DISABLE;
    \        0x8   0x2000             MOVS     R0,#+0
    \        0xA   0xF88D 0x0004      STRB     R0,[SP, #+4]
-     56              ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+     59              ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
    \        0xE   0x2001             MOVS     R0,#+1
    \       0x10   0xF88D 0x0005      STRB     R0,[SP, #+5]
-     57              ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+     60              ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
    \       0x14   0xF45F 0x2060      MOVS     R0,#+917504
    \       0x18   0x9002             STR      R0,[SP, #+8]
-     58              ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+     61              ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
    \       0x1A   0x2000             MOVS     R0,#+0
    \       0x1C   0x9003             STR      R0,[SP, #+12]
-     59              ADC_InitStructure.ADC_NbrOfChannel = 1;
+     62              ADC_InitStructure.ADC_NbrOfChannel = 1;
    \       0x1E   0x2001             MOVS     R0,#+1
    \       0x20   0xF88D 0x0010      STRB     R0,[SP, #+16]
-     60              ADC_Init(ADC1, &ADC_InitStructure);
+     63              ADC_Init(ADC1, &ADC_InitStructure);
    \       0x24   0x....             LDR.N    R4,??DataTable5_1
    \       0x26   0x4669             MOV      R1,SP
    \       0x28   0x0020             MOVS     R0,R4
    \       0x2A   0x.... 0x....      BL       ADC_Init
-     61          
-     62              ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5); // ADC1 Channel 8 is GPIOB_Pin0
+     64          	// 위 부분은 8주차때 사용했던 코드를 그대로 쓴거라 따로 기술하지 않아도 됨.
+     65          
+     66              ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
    \       0x2E   0x2307             MOVS     R3,#+7
    \       0x30   0x2201             MOVS     R2,#+1
    \       0x32   0x2108             MOVS     R1,#+8
    \       0x34   0x0020             MOVS     R0,R4
    \       0x36   0x.... 0x....      BL       ADC_RegularChannelConfig
-     63              //ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
-     64              ADC_DMACmd(ADC1, ENABLE);                   // DMA Enable
+     67              // ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
+     68              ADC_DMACmd(ADC1, ENABLE);  // DMA Enable
    \       0x3A   0x2101             MOVS     R1,#+1
    \       0x3C   0x0020             MOVS     R0,R4
    \       0x3E   0x.... 0x....      BL       ADC_DMACmd
-     65              ADC_Cmd(ADC1, ENABLE);                   // ADC1 enable
+     69              ADC_Cmd(ADC1, ENABLE);     // ADC1 enable
    \       0x42   0x2101             MOVS     R1,#+1
    \       0x44   0x0020             MOVS     R0,R4
    \       0x46   0x.... 0x....      BL       ADC_Cmd
-     66          
-     67              ADC_ResetCalibration(ADC1);
+     70          	// 11주차 ppt 내용 참고. ADC_ITConfig 대신 ADC_DMACmd 사용함.
+     71          
+     72              ADC_ResetCalibration(ADC1);
    \       0x4A   0x0020             MOVS     R0,R4
    \       0x4C   0x.... 0x....      BL       ADC_ResetCalibration
-     68              while (ADC_GetResetCalibrationStatus(ADC1)) ;
+     73              while (ADC_GetResetCalibrationStatus(ADC1)) ;
    \                     ??ADC_Configure_0: (+1)
    \       0x50   0x0020             MOVS     R0,R4
    \       0x52   0x.... 0x....      BL       ADC_GetResetCalibrationStatus
    \       0x56   0x2800             CMP      R0,#+0
    \       0x58   0xD1FA             BNE.N    ??ADC_Configure_0
-     69              ADC_StartCalibration(ADC1);
+     74              ADC_StartCalibration(ADC1);
    \       0x5A   0x0020             MOVS     R0,R4
    \       0x5C   0x.... 0x....      BL       ADC_StartCalibration
-     70              while (ADC_GetCalibrationStatus(ADC1)) ;
+     75              while (ADC_GetCalibrationStatus(ADC1)) ;
    \                     ??ADC_Configure_1: (+1)
    \       0x60   0x0020             MOVS     R0,R4
    \       0x62   0x.... 0x....      BL       ADC_GetCalibrationStatus
    \       0x66   0x2800             CMP      R0,#+0
    \       0x68   0xD1FA             BNE.N    ??ADC_Configure_1
-     71              
-     72              ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+     76              ADC_SoftwareStartConvCmd(ADC1, ENABLE);
    \       0x6A   0x2101             MOVS     R1,#+1
    \       0x6C   0x0020             MOVS     R0,R4
    \       0x6E   0x.... 0x....      BL       ADC_SoftwareStartConvCmd
-     73          }
+     77          	// 마찬가지로 기술하지 않아도 됨 
+     78          }
    \       0x72   0xB006             ADD      SP,SP,#+24
    \       0x74   0xBD10             POP      {R4,PC}
-     74          
+     79          /**
+     80           * @brief DMA Configure using DMA_InitStructure
+     81           */
 
    \                                 In section .text, align 2, keep-with-next
-     75          void DMA_Configure(void) {
+     82          void DMA_Configure(void) {
    \                     DMA_Configure: (+1)
    \        0x0   0xB518             PUSH     {R3,R4,LR}
    \        0x2   0xB08B             SUB      SP,SP,#+44
-     76              DMA_InitTypeDef DMA_InitStructure;
-     77              DMA_InitStructure.DMA_PeripheralBaseAddr =  (uint32_t)&ADC1->DR;
+     83          	// 아래 내용들은 stm32f10x_dma.h에 간단한 설명들이 적혀있음.
+     84          	// 또한 stm32_ReferenceManual 286p의 내용과 일치함.
+     85              DMA_InitTypeDef DMA_InitStructure;
+     86              DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR;
    \        0x4   0x....             LDR.N    R0,??DataTable5_2
    \        0x6   0x9000             STR      R0,[SP, #+0]
-     78              DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)&ADC_Value[0];
+     87          	// 정보를 불러올 Address를 ADC1의 Data Register로 함.
+     88              DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)&ADC_Value[0];
    \        0x8   0x....             LDR.N    R0,??DataTable5_3
    \        0xA   0x9001             STR      R0,[SP, #+4]
-     79              DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
+     89          	// 정보를 저장할 Address를 전역변수로 선언된 ADC_Value 에 저장함.
+     90              DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
    \        0xC   0x2000             MOVS     R0,#+0
    \        0xE   0x9002             STR      R0,[SP, #+8]
-     80              DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+     91          	// 정보의 흐름. Peripheral -> Memory 로 데이터가 이동.
+     92              DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
    \       0x10   0x2020             MOVS     R0,#+32
    \       0x12   0x9008             STR      R0,[SP, #+32]
-     81              DMA_InitStructure.DMA_BufferSize = 1;
+     93          	// DMA_Mode_Normal 과 DMA_Mode_Circular 중 Circular를 선택. 이는 주기적으로 정보를 불러옴.
+     94              DMA_InitStructure.DMA_BufferSize = 1;
    \       0x14   0x2001             MOVS     R0,#+1
    \       0x16   0x9003             STR      R0,[SP, #+12]
-     82              DMA_InitStructure.DMA_MemoryDataSize = DMA_PeripheralDataSize_Word;
+     95          	// 1개 사이즈 만큼의 Buffer를 둠.
+     96              DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
    \       0x18   0xF44F 0x7000      MOV      R0,#+512
-   \       0x1C   0x9007             STR      R0,[SP, #+28]
-     83              DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
-   \       0x1E   0x9006             STR      R0,[SP, #+24]
-     84              DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+   \       0x1C   0x9006             STR      R0,[SP, #+24]
+     97          	// PeripheralBaseAddr에서 DMA_PeripheralDataSize_Word = 32bits 만큼 읽음 . 
+     98              DMA_InitStructure.DMA_MemoryDataSize = DMA_PeripheralDataSize_Word;
+   \       0x1E   0x9007             STR      R0,[SP, #+28]
+     99          	// MemoryBaseAddr에서 DMA_MemoryDataSize_Word = 32bits 만큼 읽음 . 
+    100              DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
    \       0x20   0x2000             MOVS     R0,#+0
    \       0x22   0x9004             STR      R0,[SP, #+16]
-     85              DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;
+    101          	// Enable시 해당 Address를 읽고, 읽을 Address를 Increase함.
+    102          	// 우리팀은 항상 같은 Address = ADC1->DR 을 읽어야 하므로 Disable
+    103              DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;
    \       0x24   0x2000             MOVS     R0,#+0
    \       0x26   0x9005             STR      R0,[SP, #+20]
-     86              DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+    104          	// 항상 같은 Address = ADC_Value 에 저장해야 하므로 Disable
+    105              DMA_InitStructure.DMA_Priority = DMA_Priority_High;
    \       0x28   0xF44F 0x5000      MOV      R0,#+8192
    \       0x2C   0x9009             STR      R0,[SP, #+36]
-     87              DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+    106          	// 우선순위를 결정해야 하는데, 우리는 하나의 DMA만 사용하므로 아무거나 사용해도 상관 x
+    107              DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
    \       0x2E   0x2000             MOVS     R0,#+0
    \       0x30   0x900A             STR      R0,[SP, #+40]
-     88              DMA_Init(DMA1_Channel1, &DMA_InitStructure);
+    108          	// Memory To Memory. 메모리 -> 메모리로 데이터가 이동할때 Enable 시키는데 우리팀은 해당하지 않으므로 Disable
+    109              DMA_Init(DMA1_Channel1, &DMA_InitStructure);
    \       0x32   0x....             LDR.N    R4,??DataTable5_4
    \       0x34   0x4669             MOV      R1,SP
    \       0x36   0x0020             MOVS     R0,R4
    \       0x38   0x.... 0x....      BL       DMA_Init
-     89              DMA_Cmd(DMA1_Channel1, ENABLE);
+    110          	// 실험제공 자료 PPT 참고. DMA1_Channel1 은 ADC1 을 사용할때 사용됨.
+    111              DMA_Cmd(DMA1_Channel1, ENABLE);
    \       0x3C   0x2101             MOVS     R1,#+1
    \       0x3E   0x0020             MOVS     R0,R4
    \       0x40   0x.... 0x....      BL       DMA_Cmd
-     90          }
+    112          	// 실행
+    113          }
    \       0x44   0xB00C             ADD      SP,SP,#+48
    \       0x46   0xBD10             POP      {R4,PC}
-     91          
-     92          
-     93          
+    114          /**
+    115           * @brief excute All configuration function
+    116           */
 
    \                                 In section .text, align 2, keep-with-next
-     94          void Init_Configure(void){
+    117          void Init_Configure(void) {
    \                     Init_Configure: (+1)
    \        0x0   0xB580             PUSH     {R7,LR}
-     95              SystemInit();
+    118              SystemInit();
    \        0x2   0x.... 0x....      BL       SystemInit
-     96              RCC_Configure();
+    119              RCC_Configure();
    \        0x6   0x.... 0x....      BL       RCC_Configure
-     97              GPIO_Configure();
+    120              GPIO_Configure();
    \        0xA   0x.... 0x....      BL       GPIO_Configure
-     98              ADC_Configure();
+    121              ADC_Configure();
    \        0xE   0x.... 0x....      BL       ADC_Configure
-     99              //TIM_Configure();
-    100              // EXTI_Configure();
-    101              //NVIC_Configure();
-    102              DMA_Configure();
+    122              // TIM_Configure();
+    123              // EXTI_Configure();
+    124              // NVIC_Configure();
+    125              DMA_Configure();
    \       0x12   0x.... 0x....      BL       DMA_Configure
-    103              LCD_Init();
+    126              LCD_Init();
    \       0x16   0x.... 0x....      BL       LCD_Init
-    104              //Touch_Configuration();
-    105          }
+    127              // Touch_Configuration();
+    128          }
    \       0x1A   0xBD01             POP      {R0,PC}
-    106          
+    129          
 
    \                                 In section .data, align 4
-    107          int color[12] =  // Color Array
+    130          int color[12] =  // Color Array
    \                     color:
    \        0x0   0x0000'FFFF        DC32 65'535, 32'767, 31, 63'488, 63'519, 50'712, 2'016, 65'504, 48'192
 
@@ -298,12 +327,14 @@ C:\week11\user\main.c
    \              0x0000'8430  
 
    \              0x0000'0000
-    108              {WHITE, CYAN, BLUE, RED, MAGENTA, LGRAY, GREEN, YELLOW, BROWN, BRRED, GRAY};
-    109          
+    131              {WHITE, CYAN, BLUE, RED, MAGENTA, LGRAY, GREEN, YELLOW, BROWN, BRRED, GRAY};
+    132          /**
+    133           * @brief Delay around 0.1 sec
+    134           */
 
    \                                 In section .text, align 2, keep-with-next
-    110          void Delay(void){
-    111            for(int i=0; i<1000000; i++);
+    135          void Delay(void) {
+    136              for (int i = 0; i < 1000000; i++)
    \                     Delay: (+1)
    \        0x0   0x2000             MOVS     R0,#+0
    \        0x2   0xE000             B.N      ??Delay_0
@@ -313,35 +344,37 @@ C:\week11\user\main.c
    \        0x6   0x....             LDR.N    R1,??DataTable5_5
    \        0x8   0x4288             CMP      R0,R1
    \        0xA   0xDBFB             BLT.N    ??Delay_1
-    112          }
+    137                  ;
+    138          }
    \        0xC   0x4770             BX       LR
-    113          
+    139          
 
    \                                 In section .text, align 2, keep-with-next
-    114          int main(void) {
+    140          int main(void) {
    \                     main: (+1)
    \        0x0   0xB53E             PUSH     {R1-R5,LR}
-    115              Init_Configure();
+    141              Init_Configure();
    \        0x2   0x.... 0x....      BL       Init_Configure
-    116             
-    117              uint32_t threshold = 100;
+    142          
+    143              uint32_t threshold = 100; // threshold of Brightness
    \        0x6   0x2464             MOVS     R4,#+100
-    118              uint16_t state = 0;
+    144              uint16_t state = 0;  // means current color state. ( backcolor is white(0) or gray(1) )
    \        0x8   0x2500             MOVS     R5,#+0
    \        0xA   0xE030             B.N      ??main_0
-    119              while (1) {
-    120                if(state && ADC_Value[0] < threshold){
-    121                    LCD_Clear(color[0]);    // change background color - white
-    122                    state = 0;
-    123                }
-    124          
-    125                  else if (!state && ADC_Value[0] > threshold) {   // flash
-    126                      LCD_Clear(color[11]);   // change background color - gray
-    127                      state = 1;
-    128                  }
-    129                
-    130                if(!state) LCD_ShowNum(100, 50, ADC_Value[0], 4, color[2], color[0]);  // print brightness
-    131                else LCD_ShowNum(100, 50, ADC_Value[0], 4, color[0], color[11]);  // print brightness
+    145              while (1) {
+    146                  if (state && ADC_Value[0] < threshold) { 
+    147          			// if current color is gray & Brightness is less than threshold
+    148                      LCD_Clear(color[0]);  // change background color - white
+    149                      state = 0;  // change state to white
+    150                  } else if (!state && ADC_Value[0] > threshold) {
+    151          			// if current color is white & Brightness is greater than threshold
+    152                      LCD_Clear(color[11]); // change background color - gray
+    153                      state = 1;  // change state to gray
+    154                  }
+    155                  if (!state) // if current color state is white
+    156                      LCD_ShowNum(100, 50, ADC_Value[0], 4, color[2], color[0]);  // print brightness
+    157                  else	// if current color state is gray
+    158                      LCD_ShowNum(100, 50, ADC_Value[0], 4, color[0], color[11]);  // print brightness
    \                     ??main_1: (+1)
    \        0xC   0x....             LDR.N    R0,??DataTable5_6
    \        0xE   0x6AC1             LDR      R1,[R0, #+44]
@@ -389,7 +422,8 @@ C:\week11\user\main.c
    \       0x62   0x2132             MOVS     R1,#+50
    \       0x64   0x2064             MOVS     R0,#+100
    \       0x66   0x.... 0x....      BL       LCD_ShowNum
-    132                  Delay();
+    159          
+    160                  Delay();
    \                     ??main_2: (+1)
    \       0x6A   0x.... 0x....      BL       Delay
    \                     ??main_0: (+1)
@@ -407,12 +441,12 @@ C:\week11\user\main.c
    \       0x84   0x.... 0x....      BL       LCD_Clear
    \       0x88   0x2500             MOVS     R5,#+0
    \       0x8A   0xE7DC             B.N      ??main_4
-    133              }
-    134          
-    135              return 0;
+    161              }
+    162          
+    163              return 0;
                      ^
 Warning[Pe111]: statement is unreachable
-    136          }
+    164          }
 
    \                                 In section .text, align 4, keep-with-next
    \                     ??DataTable5:
@@ -496,16 +530,16 @@ Warning[Pe111]: statement is unreachable
       14  Delay
       24  GPIO_Configure
       28  Init_Configure
-      38  RCC_Configure
+      30  RCC_Configure
       48  color
      140  main
 
  
    4 bytes in section .bss
   48 bytes in section .data
- 462 bytes in section .text
+ 454 bytes in section .text
  
- 462 bytes of CODE memory
+ 454 bytes of CODE memory
   52 bytes of DATA memory
 
 Errors: none

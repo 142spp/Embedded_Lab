@@ -1,10 +1,10 @@
 #include "pir.h"
-
 #include "misc.h"
 #include "stm32f10x.h"
 #include "stm32f10x_exti.h"
 
-bool exist;
+uint8_t l_exist;
+uint8_t r_exist;
 
 void PIR_RCC_Init() {
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);  // PIR Sensor Pin Enable
@@ -51,15 +51,20 @@ void PIR_NVIC_Init(void) {
 }
 
 void PIR_IRQHandler(void) {
-    if (EXTI_GetITStatus(EXTI_Line6) != RESET || 
-        EXTI_GetITStatus(EXTI_Line8) != RESET) {
-        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6) == Bit_SET ||
-            GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8) == Bit_SET) {
-            exist = true;
-        } else {
-            exist = false;
+    if (EXTI_GetITStatus(EXTI_Line6) != RESET){
+        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6) == Bit_SET){
+            l_exist = 1;
+        } else{
+            l_exist = 0;
         }
         EXTI_ClearITPendingBit(EXTI_Line6);
+    }
+    if (EXTI_GetITStatus(EXTI_Line8) != RESET) {
+        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8) == Bit_SET) {
+            r_exist = 1;
+        } else {
+            r_exist = 0;
+        }
         EXTI_ClearITPendingBit(EXTI_Line8);
     }
 }
@@ -71,12 +76,11 @@ void PIR_Delay(void) {
 
 void PIR_Init(void) {
     PIR_RCC_Init();
-    PIR_ADC_Init();
     PIR_GPIO_Init();
-    PIR_EXIT_Init();
+    PIR_EXTI_Init();
     PIR_NVIC_Init();
 }
 
-bool PIR_Get_Exist(void){
-    return exist;
+uint8_t PIR_Get_Exist(void){
+    return l_exist*10 + r_exist;
 }

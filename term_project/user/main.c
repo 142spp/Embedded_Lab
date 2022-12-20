@@ -11,16 +11,14 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_tim.h"
 
-// Modules 
+// Modules
+#include "dcmotor.h"
+#include "dist.h"
+#include "pir.h"
 #include "servo.h"
 #include "uart.h"
 #include "ultra.h"
-#include "pir.h"
-#include "dcmotor.h"
-#include "pwm.h"
-
-enum { OFF = 0, ON = 1 } ; 
-enum { LEFT = 0, MID = 1, RIGHT = 2 } ;
+#include "handler.h"
 
 /* function prototype */
 void Delay(uint16_t);
@@ -39,54 +37,55 @@ void Init_Configure(void);
  *      함수의 definition의 주석을 참고해서 원하는 모듈에 clock을 인가한다.
  */
 void RCC_Configure(void) {
-    //RCC_APB1PeriphClockCmd(); 
-    //RCC_APB2PeriphClockCmd(); 
-    //RCC_AHBPeriphClockCmd();
+    // RCC_APB1PeriphClockCmd();
+    // RCC_APB2PeriphClockCmd();
+    // RCC_AHBPeriphClockCmd();
 }
 
 /**
  * @brief Enable GPIO Pins using GPIO_InitTypeDef
  */
 void GPIO_Configure(void) {
-    //GPIO_InitTypeDef GPIO_InitStruct;
+    // GPIO_InitTypeDef GPIO_InitStruct;
 }
 
 /**
  * @brief ADC Configure using ADC_InitTypeDef
  */
 void ADC_Configure(void) {
-    //ADC_InitTypeDef ADC_InitStruct;
+    // ADC_InitTypeDef ADC_InitStruct;
 }
 /**
  * @brief TIM Configure using TIM_TimeBaseInitTypeDef, TIM_ICTypedef
  */
 void TIM_Configure(void) {
-    //TIM_TimeBaseInitTypeDef TIM_InitStruct;
+    // TIM_TimeBaseInitTypeDef TIM_InitStruct;
 }
 /**
  * @brief EXTI Configure using EXTI_InitTypeDef
  */
 void EXTI_Configure(void) {
-    //EXTI_InitTypeDef EXTI_InitStruct;
+    // EXTI_InitTypeDef EXTI_InitStruct;
 }
 /**
  * @brief NVIC Configure using NVIC_InitTypeDef
  */
-void NVIC_Configure(void) {
-    //NVIC_InitTypeDef NVIC_InitStruct;
+void NVIC_Configure(void) {    
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    // NVIC_InitTypeDef NVIC_InitStruct;
 }
 /**
  * @brief DMA Configure using DMA_InitTypeDef
  */
 void DMA_Configure(void) {
-    //DMA_InitTypeDef DMA_InitStruct;
+    // DMA_InitTypeDef DMA_InitStruct;
 }
 
 /**
  * @brief excute All configuration function
  */
 void Init_Configure(void) {
-    //Init System
+    // Init System
     SystemInit();
     RCC_Configure();
     GPIO_Configure();
@@ -96,7 +95,7 @@ void Init_Configure(void) {
     NVIC_Configure();
     DMA_Configure();
 
-    //Init Modules
+    // Init Modules
     DC_Motor_Init();
     Dist_Init();
     PIR_Init();
@@ -110,50 +109,75 @@ void Init_Configure(void) {
  */
 void Delay(uint16_t t) {
     for (uint32_t j = 0; j < t; j++)
-        for (uint32_t i = 0; i < 1000000; i++) ;
+        for (uint32_t i = 0; i < 1000000; i++)
+            ;
 }
 
 int main(void) {
-
     Init_Configure();
 
-    uint16_t state = STATE_OFF;
+    UARTState state;
 
+    uint8_t exist = 0;
     uint16_t position = MID;
-    uint16_t angle;
-    uint16_t pre_angle;
+    uint16_t pre_pos = position;
 
-    uint32_t distance = 0;
-    uint16_t interval = 10;
-    uint32_t speed = 0;
-    
-    while(1){	
+    uint32_t distance = 100;
+
+    while (1) {
+        // UART use PA2, PA3, 5v, gnd
         state = UART_GetState();
-        // use PIR Sensor
-        if( state == STATE_OFF) {
-            Delay(2);
-            continue;
-        }   // turn of machine
-
-        if ( PIR_Get_Exist() == false ) {
+        if (state.power == OFF) {
             Delay(2);
             continue;
         }
-        // use Ultrasound Sensor
-        angle = Usound_Get_Angle();
 
-        if(pre_angle != angle){
-            // use Servo Motor
-            Servo_Turn(angle);
-            Delay(20);
+        if (state.mode == MAN) {  // Manual
+            if (pre_pos != state.position) {
+                position = state.position;  // position update
+            }
+            // DC motor use PB6, 3.3v, gnd, battery
+            DC_Motor_UpdateMAN(state.strength);  // strength update
         }
-        // use Distance Sensor
-        distance = Dist_Get_Distance();
-        // use DC Motor
-        DC_Update(distance);
 
-        pre_angle = angle;
-        Delay(2);
+        else if (state.mode == AUTO) {
+            // PIR use PC6, PC8, 5V*2, GND*2
+            exist = PIR_Get_Exist();
+            if (exist == 0) {
+                Delay(2);
+                continue;
+            }
+
+            uint8_t l_exist = exist / 10;
+            uint8_t r_exist = exist % 10;
+
+            // Ultrasound use A6, A7
+            distance = Ultra_Measure_Distance();
+
+            if (l_exist == r_exist) {
+                position = MID;
+                // Dist use PB0
+                distance = Dist_Get_Distance();
+            } else if (l_exist) {
+                position = LEFT;
+                distance = distance / 100;
+            } else {
+                position = RIGHT;
+                distance = distance % 100;
+            }
+
+            if (pre_pos != position) {
+                // Servo use PB1
+                Servo_Turn(position);
+                Delay(10);
+            }
+
+            DC_Motor_UpdateAUTO(distance);
+
+            state.position = position;
+        }
+        pre_pos = position;
+        Delay(1);
     }
     return 0;
 }

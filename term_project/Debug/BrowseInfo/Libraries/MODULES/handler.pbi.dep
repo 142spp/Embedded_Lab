@@ -1,5 +1,6 @@
 C:\code\Embedded_Lab\term_project\Debug\BrowseInfo\Libraries\MODULES\handler.pbi: \
   C:\code\Embedded_Lab\term_project\Libraries\MODULES\handler.c \
+  C:\code\Embedded_Lab\term_project\Libraries\MODULES\handler.h \
   C:\code\Embedded_Lab\term_project\libraries\CMSIS\DeviceSupport\stm32f10x.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\CMSIS\Core\Include\core_cm3.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\stdint.h \

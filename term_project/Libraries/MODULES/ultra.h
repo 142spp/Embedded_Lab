@@ -15,7 +15,6 @@ void Ultra_TIM_Configure(void);
 void Ultra_NVIC_Configure(void);
 void Ultra_Init(void);
 void Ultra_TIM3_IRQHandler(void);
-void Ultra_Measure_Distance(void);
-uint32_t Ultra_Get_Distance(void);
+uint32_t Ultra_Measure_Distance(void);
 
 #endif

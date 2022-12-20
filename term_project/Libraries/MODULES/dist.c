@@ -8,7 +8,7 @@
 void Dist_RCC_Configure(void);
 void Dist_GPIO_Configure(void);
 void Dist_ADC_Configure(void);
-void Dist_Init_Configure(void);
+void Dist_Init(void);
 uint32_t Dist_Get_Distance(void);
 
 uint32_t Forward_Distance;
@@ -26,7 +26,7 @@ void Dist_RCC_Configure(void) {
 void Dist_GPIO_Configure(void) {
     /* Photoresistor Enable */
     GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 	// GPIOA�� 0�� Pin�� �����. 
@@ -48,7 +48,7 @@ void Dist_ADC_Configure(void) {
     ADC_Init(ADC1, &ADC_InitStructure);
 	// �� �κ��� 8������ ����ߴ� �ڵ带 �״�� ���Ŷ� ���� ������� �ʾƵ� ��.
     
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 1, ADC_SampleTime_239Cycles5);  // ADC1 Channel 8 is GPIOB_Pin0
     ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);  // interrupt enable
     // ADC_DMACmd(ADC1, ENABLE);  // DMA Enable
     ADC_Cmd(ADC1, ENABLE);     // ADC1 enable
@@ -70,7 +70,6 @@ void Dist_NVIC_Configure(void) {
     NVIC_Init(&NVIC_InitStructure);
 }
 
-// void ADC1_2_IRQHandler(void) {
 void Dist_IRQHandler(void) {
     if (ADC_GetITStatus(ADC1, ADC_IT_EOC) != RESET) {
         Forward_Distance = ADC_GetConversionValue(ADC1 );
@@ -82,7 +81,7 @@ void Dist_IRQHandler(void) {
 /**
  * @brief excute All configuration function
  */
-void Dist_Init_Configure(void) {
+void Dist_Init(void) {
     SystemInit();
     Dist_RCC_Configure();
     Dist_GPIO_Configure();
